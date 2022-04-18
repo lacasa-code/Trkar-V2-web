@@ -20,6 +20,10 @@
         'userProfile'=>'user profile has been shown successfully',
         'refresh'=>'token has been refreshed',
         'valid'=>'Valid Token',
+        'country'=>' Countries have been shown successfully',
+        'city'=>' Cities have been shown successfully',
+        'area'=>' Areas have been shown successfully',
+
     
 
     ];

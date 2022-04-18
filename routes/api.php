@@ -15,3 +15,29 @@ Route::middleware([ 'api','localization'])->group(function () {
     Route::get('/userProfile', [App\Http\Controllers\Api\AuthController::class, 'userProfile']);
 
 });
+
+//countries routes
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/countries', [App\Http\Controllers\Api\CountryController::class, 'index']);
+    Route::get('/country/{id}', [App\Http\Controllers\Api\CountryController::class, 'get_country']);
+
+});
+
+//cities routes
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/cities', [App\Http\Controllers\Api\CityController::class, 'all']);
+    Route::get('/cities/{id}', [App\Http\Controllers\Api\CityController::class, 'index']);
+    Route::get('/city/{id}', [App\Http\Controllers\Api\CityController::class, 'get_city']);
+
+});
+
+//areas routes
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/areas', [App\Http\Controllers\Api\AreaController::class, 'all']);
+    Route::get('/areas/{id}', [App\Http\Controllers\Api\AreaController::class, 'index']);
+    Route::get('/area/{id}', [App\Http\Controllers\Api\AreaController::class, 'get_area']);
+
+});
