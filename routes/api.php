@@ -21,6 +21,9 @@ Route::middleware([ 'localization'])->group(function () {
 
     Route::get('/countries', [App\Http\Controllers\Api\CountryController::class, 'index']);
     Route::get('/country/{id}', [App\Http\Controllers\Api\CountryController::class, 'get_country']);
+    Route::post('/create/country', [App\Http\Controllers\Api\CountryController::class, 'create']);
+    Route::post('/update/country/{id}', [App\Http\Controllers\Api\CountryController::class, 'update']);
+    Route::post('/delete/country/{id}', [App\Http\Controllers\Api\CountryController::class, 'delete']);
 
 });
 
@@ -39,5 +42,16 @@ Route::middleware([ 'localization'])->group(function () {
     Route::get('/areas', [App\Http\Controllers\Api\AreaController::class, 'all']);
     Route::get('/areas/{id}', [App\Http\Controllers\Api\AreaController::class, 'index']);
     Route::get('/area/{id}', [App\Http\Controllers\Api\AreaController::class, 'get_area']);
+
+});
+
+//user route 
+Route::middleware([ 'auth','localization'])->group(function () {
+
+    Route::post('/delete/user/{id}', [App\Http\Controllers\Api\UserController::class, 'delete']);
+    Route::get('/users', [App\Http\Controllers\Api\UserController::class, 'index']);
+    Route::get('/user/{id}', [App\Http\Controllers\Api\UserController::class, 'get_user']);
+    Route::post('/update/user', [App\Http\Controllers\Api\UserController::class, 'update']);
+    Route::post('/update/password', [App\Http\Controllers\Api\UserController::class, 'update_password']);
 
 });
