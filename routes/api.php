@@ -33,6 +33,9 @@ Route::middleware([ 'localization'])->group(function () {
     Route::get('/cities', [App\Http\Controllers\Api\CityController::class, 'all']);
     Route::get('/cities/{id}', [App\Http\Controllers\Api\CityController::class, 'index']);
     Route::get('/city/{id}', [App\Http\Controllers\Api\CityController::class, 'get_city']);
+    Route::post('/create/city', [App\Http\Controllers\Api\CityController::class, 'create']);
+    Route::post('/update/city/{id}', [App\Http\Controllers\Api\CityController::class, 'update']);
+    Route::post('/delete/city/{id}', [App\Http\Controllers\Api\CityController::class, 'delete']);
 
 });
 
@@ -42,6 +45,9 @@ Route::middleware([ 'localization'])->group(function () {
     Route::get('/areas', [App\Http\Controllers\Api\AreaController::class, 'all']);
     Route::get('/areas/{id}', [App\Http\Controllers\Api\AreaController::class, 'index']);
     Route::get('/area/{id}', [App\Http\Controllers\Api\AreaController::class, 'get_area']);
+    Route::post('/create/area', [App\Http\Controllers\Api\AreaController::class, 'create']);
+    Route::post('/update/area/{id}', [App\Http\Controllers\Api\AreaController::class, 'update']);
+    Route::post('/delete/area/{id}', [App\Http\Controllers\Api\AreaController::class, 'delete']);
 
 });
 
