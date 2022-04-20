@@ -61,3 +61,10 @@ Route::middleware([ 'auth','localization'])->group(function () {
     Route::post('/update/password', [App\Http\Controllers\Api\UserController::class, 'update_password']);
 
 });
+
+//audit_logs
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/audit_logs', [App\Http\Controllers\Api\AuditLogsController::class, 'index']);
+
+});
