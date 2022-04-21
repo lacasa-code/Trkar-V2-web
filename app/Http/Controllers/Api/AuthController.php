@@ -9,6 +9,7 @@ use Tymon\JWTAuth\JWTAuth;
 use Tymon\JWTAuth\Contracts\Providers\Auth;
 use App\Http\Controllers\Controller;
 use App\Helpers\Helper;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -30,7 +31,7 @@ class AuthController extends Controller
         ]);
         if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = auth()->user();
-            if ($user->is_block != Null) {
+            if ($user->in_block != Null) {
                 auth()->logout();
                 return response()->json([
                     'status'=>false,
@@ -59,7 +60,8 @@ class AuthController extends Controller
                 'code'=>401],401);
         }
         
-        
+        $user = auth()->user();
+        $user->last_login=Carbon::now();
         return $this->createNewToken($token);
 
     }
@@ -134,6 +136,8 @@ class AuthController extends Controller
         $user->uuid = Helper::IDGenerator(new User(), 'uuid', 4, 'C');
         $user->password = bcrypt($request->password);
         $user->save();
+        $user->attachRole('user');
+
         $token = auth()->attempt($validator->validated());
         return $this->createNewToken($token);
     }
