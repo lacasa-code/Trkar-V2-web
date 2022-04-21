@@ -39,7 +39,7 @@ class AuthController extends Controller
                     'code'=>401],401);
 
             }
-            if ($user->	email_verified_at == Null) {
+            if ($user->email_verified_at == Null) {
                 /*auth()->logout();
                 return response()->json([
                     'status'=>false,
