@@ -39,12 +39,12 @@ class AuthController extends Controller
                     'code'=>401],401);
 
             }
-            if ($user->deleted_at != Null) {
-                auth()->logout();
+            if ($user->	email_verified_at == Null) {
+                /*auth()->logout();
                 return response()->json([
                     'status'=>false,
-                    'message'=>trans('app.deleted'),
-                    'code'=>401],401);
+                    'message'=>trans('app.verified'),
+                    'code'=>401],401);*/
 
             }
         }
