@@ -40,5 +40,54 @@ class AreaController extends Controller
                                 'data'=>$areas,
                             ],200);
     }
+
+    
+    public function create(Request $request)
+    {
+        $areas= Area::create([
+            'name_en'=>$request->get('name_en'),
+            'name_ar'=>$request->get('name_ar'),
+            'city_id'=>$request->get('city_id'),
+            'status'=>$request->get('status'),
+
+        ]);
+
+        $areas->save();
+
+        return response()->json([
+            'status'=>true,
+            'message'=>'Area created successfully',
+            'code'=>200,
+            'data'=>$areas,
+        ],200);
+    }
+
+    public function update(Request $request,$id)
+    {
+        $areas= Area::where('id',$id)->first();
+
+        $areas->name_en=$request->input('name_en');
+        $areas->name_ar=$request->input('name_ar');
+        $areas->city_id=$request->input('city_id');
+        $areas->status=$request->input('status');
+        $areas->save();
+
+        return response()->json([
+            'status'=>true,
+            'message'=>'Area updated successfully',
+            'code'=>200,
+            'data'=>$areas,
+        ],200);
+    }
+
+    public function delete($id)
+    {
+        $areas= Area::where('id', $id)->firstorfail()->delete();
+        return response()->json([
+            'status'=>true,
+            'message'=>'Area deleted successfully',
+            'code'=>200,
+        ],200);
+    }
 }
 

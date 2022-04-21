@@ -23,6 +23,13 @@
         'country'=>' Countries have been shown successfully',
         'city'=>' Cities have been shown successfully',
         'area'=>' Areas have been shown successfully',
+        'deleteUser'=>'User has been deleted successfully',
+        'getUsers'=>'Users have been displayed successfully',
+        'deleted'=>'This account has been deleted,for more details please contact the administration',
+        'blocked'=>'This account has been temporarily blocked,for more details please contact the administration',
+        'updatepassword'=>'Password has been updated successfully ',
+
+
 
     
 

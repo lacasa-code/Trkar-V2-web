@@ -40,4 +40,53 @@ class CityController extends Controller
                                 'data'=>$cities,
                             ],200);
     }
+
+    
+    public function create(Request $request)
+    {
+        $cities= City::create([
+            'name_en'=>$request->get('name_en'),
+            'name_ar'=>$request->get('name_ar'),
+            'country_id'=>$request->get('country_id'),
+            'status'=>$request->get('status'),
+
+        ]);
+
+        $cities->save();
+
+        return response()->json([
+            'status'=>true,
+            'message'=>'city created successfully',
+            'code'=>200,
+            'data'=>$cities,
+        ],200);
+    }
+
+    public function update(Request $request,$id)
+    {
+        $cities= City::where('id',$id)->first();
+
+        $cities->name_en=$request->input('name_en');
+        $cities->name_ar=$request->input('name_ar');
+        $cities->country_id=$request->input('country_id');
+        $cities->status=$request->input('status');
+        $cities->save();
+
+        return response()->json([
+            'status'=>true,
+            'message'=>'City updated successfully',
+            'code'=>200,
+            'data'=>$cities,
+        ],200);
+    }
+
+    public function delete($id)
+    {
+        $cities= City::where('id', $id)->firstorfail()->delete();
+        return response()->json([
+            'status'=>true,
+            'message'=>'City deleted successfully',
+            'code'=>200,
+        ],200);
+    }
 }
