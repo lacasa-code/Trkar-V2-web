@@ -11,10 +11,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Laratrust\Traits\LaratrustUserTrait;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject,MustVerifyEmail
 {
-    use LaratrustUserTrait;
-    use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable,SoftDeletes,LaratrustUserTrait;
 
     protected $fillable = [
         'name',
