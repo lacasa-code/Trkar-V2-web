@@ -98,7 +98,6 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|between:2,100|unique:users',
-            'name' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:6',
             'phone' =>'required|unique:users',
@@ -122,7 +121,6 @@ class AuthController extends Controller
         }
 
         $user = new User();
-        $user->name = $request->name;
         $user->username = $request->username;
         $user->phone = $request->phone;
         $user->image = $request->image;
@@ -135,6 +133,8 @@ class AuthController extends Controller
         $user->email = $request->email;
         $user->uuid = Helper::IDGenerator(new User(), 'uuid', 4, 'C');
         $user->password = bcrypt($request->password);
+        $user->last_login=Carbon::now();
+
         $user->save();
         $user->attachRole('user');
 
