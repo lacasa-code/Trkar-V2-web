@@ -102,7 +102,7 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:6',
             'phone' =>'required|unique:users',
-            'image'=>'required',
+            //'image'=>'required',
             'country_id'=>'required',
             'city_id'=>'required',
             'area_id'=>'required',
@@ -120,19 +120,14 @@ class AuthController extends Controller
                 'code'=>400],400);
 
         }
-        $uploadFolder = 'users';
-        $image = $request->file('image');
-        $image_uploaded_path = $image->store($uploadFolder, 'public');
-    
+
         $user = new User();
         $user->username = $request->username;
         $user->phone = $request->phone;
-
-        //$user->image=Storage::disk('public')->url($image_uploaded_path);
-        $file = $request->file('image');
-        $filename = $file->getClientOriginalName();
-        $file=$file->storeAs('public/',$filename);
-        $user->image=$request->file;
+        
+        $image = $request->file('image');
+        $image_uploaded_path = $image->store( 'public');
+        $user->image=Storage::disk('public')->url($image_uploaded_path);
 
         $user->country_id = $request->country_id;
         $user->city_id = $request->city_id;

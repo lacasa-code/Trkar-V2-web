@@ -18,11 +18,7 @@ class CreateSubCategoriesAttributesTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+
     public function down()
     {
         Schema::dropIfExists('sub_categories_attributes');
