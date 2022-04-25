@@ -60,11 +60,11 @@ Route::middleware([ 'auth','localization'])->group(function () {
 
     Route::post('/delete/user/{id}', [App\Http\Controllers\Api\UserController::class, 'delete']);
     Route::get('/users', [App\Http\Controllers\Api\UserController::class, 'index']);
-    Route::get('/user/{id}', [App\Http\Controllers\Api\UserController::class, 'get_user']);
     Route::post('/update/user', [App\Http\Controllers\Api\UserController::class, 'update']);
     Route::post('/update/password', [App\Http\Controllers\Api\UserController::class, 'update_password']);
 
 });
+Route::get('/user/{id}', [App\Http\Controllers\Api\UserController::class, 'get_user']);
 
 //audit_logs
 Route::middleware([ 'localization'])->group(function () {

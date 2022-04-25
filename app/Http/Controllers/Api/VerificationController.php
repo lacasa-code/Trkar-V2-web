@@ -47,7 +47,7 @@ class VerificationController extends Controller
     
     public function verify(Request $request)
     {
-        auth()->loginUsingId($request->route('id'));
+        /*auth()->loginUsingId($request->route('id'));
 
         if ($request->route('id') != $request->user()->getKey()) {
             throw new AuthorizationException;
@@ -64,8 +64,13 @@ class VerificationController extends Controller
             event(new Verified($request->user()));
         }
 
-        return response(['message'=>'Successfully verified']);
+        return response(['message'=>'Successfully verified']);*/
+        $user = User::where('id',auth()->id())->first();
+
+        $user->email_verified_at = Carbon::now();
+        $user->save();
         
+        return response(['message' => 'Email Sent']);
 
     }
 

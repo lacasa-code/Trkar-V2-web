@@ -11,7 +11,7 @@
         'email'=>'Email',
         'mobile'=>'Mobile',
         'address'=>'Address',
-        'validation_error'=>'Unauthorized user,invalid token',
+        'validation_error'=>'Unauthorized user',
         'sign_up_success'=>'User successfully registered',
         'logout_success'=>'User successfully signed out',
         'update_success'=>'Your data successfully updated',

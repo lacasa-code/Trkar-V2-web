@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Null_;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -37,7 +38,13 @@ class UserController extends Controller
         $user_update->username = $request->input('username');
         $user_update->email = $request->input('email');
         $user_update->phone = $request->input('phone');
-        $user_update->image = $request->input('image');
+        //$user_update->image = $request->input('image');
+        
+        $uploadFolder = 'users';
+        $image = $request->file('image');
+        $image_uploaded_path = $image->store($uploadFolder, 'public');
+        $user_update->image =Storage::disk('public')->url($image_uploaded_path);
+
         $user_update->country_id = $request->input('country_id') ;
         $user_update->city_id = $request->input('city_id');
         $user_update->area_id = $request->input('area_id');

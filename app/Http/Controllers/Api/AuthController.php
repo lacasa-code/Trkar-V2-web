@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Contracts\Providers\Auth;
 use App\Http\Controllers\Controller;
 use App\Helpers\Helper;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -119,11 +120,20 @@ class AuthController extends Controller
                 'code'=>400],400);
 
         }
-
+        $uploadFolder = 'users';
+        $image = $request->file('image');
+        $image_uploaded_path = $image->store($uploadFolder, 'public');
+    
         $user = new User();
         $user->username = $request->username;
         $user->phone = $request->phone;
-        $user->image = $request->image;
+
+        //$user->image=Storage::disk('public')->url($image_uploaded_path);
+        $file = $request->file('image');
+        $filename = $file->getClientOriginalName();
+        $file=$file->storeAs('public/',$filename);
+        $user->image=$request->file;
+
         $user->country_id = $request->country_id;
         $user->city_id = $request->city_id;
         $user->area_id = $request->area_id;
@@ -139,6 +149,7 @@ class AuthController extends Controller
         $user->attachRole('user');
 
         $token = auth()->attempt($validator->validated());
+        
         return $this->createNewToken($token);
     }
 

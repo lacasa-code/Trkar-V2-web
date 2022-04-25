@@ -4,14 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddVerificationCodeColumn extends Migration
+class CreateYearsTable extends Migration
 {
     
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('verification_code');
-            
+        Schema::create('years', function (Blueprint $table) {
+            $table->id();
+            $table->string('year');
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -22,6 +24,6 @@ class AddVerificationCodeColumn extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('years');
     }
 }
