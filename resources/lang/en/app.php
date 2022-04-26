@@ -28,7 +28,10 @@
         'deleted'=>'This account has been deleted,for more details please contact the administration',
         'blocked'=>'This account has been temporarily blocked,for more details please contact the administration',
         'updatepassword'=>'Password has been updated successfully ',
-
+        'cat'=>'Categories have been shown successfully',
+        'cat_create'=>'Category has been created successfully',
+        'cat_update'=>'Category has been updated successfully',
+        'cat_delete'=>'Category has been deleted successfully',
 
 
     

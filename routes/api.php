@@ -55,16 +55,26 @@ Route::middleware([ 'localization'])->group(function () {
 
 });
 
+//categories routes
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/categories', [App\Http\Controllers\Api\CategoryController::class, 'all']);
+    Route::post('/create/category', [App\Http\Controllers\Api\CategoryController::class, 'create']);
+    Route::post('/update/category/{id}', [App\Http\Controllers\Api\CategoryController::class, 'update']);
+    Route::post('/delete/category/{id}', [App\Http\Controllers\Api\CategoryController::class, 'delete']);
+
+});
+
 //user route 
 Route::middleware([ 'auth','localization'])->group(function () {
 
     Route::post('/delete/user/{id}', [App\Http\Controllers\Api\UserController::class, 'delete']);
     Route::get('/users', [App\Http\Controllers\Api\UserController::class, 'index']);
+    Route::get('/user/{id}', [App\Http\Controllers\Api\UserController::class, 'get_user']);
     Route::post('/update/user', [App\Http\Controllers\Api\UserController::class, 'update']);
     Route::post('/update/password', [App\Http\Controllers\Api\UserController::class, 'update_password']);
 
 });
-Route::get('/user/{id}', [App\Http\Controllers\Api\UserController::class, 'get_user']);
 
 //audit_logs
 Route::middleware([ 'localization'])->group(function () {
