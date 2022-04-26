@@ -32,6 +32,10 @@
         'cat_create'=>'Category has been created successfully',
         'cat_update'=>'Category has been updated successfully',
         'cat_delete'=>'Category has been deleted successfully',
+        'car'=>'Car Mades have been shown successfully',
+        'car_create'=>'Car Mades has been created successfully',
+        'car_update'=>'Car Mades has been updated successfully',
+        'car_delete'=>'Car Mades has been deleted successfully',
 
 
     

@@ -65,6 +65,16 @@ Route::middleware([ 'localization'])->group(function () {
 
 });
 
+//car mades routes
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/car/mades', [App\Http\Controllers\Api\CarMadesController::class, 'all']);
+    Route::post('/create/car/mades', [App\Http\Controllers\Api\CarMadesController::class, 'create']);
+    Route::post('/update/car/mades/{id}', [App\Http\Controllers\Api\CarMadesController::class, 'update']);
+    Route::post('/delete/car/mades/{id}', [App\Http\Controllers\Api\CarMadesController::class, 'delete']);
+
+});
+
 //user route 
 Route::middleware([ 'auth','localization'])->group(function () {
 
