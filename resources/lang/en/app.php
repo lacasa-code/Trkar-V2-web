@@ -11,7 +11,7 @@
         'email'=>'Email',
         'mobile'=>'Mobile',
         'address'=>'Address',
-        'validation_error'=>'Unauthorized user,invalid token',
+        'validation_error'=>'Unauthorized user',
         'sign_up_success'=>'User successfully registered',
         'logout_success'=>'User successfully signed out',
         'update_success'=>'Your data successfully updated',
@@ -28,7 +28,16 @@
         'deleted'=>'This account has been deleted,for more details please contact the administration',
         'blocked'=>'This account has been temporarily blocked,for more details please contact the administration',
         'updatepassword'=>'Password has been updated successfully ',
-
+        'cat'=>'Categories have been shown successfully',
+        'cat_create'=>'Category has been created successfully',
+        'cat_update'=>'Category has been updated successfully',
+        'cat_delete'=>'Category has been deleted successfully',
+        'car'=>'Car Mades have been shown successfully',
+        'car_create'=>'Cars have been created successfully',
+        'car_update'=>'Cars have been updated successfully',
+        'car_delete'=>'Cars have been deleted successfully',
+        'car_model'=>'Car Models have been shown successfully',
+        'manu'=>'Manufacturers have been shown successfully',
 
 
     

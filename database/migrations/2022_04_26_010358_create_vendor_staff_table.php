@@ -4,12 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateVendorStaffTable extends Migration
 {
 
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('vendor_staff', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
             $table->string('username')->unique();
@@ -18,17 +18,11 @@ class CreateUsersTable extends Migration
             $table->string('phone')->unique();
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('password');
-            $table->string('image');
-            $table->unsignedBigInteger('country_id');
-            $table->unsignedBigInteger('city_id');
-            $table->unsignedBigInteger('area_id');
-            $table->string('address');
-            $table->string('longitude');
-            $table->string('latitude');
-            $table->timestamp('last_login')->nullable();
-            $table->timestamp('in_block')->nullable();
+            $table->unsignedBigInteger('vendor_id');
+            $table->foreign('vendor_id')->references('id')->on('vendors')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('status');
+            $table->integer('create_by');
             $table->softDeletes();
-            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -40,6 +34,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('vendor_staff');
     }
 }

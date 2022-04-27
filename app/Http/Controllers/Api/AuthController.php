@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Contracts\Providers\Auth;
 use App\Http\Controllers\Controller;
 use App\Helpers\Helper;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -98,11 +99,10 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|between:2,100|unique:users',
-            'name' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:6',
             'phone' =>'required|unique:users',
-            'image'=>'required',
+            //'image'=>'required',
             'country_id'=>'required',
             'city_id'=>'required',
             'area_id'=>'required',
@@ -122,10 +122,13 @@ class AuthController extends Controller
         }
 
         $user = new User();
-        $user->name = $request->name;
         $user->username = $request->username;
         $user->phone = $request->phone;
-        $user->image = $request->image;
+        
+        $image = $request->file('image');
+        $image_uploaded_path = $image->store( 'public');
+        $user->image=Storage::disk('public')->url($image_uploaded_path);
+
         $user->country_id = $request->country_id;
         $user->city_id = $request->city_id;
         $user->area_id = $request->area_id;
@@ -135,10 +138,13 @@ class AuthController extends Controller
         $user->email = $request->email;
         $user->uuid = Helper::IDGenerator(new User(), 'uuid', 4, 'C');
         $user->password = bcrypt($request->password);
+        $user->last_login=Carbon::now();
+
         $user->save();
         $user->attachRole('user');
 
         $token = auth()->attempt($validator->validated());
+        
         return $this->createNewToken($token);
     }
 

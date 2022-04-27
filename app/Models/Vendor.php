@@ -10,8 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Laratrust\Traits\LaratrustUserTrait;
-
-class User extends Authenticatable implements JWTSubject,MustVerifyEmail
+use Illuminate\Database\Eloquent\Model;
+class Vendor extends Model
 {
     use HasApiTokens, HasFactory, Notifiable,SoftDeletes,LaratrustUserTrait;
 
@@ -27,6 +27,11 @@ class User extends Authenticatable implements JWTSubject,MustVerifyEmail
         'address',
         'longitude',
         'latitude',
+        'bank_account',
+        'commercial_number',
+        'tax_card_number',
+        'notes',
+        'approved',
         'last_login',
         'in_block',
     ];
@@ -42,12 +47,4 @@ class User extends Authenticatable implements JWTSubject,MustVerifyEmail
         'email_verified_at' => 'datetime',
         'phone_verified_at' =>  'datetime',
     ];
-
-    public function getJWTIdentifier() {
-        return $this->getKey();
-    }
-
-    public function getJWTCustomClaims() {
-        return [];
-    }    
 }

@@ -17,6 +17,9 @@ Route::middleware([ 'api','localization'])->group(function () {
 
 });
 
+Route::get('/email/resend',[App\Http\Controllers\Api\VerificationController::class, 'resend'] )->name('verification.resend');
+
+Route::get('/email/verify/{id}/{hash}', [App\Http\Controllers\Api\VerificationController::class, 'verify'] )->name('verification.verify');
 //countries routes
 Route::middleware([ 'localization'])->group(function () {
 
@@ -51,6 +54,48 @@ Route::middleware([ 'localization'])->group(function () {
     Route::post('/delete/area/{id}', [App\Http\Controllers\Api\AreaController::class, 'delete']);
 
 });
+
+//categories routes
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/categories', [App\Http\Controllers\Api\CategoryController::class, 'all']);
+    Route::post('/create/category', [App\Http\Controllers\Api\CategoryController::class, 'create']);
+    Route::post('/update/category/{id}', [App\Http\Controllers\Api\CategoryController::class, 'update']);
+    Route::post('/delete/category/{id}', [App\Http\Controllers\Api\CategoryController::class, 'delete']);
+
+});
+
+//car mades routes
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/car/mades', [App\Http\Controllers\Api\CarMadesController::class, 'all']);
+    Route::post('/create/car/mades', [App\Http\Controllers\Api\CarMadesController::class, 'create']);
+    Route::post('/update/car/mades/{id}', [App\Http\Controllers\Api\CarMadesController::class, 'update']);
+    Route::post('/delete/car/mades/{id}', [App\Http\Controllers\Api\CarMadesController::class, 'delete']);
+
+});
+
+//years routes
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/car/years', [App\Http\Controllers\Api\YearsController::class, 'all']);
+    Route::post('/create/car/year', [App\Http\Controllers\Api\YearsController::class, 'create']);
+    Route::post('/update/car/year/{id}', [App\Http\Controllers\Api\YearsController::class, 'update']);
+    Route::post('/delete/car/year/{id}', [App\Http\Controllers\Api\YearsController::class, 'delete']);
+
+});
+
+//manufacturers route
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/manufacturers', [App\Http\Controllers\Api\ManufacturersController::class, 'all']);
+    Route::post('/create/manufacturer', [App\Http\Controllers\Api\ManufacturersController::class, 'create']);
+    Route::post('/update/manufacturer/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'update']);
+    Route::post('/delete/manufacturer/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'delete']);
+
+});
+
+
 
 //user route 
 Route::middleware([ 'auth','localization'])->group(function () {
