@@ -14,7 +14,7 @@ class CreateCarModelsTable extends Migration
             $table->string('slug');
             $table->string('name_ar');
             $table->string('name_en');
-            $table->integer('status');
+            $table->string('status');
             $table->softDeletes();
             $table->timestamps();
         });

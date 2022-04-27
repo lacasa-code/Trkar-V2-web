@@ -75,6 +75,28 @@ Route::middleware([ 'localization'])->group(function () {
 
 });
 
+//years routes
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/car/years', [App\Http\Controllers\Api\YearsController::class, 'all']);
+    Route::post('/create/car/year', [App\Http\Controllers\Api\YearsController::class, 'create']);
+    Route::post('/update/car/year/{id}', [App\Http\Controllers\Api\YearsController::class, 'update']);
+    Route::post('/delete/car/year/{id}', [App\Http\Controllers\Api\YearsController::class, 'delete']);
+
+});
+
+//manufacturers route
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/manufacturers', [App\Http\Controllers\Api\ManufacturersController::class, 'all']);
+    Route::post('/create/manufacturer', [App\Http\Controllers\Api\ManufacturersController::class, 'create']);
+    Route::post('/update/manufacturer/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'update']);
+    Route::post('/delete/manufacturer/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'delete']);
+
+});
+
+
+
 //user route 
 Route::middleware([ 'auth','localization'])->group(function () {
 
