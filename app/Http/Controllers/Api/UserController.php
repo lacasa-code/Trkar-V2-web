@@ -39,8 +39,9 @@ class UserController extends Controller
         $user_update->email = $request->input('email');
         $user_update->phone = $request->input('phone');
         
+        $uploadFolder = 'users';
         $image = $request->file('image');
-        $image_uploaded_path = $image->store( 'public');
+        $image_uploaded_path = $image->store($uploadFolder, 'public');
         $user_update->image =Storage::disk('public')->url($image_uploaded_path);
 
         $user_update->country_id = $request->input('country_id') ;

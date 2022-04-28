@@ -59,6 +59,7 @@ Route::middleware([ 'localization'])->group(function () {
 Route::middleware([ 'localization'])->group(function () {
 
     Route::get('/categories', [App\Http\Controllers\Api\CategoryController::class, 'all']);
+    Route::get('/subcategories/{id}', [App\Http\Controllers\Api\CategoryController::class, 'get_sub']);
     Route::post('/create/category', [App\Http\Controllers\Api\CategoryController::class, 'create']);
     Route::post('/update/category/{id}', [App\Http\Controllers\Api\CategoryController::class, 'update']);
     Route::post('/delete/category/{id}', [App\Http\Controllers\Api\CategoryController::class, 'delete']);
@@ -92,6 +93,16 @@ Route::middleware([ 'localization'])->group(function () {
     Route::post('/create/manufacturer', [App\Http\Controllers\Api\ManufacturersController::class, 'create']);
     Route::post('/update/manufacturer/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'update']);
     Route::post('/delete/manufacturer/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'delete']);
+
+});
+
+//original countries route
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/original/countries', [App\Http\Controllers\Api\OriginalCountryController::class, 'all']);
+    Route::post('/create/original/country', [App\Http\Controllers\Api\OriginalCountryController::class, 'create']);
+    Route::post('/update/original/country/{id}', [App\Http\Controllers\Api\OriginalCountryController::class, 'update']);
+    Route::post('/delete/original/country/{id}', [App\Http\Controllers\Api\OriginalCountryController::class, 'delete']);
 
 });
 

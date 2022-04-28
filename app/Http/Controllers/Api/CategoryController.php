@@ -12,8 +12,18 @@ class CategoryController extends Controller
 {
     public function all()
     {
-        $cat=Category::select('id','name_'.app()->getLocale().' as name','slug','image')->get();
+        $cat=Category::select('id','name_'.app()->getLocale().' as name','slug','image','parent_id','status')->get();
 
+        return response()->json(['status'=>true,
+                                'message'=>trans('app.cat'),
+                                'code'=>200,
+                                'data'=>$cat,
+                            ],200);
+    }
+
+    public function get_sub($id)
+    {
+        $cat= Category::where('parent_id',$id)->get();
         return response()->json(['status'=>true,
                                 'message'=>trans('app.cat'),
                                 'code'=>200,
@@ -23,16 +33,21 @@ class CategoryController extends Controller
 
     public function create(Request $request)
     {
+        $uploadFolder = 'categories';
         $image = $request->file('image');
-        $image_uploaded_path = $image->store( 'public');
+        $image_uploaded_path = $image->store($uploadFolder, 'public');
 
         $cat= Category::create([
             'name_en'=>$request->get('name_en'),
             'slug'=>Str::slug($request->get('name_en')),
             'name_ar'=>$request->get('name_ar'),
-            'image'=>Storage::disk('public')->url($image_uploaded_path),
+            'parent_id'=>$request->get('parent_id'),
+            'status'=>$request->get('status'),
 
+            'image'=>Storage::disk('public')->url($image_uploaded_path),
+            
         ]);
+
 
         $cat->save();
 
@@ -48,13 +63,15 @@ class CategoryController extends Controller
     {
         $cat= Category::where('id',$id)->first();
 
-        $image = $request->file('image');
-        $image_uploaded_path = $image->store( 'public');
-
         $cat->name_en=$request->input('name_en');
         $cat->slug=Str::slug($request->input('name_en'));
         $cat->name_ar=$request->input('name_ar');
-        $cat->image=Storage::disk('public')->url($image_uploaded_path);
+        $cat->parent_id=$request->input('parent_id');
+
+        $uploadFolder = 'categories';
+        $image = $request->file('image');
+        $image_uploaded_path = $image->store($uploadFolder, 'public');
+        $cat->image =Storage::disk('public')->url($image_uploaded_path);
 
         $cat->save();
 
