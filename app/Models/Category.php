@@ -15,6 +15,8 @@ class Category extends Model
         'name_ar',
         'image',
         'slug',
+        'parent_id',
+        'status',
     
     ];
 

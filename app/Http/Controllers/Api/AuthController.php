@@ -125,8 +125,9 @@ class AuthController extends Controller
         $user->username = $request->username;
         $user->phone = $request->phone;
         
+        $uploadFolder = 'users';
         $image = $request->file('image');
-        $image_uploaded_path = $image->store( 'public');
+        $image_uploaded_path = $image->store($uploadFolder, 'public');
         $user->image=Storage::disk('public')->url($image_uploaded_path);
 
         $user->country_id = $request->country_id;
