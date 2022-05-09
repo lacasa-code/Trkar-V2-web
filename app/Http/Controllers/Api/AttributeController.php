@@ -12,7 +12,9 @@ class AttributeController extends Controller
 {
     public function all()
     {
-        $car=Attribute::select('id','name_'.app()->getLocale().' as name','slug','status')->get();
+        $car=Attribute::select('id','name_'.app()->getLocale().' as name','details_'.app()->getLocale().' as details','category_id','categories.name_'.app()->getLocale().' as name','status')
+        ->join('categories','categories.id','attributes.id')
+        ->get();
 
         return response()->json(['status'=>true,
                                 'message'=>trans('app.car'),
@@ -26,8 +28,10 @@ class AttributeController extends Controller
     
         $car= Attribute::create([
             'name_en'=>$request->get('name_en'),
-            'slug'=>Str::slug($request->get('name_en')),
             'name_ar'=>$request->get('name_ar'),
+            'details_en'=>$request->get('details_en'),
+            'details_ar'=>$request->get('details_ar'),
+            'category_id'=>$request->get('category_id'),
             'status'=>$request->get('status'),
 
         ]);
@@ -36,7 +40,7 @@ class AttributeController extends Controller
 
         return response()->json([
             'status'=>true,
-            'message'=>trans('app.car_create'),
+            'message'=>trans('created successfully'),
             'code'=>200,
             'data'=>$car,
         ],200);
@@ -48,15 +52,16 @@ class AttributeController extends Controller
 
         
         $car->name_en=$request->input('name_en');
-        $car->slug=Str::slug($request->input('name_en'));
         $car->name_ar=$request->input('name_ar');
-        $car->status=$request->input('status');
+        $car->details_en=$request->input('details_en');
+        $car->details_ar=$request->input('details_ar');
+        $car->category_id=$request->input('category_id');
 
         $car->save();
 
         return response()->json([
             'status'=>true,
-            'message'=>trans('app.car_update'),
+            'message'=>trans('success'),
             'code'=>200,
             'data'=>$car,
         ],200);
