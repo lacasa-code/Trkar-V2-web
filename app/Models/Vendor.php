@@ -11,10 +11,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Database\Eloquent\Model;
-class Vendor extends Model
-{
-    use HasApiTokens, HasFactory, Notifiable,SoftDeletes,LaratrustUserTrait;
 
+class Vendor extends Authenticatable implements JWTSubject
+{
+    use  HasFactory, SoftDeletes;
+    protected $guard = 'vendor';
     protected $fillable = [
         'email',
         'password',
@@ -47,4 +48,14 @@ class Vendor extends Model
         'email_verified_at' => 'datetime',
         'phone_verified_at' =>  'datetime',
     ];
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 }

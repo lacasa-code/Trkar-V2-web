@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 Route::middleware([ 'api','localization'])->group(function () {
 
     Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
+    Route::post('/admin/login', [App\Http\Controllers\Api\AuthController::class, 'Admin_login']);
     Route::post('/register', [App\Http\Controllers\Api\AuthController::class, 'register']);
     Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
     Route::post('/refresh', [App\Http\Controllers\Api\AuthController::class, 'refresh']);
@@ -16,7 +17,16 @@ Route::middleware([ 'api','localization'])->group(function () {
     Route::get('/userProfile', [App\Http\Controllers\Api\AuthController::class, 'userProfile']);
 
 });
+Route::middleware([ 'api','localization'])->group(function () {
 
+    Route::post('/admin/login', [App\Http\Controllers\Api\Admin\AuthController::class, 'Admin_login']);
+    Route::post('/admin/register', [App\Http\Controllers\Api\Admin\AuthController::class, 'register']);
+    Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
+    Route::post('/refresh', [App\Http\Controllers\Api\AuthController::class, 'refresh']);
+    Route::get('/isValidToken', [App\Http\Controllers\Api\AuthController::class, 'isValidToken']);
+    Route::get('/userProfile', [App\Http\Controllers\Api\AuthController::class, 'userProfile']);
+
+});
 Route::get('/email/resend',[App\Http\Controllers\Api\VerificationController::class, 'resend'] )->name('verification.resend');
 
 Route::get('/email/verify/{id}/{hash}', [App\Http\Controllers\Api\VerificationController::class, 'verify'] )->name('verification.verify');

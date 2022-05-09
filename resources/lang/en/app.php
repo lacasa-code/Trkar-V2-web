@@ -39,6 +39,8 @@
         'car_model'=>'Car Models have been shown successfully',
         'manu'=>'Manufacturers have been shown successfully',
         'OriginalCountry'=>'Original Countries have been shown successfully',
+        'not_approved'=>'Waiting for admin to approve your account',
+        'not_cat'=>'their is no more subcategories',
 
     
 

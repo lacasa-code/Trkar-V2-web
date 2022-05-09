@@ -17,7 +17,7 @@ class AuthController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth:api', ['except' => ['login', 'register','adminLogin']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     
     }
 
@@ -67,34 +67,6 @@ class AuthController extends Controller
 
     }
 
-    
-    public function Admin_login(Request $request)
-    {
-            // validate request
-            $this->validate($request, [
-                'email' => 'bail|required|email',
-                'password' => 'bail|required|min:6',
-            ]);
-    
-            $credentials = request(['email', 'password']);
-    
-            if ($token = auth()->attempt($credentials)) {
-                $user = auth()->user();
-                if ($user->role_id != 4) {
-                    auth()->logout();
-                    return response()->json([
-                        'msg' => 'Incorrect login details',
-                    ], 401);
-                }
-                return $this->createNewToken($token);
-    
-            } else {
-                return response()->json([
-                    'msg' => 'Incorrect login details',
-                ], 401);
-            }
-        }
-    
     public function register(Request $request) 
     {
         $validator = Validator::make($request->all(), [

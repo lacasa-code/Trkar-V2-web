@@ -5,16 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Laratrust\Traits\LaratrustUserTrait;
 
-class Admin extends Model
+class Admin extends  Authenticatable implements JWTSubject
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory,SoftDeletes,LaratrustUserTrait;
+    protected $guard = 'admin';
+
     protected $fillable = [
         'username',
         'email',
         'password',
         'status',
-    
+    'id'
     ];
     protected $hidden = [
         'password',
@@ -24,4 +29,14 @@ class Admin extends Model
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 }

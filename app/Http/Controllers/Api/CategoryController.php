@@ -24,11 +24,20 @@ class CategoryController extends Controller
     public function get_sub($id)
     {
         $cat= Category::where('parent_id',$id)->get();
+        if($cat->count() != 0){
         return response()->json(['status'=>true,
                                 'message'=>trans('app.cat'),
                                 'code'=>200,
                                 'data'=>$cat,
                             ],200);
+                        }
+        else{
+            return response()->json(['status'=>false,
+                                'message'=>trans('app.not_cat'),
+                                'code'=>200,
+                                //'data'=>$cat,
+                            ],200);
+        }
     }
 
     public function create(Request $request)
@@ -42,13 +51,11 @@ class CategoryController extends Controller
             'slug'=>Str::slug($request->get('name_en')),
             'name_ar'=>$request->get('name_ar'),
             'parent_id'=>$request->get('parent_id'),
-            'status'=>$request->get('status'),
 
             'image'=>Storage::disk('public')->url($image_uploaded_path),
             
         ]);
-
-
+        $cat->status=1;
         $cat->save();
 
         return response()->json([
@@ -67,6 +74,7 @@ class CategoryController extends Controller
         $cat->slug=Str::slug($request->input('name_en'));
         $cat->name_ar=$request->input('name_ar');
         $cat->parent_id=$request->input('parent_id');
+        $cat->status=$request->input('status');
 
         $uploadFolder = 'categories';
         $image = $request->file('image');
