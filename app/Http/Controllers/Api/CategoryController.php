@@ -36,8 +36,6 @@ class CategoryController extends Controller
 
     public function get_sub($id)
     {
-        
-        
     /*
         $sub1 = Category::get();
         $sub2 = Category::get();
@@ -65,11 +63,22 @@ class CategoryController extends Controller
         }*/
 
         $cat= Category::where('parent_id',$id)->get();
-        return response()->json(['status'=>true,
-                            'message'=>trans('app.cat'),
-                            'code'=>200,
-                            'data'=>$cat,
-                            ],200);
+        if($cat->count() != 0)
+        {
+            return response()->json(['status'=>true,
+                                    'message'=>trans('app.cat'),
+                                    'code'=>200,
+                                    'data'=>$cat,
+                                ],200);
+        }
+        else
+            {
+                return response()->json(['status'=>false,
+                                    'message'=>trans('app.not_cat'),
+                                    'code'=>200,
+                                    //'data'=>$cat,
+                                ],200);
+            }
         
     
     }
