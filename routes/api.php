@@ -69,6 +69,7 @@ Route::middleware([ 'localization'])->group(function () {
 Route::middleware([ 'localization'])->group(function () {
 
     Route::get('/categories', [App\Http\Controllers\Api\CategoryController::class, 'all']);
+    Route::get('/main/categories', [App\Http\Controllers\Api\CategoryController::class, 'main']);
     Route::get('/subcategories/{id}', [App\Http\Controllers\Api\CategoryController::class, 'get_sub']);
     Route::post('/create/category', [App\Http\Controllers\Api\CategoryController::class, 'create']);
     Route::post('/update/category/{id}', [App\Http\Controllers\Api\CategoryController::class, 'update']);

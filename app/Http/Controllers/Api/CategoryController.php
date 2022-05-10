@@ -14,7 +14,7 @@ class CategoryController extends Controller
 {
     public function all()
     {
-        $cat=Category::select('id','name_'.app()->getLocale().' as name','slug','image','parent_id','status')->where('parent_id',0)->get();
+        $cat=Category::select('id','name_'.app()->getLocale().' as name','slug','image','parent_id','status')->get();
 
         return response()->json(['status'=>true,
                                 'message'=>trans('app.cat'),
@@ -23,6 +23,16 @@ class CategoryController extends Controller
                             ],200);
     }
     
+    public function main()
+    {
+        $cat=Category::select('id','name_'.app()->getLocale().' as name','slug','image','parent_id','status')->where('parent_id',0)->get();
+
+        return response()->json(['status'=>true,
+                                'message'=>trans('app.cat'),
+                                'code'=>200,
+                                'data'=>$cat,
+                            ],200);
+    }
 
     public function get_sub($id)
     {
