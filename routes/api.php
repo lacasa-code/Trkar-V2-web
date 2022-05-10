@@ -97,6 +97,17 @@ Route::middleware([ 'localization'])->group(function () {
 
 });
 
+//car models routes
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/car/engine', [App\Http\Controllers\Api\CarEngineController::class, 'all']);
+    Route::post('/create/car/engine', [App\Http\Controllers\Api\CarEngineController::class, 'create']);
+    Route::get('/model/car/engines/{id}', [App\Http\Controllers\Api\CarEngineController::class, 'engines_of_model']);
+    Route::post('/update/car/engine/{id}', [App\Http\Controllers\Api\CarEngineController::class, 'update']);
+    Route::post('/delete/car/engine/{id}', [App\Http\Controllers\Api\CarEngineController::class, 'delete']);
+
+});
+
 //years routes
 Route::middleware([ 'localization'])->group(function () {
 

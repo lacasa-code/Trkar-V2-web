@@ -4,20 +4,24 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCategoryIdColumn extends Migration
+class AddCarMadeIdColumn extends Migration
 {
     
     public function up()
     {
         Schema::table('car_mades', function (Blueprint $table) {
             
-            $table->unsignedBigInteger('category_id')->nullable();
-            $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('car_made_id')->nullable();
+            $table->foreign('car_made_id')->references('id')->on('car_mades')->onUpdate('cascade')->onDelete('cascade');
         
         });
     }
 
-    
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
         //
