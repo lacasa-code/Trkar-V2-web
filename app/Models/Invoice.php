@@ -6,23 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class Invoice extends Model
 {
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'name_en',
-        'name_ar',
-        'image',
+        'store_id',
         'slug',
-        'parent_id',
-        'status',
-        'subcategories'
-    
+        'invoice_number',
+        'type',
+        'order_id',
+        'vendor_id',
     ];
-
-    public function suncategory()
-    {
-        return $this->hasMany(SubCategory::class);
-    }
 }

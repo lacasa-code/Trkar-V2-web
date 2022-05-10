@@ -7,6 +7,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Null_;
 
 class CategoryController extends Controller
 {
@@ -20,24 +22,56 @@ class CategoryController extends Controller
                                 'data'=>$cat,
                             ],200);
     }
-
-    public function get_sub($id)
+    
+    public function main()
     {
-        $cat= Category::where('parent_id',$id)->get();
-        if($cat->count() != 0){
+        $cat=Category::select('id','name_'.app()->getLocale().' as name','slug','image','parent_id','status')->where('parent_id',0)->get();
+
         return response()->json(['status'=>true,
                                 'message'=>trans('app.cat'),
                                 'code'=>200,
                                 'data'=>$cat,
                             ],200);
-                        }
-        else{
-            return response()->json(['status'=>false,
-                                'message'=>trans('app.not_cat'),
-                                'code'=>200,
-                                //'data'=>$cat,
+    }
+
+    public function get_sub($id)
+    {
+        
+        
+    /*
+        $sub1 = Category::get();
+        $sub2 = Category::get();
+        foreach($sub1 as $s1=> $value)
+        {
+            foreach($sub2 as $s2 => $val)
+            {
+               /* if($s1->id == $s2->parent_id)
+                {
+                
+                    $cat=Category::where($value->id,$val->parent_id)->first();
+                    $cat->subcategories = "false";
+                    $cat->save();
+                }
+                else
+                {         
+                    
+                    $cat=Category::where('id',$s1->id)->first();
+                    $cat->subcategories = "true";
+                    $cat->save();
+
+                }        
+            }
+            
+        }*/
+
+        $cat= Category::where('parent_id',$id)->get();
+        return response()->json(['status'=>true,
+                            'message'=>trans('app.cat'),
+                            'code'=>200,
+                            'data'=>$cat,
                             ],200);
-        }
+        
+    
     }
 
     public function create(Request $request)
@@ -45,7 +79,6 @@ class CategoryController extends Controller
         $uploadFolder = 'categories';
         $image = $request->file('image');
         $image_uploaded_path = $image->store($uploadFolder, 'public');
-
         $cat= Category::create([
             'name_en'=>$request->get('name_en'),
             'slug'=>Str::slug($request->get('name_en')),
@@ -55,6 +88,7 @@ class CategoryController extends Controller
             'image'=>Storage::disk('public')->url($image_uploaded_path),
             
         ]);
+
         $cat->status=1;
         $cat->save();
 
