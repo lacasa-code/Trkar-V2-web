@@ -73,14 +73,6 @@ class AuthController extends Controller
             'username' => 'required|string|between:2,100|unique:users',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:6',
-            'phone' =>'required|unique:users',
-            //'image'=>'required',
-            'country_id'=>'required',
-            'city_id'=>'required',
-            'area_id'=>'required',
-            'address'=>'required',
-            'longitude'=>'required',
-            'latitude'=>'required',
         ]);
 
 
@@ -95,8 +87,9 @@ class AuthController extends Controller
 
         $user = new User();
         $user->username = $request->username;
-        $user->phone = $request->phone;
-        
+        $user->email = $request->email;
+
+        /*
         $uploadFolder = 'users';
         $image = $request->file('image');
         $image_uploaded_path = $image->store($uploadFolder, 'public');
@@ -108,14 +101,13 @@ class AuthController extends Controller
         $user->address = $request->address;
         $user->longitude = $request->longitude;
         $user->latitude = $request->latitude;
-        $user->email = $request->email;
+        */
         $user->uuid = Helper::IDGenerator(new User(), 'uuid', 4, 'C');
         $user->password = bcrypt($request->password);
         $user->last_login=Carbon::now();
 
         $user->save();
         $user->attachRole('user');
-
         $token = auth()->attempt($validator->validated());
         
         return $this->createNewToken($token);
