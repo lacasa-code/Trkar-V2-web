@@ -14,5 +14,10 @@ class Manufacturer extends Model
         'name_en',
         'name_ar',
         'status',
+        'image',
+        'category_id',
+        'company_name',
+        'address',
+        'website',
     ];
 }

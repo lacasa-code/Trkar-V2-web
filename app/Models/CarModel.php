@@ -15,6 +15,6 @@ class CarModel extends Model
         'name_ar',
         'status',
         'slug',
-    
+    'car_made_id'
     ];
 }
