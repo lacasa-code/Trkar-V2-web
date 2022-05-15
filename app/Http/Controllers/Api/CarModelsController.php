@@ -11,7 +11,9 @@ class CarModelsController extends Controller
 {
     public function all()
     {
-        $car=CarModel::select('id','name_'.app()->getLocale().' as name','slug','status')->get();
+        $car=CarModel::select('car_models.id','car_models.name_'.app()->getLocale().' as name','car_models.slug','car_models.status','car_models.car_made_id','car_mades.name_'.app()->getLocale().' as car_made_name')
+        ->join('car_mades','car_models.car_made_id','car_mades.id')
+        ->get();
 
         return response()->json(['status'=>true,
                                 'message'=>trans('app.car_model'),
@@ -27,7 +29,8 @@ class CarModelsController extends Controller
             'name_en'=>$request->get('name_en'),
             'slug'=>Str::slug($request->get('name_en')),
             'name_ar'=>$request->get('name_ar'),
-            'status'=>$request->get('status'),
+            'status'=>1,
+            'car_made_id'=>$request->get('car_made_id'),
 
         ]);
 
@@ -49,7 +52,8 @@ class CarModelsController extends Controller
         $car->name_en=$request->input('name_en');
         $car->slug=Str::slug($request->input('name_en'));
         $car->name_ar=$request->input('name_ar');
-        $car->status=$request->input('status');
+        $car->status=1;
+        $car->car_made_id=$request->input('car_made_id');
 
         $car->save();
 

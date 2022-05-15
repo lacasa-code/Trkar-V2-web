@@ -6,12 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Manufacturer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ManufacturersController extends Controller
 {
     public function all()
     {
-        $car=Manufacturer::select('id','name_'.app()->getLocale().' as name','status')->get();
+        $car=Manufacturer::select('manufacturers.id','manufacturers.name_'.app()->getLocale().' as name','manufacturers.status'
+        ,'manufacturers.image','manufacturers.company_name','manufacturers.address','manufacturers.website','manufacturers.category_id','categories.name_'.app()->getLocale().' as category_name')
+        ->join('categories','categories.id','manufacturers.category_id')
+        ->get();
 
         return response()->json(['status'=>true,
                                 'message'=>trans('app.manu'),
@@ -22,12 +26,20 @@ class ManufacturersController extends Controller
 
     public function create(Request $request)
     {
-    
+        $uploadFolder = 'manufacturers';
+        $image = $request->file('image');
+        $image_uploaded_path = $image->store($uploadFolder, 'public');
+        
         $car= Manufacturer::create([
             'name_en'=>$request->get('name_en'),
             'name_ar'=>$request->get('name_ar'),
-            'status'=>$request->get('status'),
+            'status'=>1,
+            'category_id'=>$request->get('category_id'),
+            'company_name'=>$request->get('company_name'),
+            'address'=>$request->get('address'),
+            'website'=>$request->get('website'),
 
+            'image'=>Storage::disk('public')->url($image_uploaded_path),
         ]);
 
         $car->save();
@@ -44,11 +56,18 @@ class ManufacturersController extends Controller
     {
         $car= Manufacturer::where('id',$id)->first();
 
+        $uploadFolder = 'manufacturers';
+        $image = $request->file('image');
+        $image_uploaded_path = $image->store($uploadFolder, 'public');
         
         $car->name_en=$request->input('name_en');
         $car->name_ar=$request->input('name_ar');
-        $car->status=$request->input('status');
-
+        $car->status=1;
+        $car->category_id=$request->input('category_id');
+        $car->image=Storage::disk('public')->url($image_uploaded_path);
+        $car->company_name=$request->input('company_name');
+        $car->address=$request->input('address');
+        $car->website=$request->input('website');
         $car->save();
 
         return response()->json([

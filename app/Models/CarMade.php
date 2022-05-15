@@ -15,6 +15,8 @@ class CarMade extends Model
         'name_ar',
         'status',
         'slug',
+        'category_id',
+        'image',
     
     ];
 }
