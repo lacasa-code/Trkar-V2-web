@@ -22,6 +22,19 @@ class CarMadesController extends Controller
                                 'data'=>$car,
                             ],200);
     }
+    
+    public function category_mades($id)
+    {
+        $car=CarMade::select('car_mades.id','car_mades.name_'.app()->getLocale().' as name','car_mades.slug','car_mades.status','car_mades.image')
+        ->where('category_id',$id)
+        ->get();
+
+        return response()->json(['status'=>true,
+                                'message'=>trans('app.car'),
+                                'code'=>200,
+                                'data'=>$car,
+                            ],200);
+    }
 
     public function create(Request $request)
     {

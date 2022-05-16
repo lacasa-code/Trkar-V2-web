@@ -81,6 +81,7 @@ Route::middleware([ 'localization'])->group(function () {
 Route::middleware([ 'localization'])->group(function () {
 
     Route::get('/car/mades', [App\Http\Controllers\Api\CarMadesController::class, 'all']);
+    Route::get('/category/car/mades/{id}', [App\Http\Controllers\Api\CarMadesController::class, 'category_mades']);
     Route::post('/create/car/mades', [App\Http\Controllers\Api\CarMadesController::class, 'create']);
     Route::post('/update/car/mades/{id}', [App\Http\Controllers\Api\CarMadesController::class, 'update']);
     Route::post('/delete/car/mades/{id}', [App\Http\Controllers\Api\CarMadesController::class, 'delete']);
@@ -91,6 +92,7 @@ Route::middleware([ 'localization'])->group(function () {
 Route::middleware([ 'localization'])->group(function () {
 
     Route::get('/car/model', [App\Http\Controllers\Api\CarModelsController::class, 'all']);
+    Route::get('/mades/car/model/{id}', [App\Http\Controllers\Api\CarModelsController::class, 'models_of_mades']);
     Route::post('/create/car/model', [App\Http\Controllers\Api\CarModelsController::class, 'create']);
     Route::post('/update/car/model/{id}', [App\Http\Controllers\Api\CarModelsController::class, 'update']);
     Route::post('/delete/car/model/{id}', [App\Http\Controllers\Api\CarModelsController::class, 'delete']);
@@ -122,6 +124,7 @@ Route::middleware([ 'localization'])->group(function () {
 Route::middleware([ 'localization'])->group(function () {
 
     Route::get('/manufacturers', [App\Http\Controllers\Api\ManufacturersController::class, 'all']);
+    Route::get('/category/manufacturers/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'manufacturers_of_category']);
     Route::post('/create/manufacturer', [App\Http\Controllers\Api\ManufacturersController::class, 'create']);
     Route::post('/update/manufacturer/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'update']);
     Route::post('/delete/manufacturer/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'delete']);
