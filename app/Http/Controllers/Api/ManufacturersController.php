@@ -24,6 +24,22 @@ class ManufacturersController extends Controller
                             ],200);
     }
 
+    public function manufacturers_of_category($id)
+    {
+        $car=Manufacturer::select('manufacturers.id','manufacturers.name_'.app()->getLocale().' as name','manufacturers.status'
+        ,'manufacturers.image','manufacturers.company_name','manufacturers.address','manufacturers.website','manufacturers.category_id')
+        ->where('category_id',$id)
+        ->get();
+
+        return response()->json(['status'=>true,
+                                'message'=>trans('app.manu'),
+                                'code'=>200,
+                                'data'=>$car,
+                            ],200);
+    }
+
+
+
     public function create(Request $request)
     {
         $uploadFolder = 'manufacturers';

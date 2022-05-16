@@ -22,6 +22,19 @@ class CarModelsController extends Controller
                             ],200);
     }
 
+    public function models_of_mades($id)
+    {
+        $car=CarModel::select('car_models.id','car_models.name_'.app()->getLocale().' as name','car_models.slug','car_models.status','car_models.car_made_id')
+        ->where('car_made_id',$id)
+        ->get();
+
+        return response()->json(['status'=>true,
+                                'message'=>trans('app.car_model'),
+                                'code'=>200,
+                                'data'=>$car,
+                            ],200);
+    }
+
     public function create(Request $request)
     {
     
