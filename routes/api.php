@@ -160,3 +160,4 @@ Route::middleware([ 'localization'])->group(function () {
     Route::get('/audit_logs', [App\Http\Controllers\Api\AuditLogsController::class, 'index']);
 
 });
+Route::get('/vin/{vin}', [App\Http\Controllers\Api\VINController::class, 'vin']);
