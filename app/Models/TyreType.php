@@ -13,6 +13,6 @@ class TyreType extends Model
     protected $fillable = [
         'name_en',
         'name_ar',
-
+        'image',
     ];
 }
