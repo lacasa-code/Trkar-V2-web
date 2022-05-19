@@ -71,6 +71,162 @@ class AttributeTyreController extends Controller
         } 
     }
 
+    public function get_width_by_season($id)
+    {
+        $att = AttributeTyre::where('season_id',$id)->where('attribute_id',1)->get();
+        if($att->count() > 0)
+        {
+            return response()->json([
+                'status'=>true,
+                'message'=>trans('app.att'),
+                'code'=>200,
+                'data'=>$att,
+            ],200);
+        }
+        else
+        {
+            return response()->json(
+                ['status'=>false,
+                'message'=>trans('Season id does not exist'),
+                'code'=>404,
+            ],404);
+        } 
+    }
+
+    public function get_hight_by_width($id)
+    {
+        $att = AttributeTyre::where('parent_id',$id)->where('attribute_id',2)->get();
+        if($att->count() > 0)
+        {
+            return response()->json([
+                'status'=>true,
+                'message'=>trans('app.att'),
+                'code'=>200,
+                'data'=>$att,
+            ],200);
+        }
+        else
+        {
+            return response()->json(
+                ['status'=>false,
+                'message'=>trans('Width id does not exist'),
+                'code'=>404,
+            ],404);
+        } 
+    }
+
+    public function get_diameter_by_hight($id)
+    {
+        $att = AttributeTyre::where('parent_id',$id)->where('attribute_id',3)->get();
+        if($att->count() > 0)
+        {
+            return response()->json([
+                'status'=>true,
+                'message'=>trans('app.att'),
+                'code'=>200,
+                'data'=>$att,
+            ],200);
+        }
+        else
+        {
+            return response()->json(
+                ['status'=>false,
+                'message'=>trans('height id does not exist'),
+                'code'=>404,
+            ],404);
+        } 
+    }
+
+    public function get_manufactuere_by_width($id)
+    {
+        $att = AttributeTyre::where('parent_id',$id)->where('attribute_id',7)->get();
+        if($att->count() > 0)
+        {
+            return response()->json([
+                'status'=>true,
+                'message'=>trans('app.att'),
+                'code'=>200,
+                'data'=>$att,
+            ],200);
+        }
+        else
+        {
+            return response()->json(
+                ['status'=>false,
+                'message'=>trans('width id does not exist'),
+                'code'=>404,
+            ],404);
+        } 
+    }
+
+    public function get_load_by_width($id)
+    {
+        $att = AttributeTyre::where('parent_id',$id)->where('attribute_id',5)->get();
+        if($att->count() > 0)
+        {
+            return response()->json([
+                'status'=>true,
+                'message'=>trans('app.att'),
+                'code'=>200,
+                'data'=>$att,
+            ],200);
+        }
+        else
+        {
+            return response()->json(
+                ['status'=>false,
+                'message'=>trans('width id does not exist'),
+                'code'=>404,
+            ],404);
+        } 
+    }
+
+    public function get_speed_by_width($id)
+    {
+        $att = AttributeTyre::where('parent_id',$id)->where('attribute_id',4)->get();
+        if($att->count() > 0)
+        {
+            return response()->json([
+                'status'=>true,
+                'message'=>trans('app.att'),
+                'code'=>200,
+                'data'=>$att,
+            ],200);
+        }
+        else
+        {
+            return response()->json(
+                ['status'=>false,
+                'message'=>trans('width id does not exist'),
+                'code'=>404,
+            ],404);
+        } 
+    }
+
+    public function get_axle_by_width($id)
+    {
+        $att = AttributeTyre::where('parent_id',$id)->where('attribute_id',6)->get();
+        if($att->count() > 0)
+        {
+            return response()->json([
+                'status'=>true,
+                'message'=>trans('app.att'),
+                'code'=>200,
+                'data'=>$att,
+            ],200);
+        }
+        else
+        {
+            return response()->json(
+                ['status'=>false,
+                'message'=>trans('width id does not exist'),
+                'code'=>404,
+            ],404);
+        } 
+    }
+
+    
+
     public function all_att()
     {
         $att= Attribute::get();

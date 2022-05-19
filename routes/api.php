@@ -88,10 +88,20 @@ Route::middleware([ 'localization'])->group(function () {
 
 });
 
+//tyres and seasons
 Route::middleware([ 'localization'])->group(function () {
 
     Route::get('/attribute/tyre/{id_att}/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_by_parent_attribute']);
     Route::get('/attribute/tyre/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_by_parent']);
+    Route::get('/tyre/seasons/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_width_by_season']);
+    Route::get('/tyre/height/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_hight_by_width']);
+    Route::get('/tyre/diameter/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_diameter_by_hight']);
+    Route::get('/tyre/manufactuere/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_manufactuere_by_width']);
+    Route::get('/tyre/load/index/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_load_by_width']);
+    Route::get('/tyre/speed/rate/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_speed_by_width']);
+    Route::get('/tyre/axle/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_axle_by_width']);
+    Route::get('/seasons', [App\Http\Controllers\Api\SeasonController::class, 'all']);
+
     Route::get('/attributes', [App\Http\Controllers\Api\AttributeTyreController::class, 'all_att']);
     Route::post('/create/attribute/tyre', [App\Http\Controllers\Api\AttributeTyreController::class, 'create']);
     Route::post('/update/attribute/tyre/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'update']);
