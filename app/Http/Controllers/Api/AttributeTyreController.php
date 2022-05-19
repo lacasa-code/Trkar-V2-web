@@ -16,6 +16,7 @@ class AttributeTyreController extends Controller
             'attribute_id'=>$request->get('attribute_id'),
             'value'=>$request->get('value'),
             'parent_id'=>$request->get('parent_id'),
+            'type_id'=>$request->get('type_id'),
 
         ]);
         $att->save();
@@ -71,9 +72,10 @@ class AttributeTyreController extends Controller
         } 
     }
 
-    public function get_width_by_season($id)
+    
+    public function get_width_by_season($type_id,$id)
     {
-        $att = AttributeTyre::where('season_id',$id)->where('attribute_id',1)->get();
+        $att = AttributeTyre::where('type_id',$type_id)->where('season_id',$id)->where('attribute_id',1)->get();
         if($att->count() > 0)
         {
             return response()->json([
@@ -93,9 +95,9 @@ class AttributeTyreController extends Controller
         } 
     }
 
-    public function get_hight_by_width($id)
+    public function get_hight_by_width($type_id,$id)
     {
-        $att = AttributeTyre::where('parent_id',$id)->where('attribute_id',2)->get();
+        $att = AttributeTyre::where('type_id',$type_id)->where('parent_id',$id)->where('attribute_id',2)->get();
         if($att->count() > 0)
         {
             return response()->json([
@@ -115,9 +117,9 @@ class AttributeTyreController extends Controller
         } 
     }
 
-    public function get_diameter_by_hight($id)
+    public function get_diameter_by_hight($type_id,$id)
     {
-        $att = AttributeTyre::where('parent_id',$id)->where('attribute_id',3)->get();
+        $att = AttributeTyre::where('type_id',$type_id)->where('parent_id',$id)->where('attribute_id',3)->get();
         if($att->count() > 0)
         {
             return response()->json([
@@ -157,6 +159,18 @@ class AttributeTyreController extends Controller
                 'code'=>404,
             ],404);
         } 
+    }
+
+    public function all_manufactuere($id)
+    {
+        $att = AttributeTyre::where('type_id',$id)->where('attribute_id',7)->get();
+            return response()->json([
+                'status'=>true,
+                'message'=>trans('app.att'),
+                'code'=>200,
+                'data'=>$att,
+            ],200);
+        
     }
 
     public function get_load_by_width($id)
@@ -245,6 +259,7 @@ class AttributeTyreController extends Controller
         $att->value=$request->input('value');
         $att->parent_id=$request->input('parent_id');
         $att->attribute_id=$request->input('attribute_id');
+        $att->type_id=$request->input('type_id');
 
         $att->save();
 

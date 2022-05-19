@@ -20,8 +20,9 @@ class DatabaseSeeder extends Seeder
             //CitySeeder::class,
             //AreaSeeder::class,
             //RoleSeeder::class,
-            SeasonSeeder::class,
-            AttributeSeeder::class,
+            //SeasonSeeder::class,
+            //AttributeSeeder::class,
+            TyreTypeSeeder::class,
 
         
         ]);
