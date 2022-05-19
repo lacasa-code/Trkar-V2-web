@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Attribute extends Model
+class AttributeTyre extends Model
 {
-    use HasFactory ,SoftDeletes;
+    use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'name',
-        
+        'season_id',
+        'parent_id',
+        'value',
+        'attribute_id',
 
     ];
 }

@@ -88,6 +88,17 @@ Route::middleware([ 'localization'])->group(function () {
 
 });
 
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/attribute/tyre/{id_att}/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_by_parent_attribute']);
+    Route::get('/attribute/tyre/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_by_parent']);
+    Route::get('/attributes', [App\Http\Controllers\Api\AttributeTyreController::class, 'all_att']);
+    Route::post('/create/attribute/tyre', [App\Http\Controllers\Api\AttributeTyreController::class, 'create']);
+    Route::post('/update/attribute/tyre/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'update']);
+    Route::post('/delete/attribute/tyre/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'delete']);
+
+});
+
 //car models routes
 Route::middleware([ 'localization'])->group(function () {
 

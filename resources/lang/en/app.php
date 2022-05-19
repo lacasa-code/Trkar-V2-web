@@ -42,7 +42,9 @@
         'not_approved'=>'Waiting for admin to approve your account',
         'not_cat'=>'their is no more subcategories',
         'carEngine'=>'car engines have been shown successfully',
-        
+        'atts_create'=>'Attributes tyre have been created successfully',
+        'att'=>'Attributes tyre have been shown successfully',
+
     
 
     ];
