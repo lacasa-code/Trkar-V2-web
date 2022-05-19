@@ -103,6 +103,7 @@ Route::middleware([ 'localization'])->group(function () {
     Route::get('/tyre/axle/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_axle_by_width']);
     Route::get('/seasons', [App\Http\Controllers\Api\SeasonController::class, 'all']);
     Route::get('/tyre/types', [App\Http\Controllers\Api\TyreTypesController::class, 'all_types']);
+    Route::post('/update/tyre/types/{id}', [App\Http\Controllers\Api\TyreTypesController::class, 'update']);
 
     Route::get('/attributes', [App\Http\Controllers\Api\AttributeTyreController::class, 'all_att']);
     Route::post('/create/attribute/tyre', [App\Http\Controllers\Api\AttributeTyreController::class, 'create']);
