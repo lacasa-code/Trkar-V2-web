@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             //RoleSeeder::class,
             //SeasonSeeder::class,
             //AttributeSeeder::class,
-            TyreTypeSeeder::class,
+            //TyreTypeSeeder::class,
+            AdminSeeder::class,
 
         
         ]);

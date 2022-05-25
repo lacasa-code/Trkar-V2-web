@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Null_;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -35,6 +36,22 @@ class UserController extends Controller
     {
         $user_update = User::find(auth()->id());
         
+        $validator = Validator::make($request->all(), [
+
+            'username' => 'string|between:2,100|unique:users',
+            'email' => 'string|email|max:100|unique:users',
+        
+        ]);
+
+        if($validator->fails()){
+            
+            return response()->json(
+                ['status'=>false,
+                'message'=>$validator->errors(),
+                'code'=>400],400);
+
+        }
+
         $user_update->username = $request->input('username');
         $user_update->email = $request->input('email');
         $user_update->phone = $request->input('phone');
