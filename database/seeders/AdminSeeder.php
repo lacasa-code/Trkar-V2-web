@@ -19,7 +19,7 @@ class AdminSeeder extends Seeder
             'username'=>'Admin',
             'email'=>'admin@admin.com',
             'email_verified_at'=>Carbon::now(),
-            'password'=>'12345678',
+            'password'=>bcrypt('12345678'),
             'status'=>'1',
             'uuid'=>'A001',
 
