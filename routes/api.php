@@ -151,6 +151,7 @@ Route::middleware([ 'localization'])->group(function () {
     Route::get('/category/manufacturers/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'manufacturers_of_category']);
     Route::post('/create/manufacturer', [App\Http\Controllers\Api\ManufacturersController::class, 'create']);
     Route::post('/update/manufacturer/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'update']);
+    Route::post('/update/manufacturer/image/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'update_image']);
     Route::post('/delete/manufacturer/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'delete']);
 
 });
