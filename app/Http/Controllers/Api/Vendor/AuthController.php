@@ -21,6 +21,7 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['register','login']]);
     
     }
+
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -69,19 +70,10 @@ class AuthController extends Controller
     public function register(Request $request) 
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string|between:2,100|unique:users',
-            'email' => 'required|string|email|max:100|unique:users',
+            'username' => 'required|string|between:2,100|unique:vendors',
+            'email' => 'required|string|email|max:100|unique:vendors',
             'password' => 'required|string|min:6',
-            'country_id'=>'required',
-            'city_id'=>'required',
-            'area_id'=>'required',
-            'address'=>'required',
-            'longitude'=>'required',
-            'latitude'=>'required',
-            'bank_account'=>'required',
-            'commercial_number'=>'required',
-            'tax_card_number'=>'required',
-            'phone' =>'required|unique:users',
+            'phone' =>'required|unique:vendors',
 
         ]);
 
@@ -97,17 +89,80 @@ class AuthController extends Controller
 
         $vendor = new Vendor();
         $vendor->username = $request->username;
-        
         $vendor->email = $request->email;
-        $vendor->uuid = Helper::IDGenerator(new Vendor(), 'uuid', 4, 'V');
+        $vendor->phone = $request->phone;
         $vendor->password = bcrypt($request->password);
-
+        $vendor->last_login=Carbon::now();
+        $vendor->approved=0;
         $vendor->save();
+
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|string|between:2,100|unique:users',
+            'email' => 'required|string|email|max:100|unique:users',
+            'password' => 'required|string|min:6',
+            'phone' =>'required|unique:users',
+
+        ]);
+
+
+        if($validator->fails())
+        {
+            
+            return response()->json(
+                ['status'=>false,
+                'message'=>$validator->errors(),
+                'code'=>400],400);
+
+        }
+
+        $user = new User();
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->uuid = Helper::IDGenerator(new User(), 'uuid', 4, 'C');
+        $user->password = bcrypt($request->password);
+        $user->save();
+
 
         $token = auth('vendor')->attempt($validator->validated());
         
         return $this->createNewToken($token);
     }
+
+    public function isValidToken(Request $request)
+    {
+        
+            return response()->json([
+                'status'=>true,
+                'message'=>trans('app.valid'),
+                'code'=>200,
+                'data' => auth('vendor')->check()           
+            ],200); 
+
+    }
+
+    public function userProfile()
+    {
+        return response()->json([
+            'status'=>true,
+            'message'=>trans('app.userProfile'),
+            'code'=>200,
+            'data' => auth('vendor')->user()           
+        ],200);
+    }
+
+    public function refresh() 
+    {
+        return $this->createNewToken(auth('vendor')->refresh());
+    
+    }
+
+    public function logout() 
+    {
+        auth('vendor')->logout();
+        return response()->json(['status'=>true,'message'=>trans('app.logout_success'),'code'=>200],200);
+    }
+
     protected function createNewToken($token)
     {
         return response()->json([
