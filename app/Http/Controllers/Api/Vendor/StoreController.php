@@ -69,6 +69,8 @@ class StoreController extends Controller
         $store->latitude = $request->latitude;
         
         $store->save();
+
+        
         $vendor=Vendor::find(auth('vendor')->id());
         if($store->store_type_id == 1)
         {
@@ -105,6 +107,19 @@ class StoreController extends Controller
             'message'=>trans('app.store_create'),
             'code'=>200,
             'data'=>[$store,$branch]
+        ],200);
+
+    }
+
+    public function generate_url($name)
+    {
+        $store = Store::where('name_en',$name)->first();
+        $url=url("/store/{$store->name_en}");
+        return response()->json([
+            'status'=>true,
+            'message'=>trans('url created successfully'),
+            'code'=>200,
+            'data'=>$url,
         ],200);
 
     }
