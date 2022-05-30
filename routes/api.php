@@ -211,8 +211,16 @@ Route::middleware([ 'localization'])->group(function () {
 
 });
 
+//attachments
 Route::middleware([ 'localization'])->group(function () {
 
     Route::post('/upload/attachment', [App\Http\Controllers\Api\Vendor\AttachmentsController::class, 'create']);
+
+});
+
+//verify mobile
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::post('/verify/mobile/{otp}/{mobile}', [App\Http\Controllers\Api\Vendor\AuthController::class, 'verify_otp']);
 
 });

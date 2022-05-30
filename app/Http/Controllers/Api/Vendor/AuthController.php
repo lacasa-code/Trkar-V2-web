@@ -18,7 +18,7 @@ class AuthController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth:api', ['except' => ['register','login']]);
+        $this->middleware('auth:api', ['except' => ['register','login','verify_otp']]);
     
     }
 
@@ -45,6 +45,14 @@ class AuthController extends Controller
                 return response()->json([
                     'status'=>false,
                     'message'=>trans('app.blocked'),
+                    'code'=>401],401);
+
+            }
+            if ($user->phone_verified_at == Null) {
+                auth('vendor')->logout();
+                return response()->json([
+                    'status'=>false,
+                    'message'=>trans('Please verifiy your phone number'),
                     'code'=>401],401);
 
             }
@@ -173,6 +181,40 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'data' => auth('vendor')->user()
         ],201);
+    }
+
+    public function verify_otp($otp,$mobile)
+    {
+        $vendor=Vendor::where('phone',$mobile)->first();
+        if($vendor->phone_verified_at == NULL)
+        {
+            if($otp == 1234)
+            {
+                $vendor->phone_verified_at=Carbon::now();
+                $vendor->save();
+                return response()->json([
+                    'status'=>true,
+                    'message'=>trans('app.success_verifiy'),
+                    'code'=>200,
+                ],200);
+            }
+            else
+            {
+                return response()->json([
+                    'status'=>false,
+                     'message'=>trans('app.wrong_otp'),
+                    'code'=>400,
+                ],400);
+            }
+        }
+        else
+        {
+            return response()->json([
+                'status'=>false,
+                 'message'=>trans('app.verified'),
+                'code'=>400,
+            ],400);
+        }
     }
 
     
