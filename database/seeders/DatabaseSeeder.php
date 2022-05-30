@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\StoreType;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,8 +24,8 @@ class DatabaseSeeder extends Seeder
             //SeasonSeeder::class,
             //AttributeSeeder::class,
             //TyreTypeSeeder::class,
-            AdminSeeder::class,
-
+            //AdminSeeder::class,
+            StoreTypesSeeder::class,
         
         ]);
     }

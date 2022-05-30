@@ -27,6 +27,22 @@ Route::middleware([ 'api','localization'])->group(function () {
     Route::get('/userProfile', [App\Http\Controllers\Api\AuthController::class, 'userProfile']);
 
 });
+
+
+//vendor auth 
+Route::middleware([ 'api','localization'])->group(function () {
+
+    Route::post('/vendor/login', [App\Http\Controllers\Api\Vendor\AuthController::class, 'login']);
+    Route::post('/vendor/register', [App\Http\Controllers\Api\Vendor\AuthController::class, 'register']);
+    Route::get('/vendor/isValidToken', [App\Http\Controllers\Api\Vendor\AuthController::class, 'isValidToken']);
+    Route::get('/vendor/userProfile', [App\Http\Controllers\Api\Vendor\AuthController::class, 'userProfile']);
+    Route::post('/vendor/logout', [App\Http\Controllers\Api\Vendor\AuthController::class, 'logout']);
+    Route::post('/vendor/refresh', [App\Http\Controllers\Api\Vendor\AuthController::class, 'refresh']);
+   
+});
+
+
+
 Route::get('/email/resend',[App\Http\Controllers\Api\VerificationController::class, 'resend'] )->name('verification.resend');
 
 Route::get('/email/verify/{id}/{hash}', [App\Http\Controllers\Api\VerificationController::class, 'verify'] )->name('verification.verify');
@@ -186,3 +202,25 @@ Route::middleware([ 'localization'])->group(function () {
 
 });
 Route::get('/vin/{vin}', [App\Http\Controllers\Api\VINController::class, 'vin']);
+Route::get('/store/types', [App\Http\Controllers\Api\Vendor\StoreTypeController::class, 'index']);
+
+//store
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::post('/create/store', [App\Http\Controllers\Api\Vendor\StoreController::class, 'create']);
+
+});
+
+//attachments
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::post('/upload/attachment', [App\Http\Controllers\Api\Vendor\AttachmentsController::class, 'create']);
+
+});
+
+//verify mobile
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::post('/verify/mobile/{otp}/{mobile}', [App\Http\Controllers\Api\Vendor\AuthController::class, 'verify_otp']);
+
+});

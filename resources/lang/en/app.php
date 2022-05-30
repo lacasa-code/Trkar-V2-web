@@ -44,8 +44,11 @@
         'carEngine'=>'car engines have been shown successfully',
         'atts_create'=>'Attributes tyre have been created successfully',
         'att'=>'Attributes tyre have been shown successfully',
+        'store_create'=>'Store created Successfully Please wait until Admin approve',
+        'verified'=>'Phone number is already verified',
+        'wrong_otp'=>'otp number is wrong',
+        'success_verifiy'=>'Phone number has been verified successfully',
 
-    
 
     ];
 ?>
