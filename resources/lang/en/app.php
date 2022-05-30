@@ -44,7 +44,7 @@
         'carEngine'=>'car engines have been shown successfully',
         'atts_create'=>'Attributes tyre have been created successfully',
         'att'=>'Attributes tyre have been shown successfully',
-
+        'store_create'=>'Store created Successfully Please wait until Admin approve',
     
 
     ];

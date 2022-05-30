@@ -202,3 +202,17 @@ Route::middleware([ 'localization'])->group(function () {
 
 });
 Route::get('/vin/{vin}', [App\Http\Controllers\Api\VINController::class, 'vin']);
+Route::get('/store/types', [App\Http\Controllers\Api\Vendor\StoreTypeController::class, 'index']);
+
+//store
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::post('/create/store', [App\Http\Controllers\Api\Vendor\StoreController::class, 'create']);
+
+});
+
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::post('/upload/attachment', [App\Http\Controllers\Api\Vendor\AttachmentsController::class, 'create']);
+
+});
