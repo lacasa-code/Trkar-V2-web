@@ -8,6 +8,7 @@ use App\Helpers\Helper;
 use App\Models\StoreBranch;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\VendorUuid;
 use Illuminate\Support\Str;
 
 use Illuminate\Support\Facades\Storage;
@@ -67,26 +68,30 @@ class StoreController extends Controller
         $store->address = $request->address;
         $store->longitude = $request->longitude;
         $store->latitude = $request->latitude;
-        
         $store->save();
 
-        
-        $vendor=Vendor::find(auth('vendor')->id());
+        $uuid = new VendorUuid();
+
         if($store->store_type_id == 1)
         {
-            $vendor->uuid=Helper::IDGenerator(new Vendor(), 'uuid', 4, 'VR');
+            $uuid->retail = Helper::IDGenerator(new VendorUuid(), 'uuid', 4, 'VR');
 
         }
         if($store->store_type_id == 2)
         {
-            $vendor->uuid=Helper::IDGenerator(new Vendor(), 'uuid', 4, 'VW');
+            $uuid->wholesale = Helper::IDGenerator(new VendorUuid(), 'uuid', 4, 'VW');
 
         }
         if($store->store_type_id == 3)
         {
-            $vendor->uuid=Helper::IDGenerator(new Vendor(), 'uuid', 4, 'VRW');
+            $uuid->retail = Helper::IDGenerator(new VendorUuid(), 'uuid', 4, 'VR');
+            $uuid->wholesale = Helper::IDGenerator(new VendorUuid(), 'uuid', 4, 'VW');
 
         }
+
+        $uuid->save();
+        $vendor=Vendor::find(auth('vendor')->id());
+        $vendor->uuid = $uuid->id;
         $vendor->country_id= $request->input('country_id');
         $vendor->area_id= $request->input('area_id');
         $vendor->city_id= $request->input('city_id');

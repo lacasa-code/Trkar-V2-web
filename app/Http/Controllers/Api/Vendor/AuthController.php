@@ -95,15 +95,6 @@ class AuthController extends Controller
 
         }
 
-        $vendor = new Vendor();
-        $vendor->username = $request->username;
-        $vendor->email = $request->email;
-        $vendor->phone = $request->phone;
-        $vendor->password = bcrypt($request->password);
-        $vendor->last_login=Carbon::now();
-        $vendor->approved=0;
-        $vendor->save();
-
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|between:2,100|unique:users',
             'email' => 'required|string|email|max:100|unique:users',
@@ -122,6 +113,16 @@ class AuthController extends Controller
                 'code'=>400],400);
 
         }
+
+        $vendor = new Vendor();
+        $vendor->username = $request->username;
+        $vendor->email = $request->email;
+        $vendor->phone = $request->phone;
+        $vendor->password = bcrypt($request->password);
+        $vendor->last_login=Carbon::now();
+        $vendor->approved=0;
+        $vendor->save();
+
 
         $user = new User();
         $user->username = $request->username;
