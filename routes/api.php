@@ -224,3 +224,5 @@ Route::middleware([ 'localization'])->group(function () {
     Route::post('/verify/mobile/{otp}/{mobile}', [App\Http\Controllers\Api\Vendor\AuthController::class, 'verify_otp']);
 
 });
+
+Route::get('/generate/url/{name}', [App\Http\Controllers\Api\Vendor\StoreController::class, 'generate_url']);
