@@ -25,8 +25,9 @@ class DatabaseSeeder extends Seeder
             //AttributeSeeder::class,
             //TyreTypeSeeder::class,
             //AdminSeeder::class,
-            StoreTypesSeeder::class,
-        
+            //StoreTypesSeeder::class,
+            ProductTypeSeeder::class,
+
         ]);
     }
 }

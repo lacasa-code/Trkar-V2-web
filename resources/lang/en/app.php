@@ -48,7 +48,9 @@
         'verified'=>'Phone number is already verified',
         'wrong_otp'=>'otp number is wrong',
         'success_verifiy'=>'Phone number has been verified successfully',
-
+        'productType'=>'product types have been shown successfully',
+        'productimage'=>'Product image has been added successfully',
+        'product'=>'product has been added successfully',
 
     ];
 ?>

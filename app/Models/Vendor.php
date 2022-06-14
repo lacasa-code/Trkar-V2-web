@@ -9,7 +9,6 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Vendor extends Authenticatable implements JWTSubject
