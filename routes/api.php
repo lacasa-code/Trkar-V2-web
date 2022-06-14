@@ -226,3 +226,14 @@ Route::middleware([ 'localization'])->group(function () {
 });
 
 Route::get('/generate/url/{name}', [App\Http\Controllers\Api\Vendor\StoreController::class, 'generate_url']);
+
+//tyre products
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::post('/create/tyre/product', [App\Http\Controllers\Api\Vendor\ProductController::class, 'create_tyre']);
+    Route::get('/product/types', [App\Http\Controllers\Api\ProductTypesController::class, 'index']);
+    Route::post('/product/image', [App\Http\Controllers\Api\Vendor\ProductImageController::class, 'create']);
+    Route::post('/product/tag', [App\Http\Controllers\Api\Vendor\ProductTagsController::class, 'create']);
+    Route::post('/product/attribute', [App\Http\Controllers\Api\Vendor\ProductAttributesController::class, 'create']);
+
+});

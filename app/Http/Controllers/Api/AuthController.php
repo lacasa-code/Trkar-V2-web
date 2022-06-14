@@ -107,7 +107,6 @@ class AuthController extends Controller
         $user->last_login=Carbon::now();
 
         $user->save();
-        $user->attachRole('user');
         $token = auth()->attempt($validator->validated());
         
         return $this->createNewToken($token);

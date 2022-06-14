@@ -9,11 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use Laratrust\Traits\LaratrustUserTrait;
+use App\Traits\HasPermissionsTrait;
 
 class User extends Authenticatable implements JWTSubject,MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable,SoftDeletes,LaratrustUserTrait;
+    use HasApiTokens, HasFactory, Notifiable,SoftDeletes,HasPermissionsTrait;
 
     protected $fillable = [
         'email',
