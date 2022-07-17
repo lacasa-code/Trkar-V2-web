@@ -22,17 +22,20 @@ class StoreController extends Controller
             'name_ar' => 'required|string|between:2,100|unique:stores',
             'name_en' => 'required|string|between:2,100|unique:stores',
             'email' => 'required|string|email|max:100|unique:stores',
-            'phone' =>'required|unique:stores',
+            'phone' =>'required|integer|digits_between:9,9|starts_with:5|unique:stores',
             'store_type_id' =>'required',
             'country_id'=>'required',
             'city_id'=>'required',
             'area_id'=>'required',
-            'bank_account'=>'required',
-            'commercial_number'=>'required',
-            'tax_card_number'=>'required',
-            'address'=>'required',
-            //'longitude'=>'required',
-            //'latitude'=>'required',
+            'bank_account'=>'required|integer',
+            'commercial_number'=>'required|integer',
+            'tax_card_number'=>'required|integer',
+            'address'=>'required|string',
+            'description_ar'=>'required|string',
+            'description_en'=>'required|string',
+
+            'longitude'=>'required|integer',
+            'latitude'=>'required|integer',
             
         ]);
 
@@ -114,6 +117,34 @@ class StoreController extends Controller
             'data'=>[$store,$branch]
         ],200);
 
+    }
+
+    public function create_branch(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|between:2,100|unique:branchs',           
+        ]);
+
+        if ($validator->fails()) 
+        {
+            return response()->json(['status'=>false,
+                                    'message'=>$validator->errors(),
+                                    'code'=>400],400);
+        }
+
+        $branch= new StoreBranch();
+        $branch->name=$request->name;
+        $branch->slug=Str::slug($request->get('name'));
+        $branch->status=0;
+        $branch->store_id =$request->store_id; 
+
+        $branch->save();
+        return response()->json([
+            'status'=>true,
+            'message'=>trans('app.store_create'),
+            'code'=>200,
+            'data'=>$branch
+        ],200);
     }
 
     public function generate_url($name)

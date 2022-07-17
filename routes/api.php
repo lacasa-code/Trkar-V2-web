@@ -208,6 +208,7 @@ Route::get('/store/types', [App\Http\Controllers\Api\Vendor\StoreTypeController:
 Route::middleware([ 'localization'])->group(function () {
 
     Route::post('/create/store', [App\Http\Controllers\Api\Vendor\StoreController::class, 'create']);
+    Route::post('/create/branch', [App\Http\Controllers\Api\Vendor\StoreController::class, 'create_branch']);
 
 });
 
