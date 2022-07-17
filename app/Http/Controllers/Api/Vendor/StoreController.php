@@ -102,19 +102,12 @@ class StoreController extends Controller
         $vendor->commercial_number= $request->input('commercial_number');
         $vendor->tax_card_number= $request->input('tax_card_number');
         $vendor->save();
-
-        $branch= new StoreBranch();
-        $branch->name=$request->name;
-        $branch->slug=Str::slug($request->get('name'));
-        $branch->status=0;
-        $branch->store_id =$store->id; 
-
-        $branch->save();
+       
         return response()->json([
             'status'=>true,
             'message'=>trans('app.store_create'),
             'code'=>200,
-            'data'=>[$store,$branch]
+            'data'=>$store
         ],200);
 
     }
