@@ -110,20 +110,24 @@ class AuthController extends Controller
         $token = auth()->attempt($validator->validated());
         
         
-                
+        try {     
             $code = mt_rand(1000000, 9999999);
           
             //User::where('email', $user->email )->update(['codeActive' => $code]);
 
             $myemail = $user->email ;
 
-        Mail::send([], [], function ($message) use ($myemail,$code) {
-            $message->to($myemail)
-            ->subject('Account activation code')
-            ->from('info@lacasacode.com')
-            ->setBody("<h1>The account activation code has been sent</h1><font color='red'> $code </font>", 'text/html');
-            });
-
+            Mail::send([], [], function ($message) use ($myemail,$code) {
+                $message->to($myemail)
+                ->subject('Account activation code')
+                ->from('info@lacasacode.com')
+                ->setBody("<h1>The account activation code has been sent</h1><font color='red'> $code </font>", 'text/html');
+                });
+        } catch (Exception $e) {
+           
+        } catch (JWTException $e) {
+      
+        }
         return $this->createNewToken($token);
     }
 
