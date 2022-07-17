@@ -115,7 +115,7 @@ class StoreController extends Controller
     public function create_branch(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,100|unique:branchs',           
+            'name' => 'required|string|between:2,100|unique:store_branches',           
         ]);
 
         if ($validator->fails()) 
