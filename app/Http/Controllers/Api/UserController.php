@@ -40,7 +40,7 @@ class UserController extends Controller
             //'username' => 'string|between:2,100|unique:users'.$user->id,
             //'email' => 'string|email|max:100|unique:users'.$user_update->id,
             'email' => ['required', 'string', 'email', 'max:255','unique:users,email,'.$user_update->id],
-            'phone' => ['required', 'string',  'max:255','unique:users,phone,'.$user_update->id],
+            'phone' => ['required', 'string',  'max:9','min:9','unique:users,phone,'.$user_update->id],
             'username' => ['required', 'string','between:2,100','unique:users,username,'.$user_update->id],
 
         ]);
