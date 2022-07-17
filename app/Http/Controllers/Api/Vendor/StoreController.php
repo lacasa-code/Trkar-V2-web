@@ -22,7 +22,7 @@ class StoreController extends Controller
             'name_ar' => 'required|string|between:2,100|unique:stores',
             'name_en' => 'required|string|between:2,100|unique:stores',
             'email' => 'required|string|email|max:100|unique:stores',
-            'phone' =>'required|integer|digits_between:9,9|starts_with:5|unique:stores',
+            'phone' =>'required|integer|digits_between:9,9|unique:stores',
             'store_type_id' =>'required',
             'country_id'=>'required',
             'city_id'=>'required',
