@@ -109,7 +109,7 @@ class AuthController extends Controller
         $user->save();
         $token = auth()->attempt($validator->validated());
         
-        try {
+        
                 
             $code = mt_rand(1000000, 9999999);
           
@@ -123,12 +123,6 @@ class AuthController extends Controller
             ->from('info@lacasacode.com')
             ->setBody("<h1>The account activation code has been sent</h1><font color='red'> $code </font>", 'text/html');
             });
-
-        } catch (Exception $e) {
-       
-        } catch (JWTException $e) {
-              
-        }
 
         return $this->createNewToken($token);
     }
