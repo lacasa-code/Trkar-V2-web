@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CarEngine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class CarEngineController extends Controller
 {
@@ -37,7 +38,20 @@ class CarEngineController extends Controller
     }
     public function create(Request $request)
     {
-    
+        $validator = Validator::make($request->all(), [
+            'name_en' => 'required|string',
+            'name_ar' => 'required|string',           
+            'car_model_id' => 'required|integer',           
+           
+        ]);
+
+        if ($validator->fails()) 
+        {
+            return response()->json(['status'=>false,
+                                    'message'=>$validator->errors(),
+                                    'code'=>400],400);
+        }
+
         $car= CarEngine::create([
             'name_en'=>$request->get('name_en'),
             'name_ar'=>$request->get('name_ar'),
