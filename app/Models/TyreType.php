@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Permission extends Model
+class TyreType extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
+
     protected $fillable = [
-        'display_title',
-        'title',
-        'slug',
+        'name_en',
+        'name_ar',
+        'image',
     ];
 }

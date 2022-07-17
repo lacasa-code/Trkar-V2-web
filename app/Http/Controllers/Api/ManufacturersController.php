@@ -94,6 +94,27 @@ class ManufacturersController extends Controller
         ],200);
     }
 
+
+    public function update_image(Request $request,$id)
+    {
+        $car= Manufacturer::where('id',$id)->first();
+
+        $uploadFolder = 'manufacturers';
+        $image = $request->file('image');
+        $image_uploaded_path = $image->store($uploadFolder, 'public');
+
+        $car->image=Storage::disk('public')->url($image_uploaded_path);
+        
+        $car->save();
+
+        return response()->json([
+            'status'=>true,
+            'message'=>trans('success'),
+            'code'=>200,
+            'data'=>$car,
+        ],200);
+    }
+
     public function delete($id)
     {
         $car= Manufacturer::where('id', $id)->firstorfail()->delete();

@@ -14,6 +14,6 @@ class Attachment extends Model
         'file_name',
         'mime_type',
         'size',
-    
+        'file',
     ];
 }

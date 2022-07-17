@@ -38,19 +38,47 @@ class VINController extends Controller
                     fclose($fp);
 
                     $html = '';
-                    
+                    $html1 = '';
+                    $html2 = '';
+
                     foreach ($json['Results'][0] as $k => $v) 
                         {
-                            if($k == "Make" && $v != NULL)
+                            if($k == "Make"  && $v != NULL)
                                 {
                                     $html = $k . " = " . $v;
                                     return response()->json([
+                                        'status'=>true,
+                                        'code'=>200,
+                                        'data'=> $html,
+                                        ],200);
+                                    /*foreach ($json['Results'][0] as $k => $v) 
+                                    {
+                                        if($k == "Model"  && $v != NULL)
+                                        {
+                                            
+                                            $html = $k . " = " . $v;
+
+                                            foreach ($json['Results'][0] as $k => $v) 
+                                        
+                                            {    
+                                                if($k == "EngineModel"  && $v != NULL)
+
+                                                {
+                                                    $html2 = $k . " = " . $v;
+
+                                                    return response()->json([
                                                     'status'=>true,
                                                     'code'=>200,
-                                                    'data'=> $html,
-                                            ],200);
+                                                    'data'=> [$html,$html1,$html2],
+                                                    ],200);
+                                                }
+                                            }
+                                        }
+                                    }*/
                                 }
+                            
                         }
+
                     
                     return response()->json([
                                 'status'=>false,

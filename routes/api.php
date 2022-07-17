@@ -27,6 +27,22 @@ Route::middleware([ 'api','localization'])->group(function () {
     Route::get('/userProfile', [App\Http\Controllers\Api\AuthController::class, 'userProfile']);
 
 });
+
+
+//vendor auth 
+Route::middleware([ 'api','localization'])->group(function () {
+
+    Route::post('/vendor/login', [App\Http\Controllers\Api\Vendor\AuthController::class, 'login']);
+    Route::post('/vendor/register', [App\Http\Controllers\Api\Vendor\AuthController::class, 'register']);
+    Route::get('/vendor/isValidToken', [App\Http\Controllers\Api\Vendor\AuthController::class, 'isValidToken']);
+    Route::get('/vendor/userProfile', [App\Http\Controllers\Api\Vendor\AuthController::class, 'userProfile']);
+    Route::post('/vendor/logout', [App\Http\Controllers\Api\Vendor\AuthController::class, 'logout']);
+    Route::post('/vendor/refresh', [App\Http\Controllers\Api\Vendor\AuthController::class, 'refresh']);
+   
+});
+
+
+
 Route::get('/email/resend',[App\Http\Controllers\Api\VerificationController::class, 'resend'] )->name('verification.resend');
 
 Route::get('/email/verify/{id}/{hash}', [App\Http\Controllers\Api\VerificationController::class, 'verify'] )->name('verification.verify');
@@ -88,6 +104,30 @@ Route::middleware([ 'localization'])->group(function () {
 
 });
 
+//tyres and seasons
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/attribute/tyre/{id_att}/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_by_parent_attribute']);
+    Route::get('/attribute/tyre/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_by_parent']);
+    Route::get('/tyre/seasons/{type_id}/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_width_by_season']);
+    Route::get('/tyre/height/{type_id}/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_hight_by_width']);
+    Route::get('/tyre/diameter/{type_id}/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_diameter_by_hight']);
+    Route::get('/tyre/manufactuere/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_manufactuere_by_width']);
+    Route::get('/manufactueres/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'all_manufactuere']);
+    Route::get('/tyre/load/index/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_load_by_width']);
+    Route::get('/tyre/speed/rate/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_speed_by_width']);
+    Route::get('/tyre/axle/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'get_axle_by_width']);
+    Route::get('/seasons', [App\Http\Controllers\Api\SeasonController::class, 'all']);
+    Route::get('/tyre/types', [App\Http\Controllers\Api\TyreTypesController::class, 'all_types']);
+    Route::post('/update/tyre/types/{id}', [App\Http\Controllers\Api\TyreTypesController::class, 'update']);
+
+    Route::get('/attributes', [App\Http\Controllers\Api\AttributeTyreController::class, 'all_att']);
+    Route::post('/create/attribute/tyre', [App\Http\Controllers\Api\AttributeTyreController::class, 'create']);
+    Route::post('/update/attribute/tyre/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'update']);
+    Route::post('/delete/attribute/tyre/{id}', [App\Http\Controllers\Api\AttributeTyreController::class, 'delete']);
+
+});
+
 //car models routes
 Route::middleware([ 'localization'])->group(function () {
 
@@ -127,6 +167,7 @@ Route::middleware([ 'localization'])->group(function () {
     Route::get('/category/manufacturers/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'manufacturers_of_category']);
     Route::post('/create/manufacturer', [App\Http\Controllers\Api\ManufacturersController::class, 'create']);
     Route::post('/update/manufacturer/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'update']);
+    Route::post('/update/manufacturer/image/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'update_image']);
     Route::post('/delete/manufacturer/{id}', [App\Http\Controllers\Api\ManufacturersController::class, 'delete']);
 
 });
@@ -161,3 +202,39 @@ Route::middleware([ 'localization'])->group(function () {
 
 });
 Route::get('/vin/{vin}', [App\Http\Controllers\Api\VINController::class, 'vin']);
+Route::get('/store/types', [App\Http\Controllers\Api\Vendor\StoreTypeController::class, 'index']);
+
+//store
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::post('/create/store', [App\Http\Controllers\Api\Vendor\StoreController::class, 'create']);
+    Route::post('/create/branch', [App\Http\Controllers\Api\Vendor\StoreController::class, 'create_branch']);
+
+});
+
+//attachments
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::post('/upload/attachment', [App\Http\Controllers\Api\Vendor\AttachmentsController::class, 'create']);
+
+});
+
+//verify mobile
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::post('/verify/mobile/{otp}/{mobile}', [App\Http\Controllers\Api\Vendor\AuthController::class, 'verify_otp']);
+
+});
+
+Route::get('/generate/url/{name}', [App\Http\Controllers\Api\Vendor\StoreController::class, 'generate_url']);
+
+//tyre products
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::post('/create/tyre/product', [App\Http\Controllers\Api\Vendor\ProductController::class, 'create_tyre']);
+    Route::get('/product/types', [App\Http\Controllers\Api\ProductTypesController::class, 'index']);
+    Route::post('/product/image', [App\Http\Controllers\Api\Vendor\ProductImageController::class, 'create']);
+    Route::post('/product/tag', [App\Http\Controllers\Api\Vendor\ProductTagsController::class, 'create']);
+    Route::post('/product/attribute', [App\Http\Controllers\Api\Vendor\ProductAttributesController::class, 'create']);
+
+});

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Null_;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     
@@ -34,7 +35,25 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $user_update = User::find(auth()->id());
-        
+        $validator = Validator::make($request->all(), [
+
+            //'username' => 'string|between:2,100|unique:users'.$user->id,
+            //'email' => 'string|email|max:100|unique:users'.$user_update->id,
+            'email' => ['required', 'string', 'email', 'max:255','unique:users,email,'.$user_update->id],
+            'phone' => ['required', 'string',  'max:255','unique:users,phone,'.$user_update->id],
+            'username' => ['required', 'string','between:2,100','unique:users,username,'.$user_update->id],
+
+        ]);
+
+        if($validator->fails()){
+            
+            return response()->json(
+                ['status'=>false,
+                'message'=>$validator->errors(),
+                'code'=>400],400);
+
+        }
+
         $user_update->username = $request->input('username');
         $user_update->email = $request->input('email');
         $user_update->phone = $request->input('phone');

@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use Laratrust\Traits\LaratrustUserTrait;
 
 class Admin extends  Authenticatable implements JWTSubject
 {
-    use HasFactory,SoftDeletes,LaratrustUserTrait;
+    use HasFactory,SoftDeletes;
     protected $guard = 'admin';
 
     protected $fillable = [

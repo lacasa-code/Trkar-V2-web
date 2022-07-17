@@ -42,8 +42,15 @@
         'not_approved'=>'Waiting for admin to approve your account',
         'not_cat'=>'their is no more subcategories',
         'carEngine'=>'car engines have been shown successfully',
-        
-    
+        'atts_create'=>'Attributes tyre have been created successfully',
+        'att'=>'Attributes tyre have been shown successfully',
+        'store_create'=>'Store created Successfully Please wait until Admin approve',
+        'verified'=>'Phone number is already verified',
+        'wrong_otp'=>'otp number is wrong',
+        'success_verifiy'=>'Phone number has been verified successfully',
+        'productType'=>'product types have been shown successfully',
+        'productimage'=>'Product image has been added successfully',
+        'product'=>'product has been added successfully',
 
     ];
 ?>
