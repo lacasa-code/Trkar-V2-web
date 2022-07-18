@@ -12,6 +12,7 @@ use App\Helpers\Helper;
 use App\Models\Admin;
 use App\Models\Vendor;
 use Carbon\Carbon;
+use Mail;
 use Illuminate\Support\Facades\Storage;
 class AuthController extends Controller
 {
