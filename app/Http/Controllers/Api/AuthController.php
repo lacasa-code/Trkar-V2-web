@@ -9,7 +9,9 @@ use Tymon\JWTAuth\JWTAuth;
 use Tymon\JWTAuth\Contracts\Providers\Auth;
 use App\Http\Controllers\Controller;
 use App\Helpers\Helper;
+use App\Models\ResetPassword;
 use Carbon\Carbon;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Storage;
 use Mail;
 class AuthController extends Controller
@@ -228,17 +230,17 @@ class AuthController extends Controller
     
     public function forget_password($email)
     {
-        $user=User::where('email',$email)->first();
-        if($user)
-        {
-            try {     
+        //$user=User::where('email',$email)->first();
+        ResetPassword::where('email',$email)->delete();
+        try {     
             $code = mt_rand(1000, 9999);
-            $myemail = $user->email ;
-            $user->reset_code = $code;
+            $user = new ResetPassword();
+            $user->code = $code;
+            $user->email=$email;
             $user->save();
 
-            Mail::send([], [], function ($message) use ($myemail,$code) {
-                $message->to($myemail)
+            Mail::send([], [], function ($message) use ($email,$code) {
+                $message->to($email)
                 ->subject('Account activation code')
                 ->from('info@lacasacode.com')
                 ->setBody("<h1>Password reset code has been sent</h1><font color='red'> $code </font>", 'text/html');
@@ -252,16 +254,4 @@ class AuthController extends Controller
             catch (Exception $e) {}
             catch (JWTException $e) {}
         }
-        if(!$user)
-        {
-            return response()->json([
-                'status'=>false,
-                'message'=>trans('wrong email'),
-                'code'=>401],401);
-        } 
-        
-    }
-
-    
-
 }
