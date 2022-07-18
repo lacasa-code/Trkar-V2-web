@@ -40,14 +40,14 @@ class AuthController extends Controller
                     'code'=>401],401);
 
             }
-            if ($user->email_verified_at == Null) {
+            /*if ($user->email_verified_at == Null) {
                 auth()->logout();
                 return response()->json([
                     'status'=>false,
-                    'message'=>trans('app.verified'),
+                    'message'=>trans('app.not_verified'),
                     'code'=>401],401);
 
-            }
+            } */
         }
         if ($validator->fails()) 
         {
@@ -111,11 +111,13 @@ class AuthController extends Controller
         
         
         try {     
-            $code = mt_rand(1000000, 9999999);
+            $code = mt_rand(1000, 9999);
           
             //User::where('email', $user->email )->update(['codeActive' => $code]);
 
             $myemail = $user->email ;
+            $user->activation_code = $code;
+            $user->save();
 
             Mail::send([], [], function ($message) use ($myemail,$code) {
                 $message->to($myemail)

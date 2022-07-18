@@ -51,6 +51,6 @@
         'productType'=>'product types have been shown successfully',
         'productimage'=>'Product image has been added successfully',
         'product'=>'product has been added successfully',
-
+        'not_verified'=>'please verify your email to login'
     ];
 ?>
