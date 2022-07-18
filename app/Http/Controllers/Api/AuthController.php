@@ -206,6 +206,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status'=>false,
                     'message'=>trans('app.wrong_code'),
+                    'data'=>$user->activation_code,
                     'code'=>401],401);
             }
         }
