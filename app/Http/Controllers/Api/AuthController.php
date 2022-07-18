@@ -195,6 +195,7 @@ class AuthController extends Controller
             if( $code == $user->activation_code)
             {
                 $user->email_verified_at =Carbon::now();
+                $user->save();
                 return response()->json([
                     'status'=>true,
                     'message'=>trans('app.success_verifiy_email'),
