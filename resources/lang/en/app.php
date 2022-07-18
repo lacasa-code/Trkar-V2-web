@@ -56,6 +56,7 @@
         'product'=>'product has been added successfully',
         'not_verified'=>'please verify your email to login',
         'activation_code'=>'Activation code has been sent successfully',
+        'reset_code'=>'Password reset code has been sent successfully',
 
 
     ];

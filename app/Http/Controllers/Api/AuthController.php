@@ -17,7 +17,7 @@ class AuthController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth:api', ['except' => ['login', 'register','verifiy' , 'resend']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register','verifiy' , 'resend','forget_password']]);
     
     }
 
@@ -226,6 +226,49 @@ class AuthController extends Controller
     }
 
     
+    public function forget_password(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:100',
+        ]);
+
+
+        if($validator->fails()){
+            
+            return response()->json(
+                ['status'=>false,
+                'message'=>$validator->errors(),
+                'code'=>400],400);
+
+        }
+
+        //$email = $request->email;
+
+        $user=User::where('email',$request->email)->first();
+        if($user)
+        {
+            try {     
+            $code = mt_rand(1000, 9999);
+            $myemail = $user->email ;
+            $user->reset_code = $code;
+            $user->save();
+
+            Mail::send([], [], function ($message) use ($myemail,$code) {
+                $message->to($myemail)
+                ->subject('Account activation code')
+                ->from('info@lacasacode.com')
+                ->setBody("<h1>Password reset code has been sent</h1><font color='red'> $code </font>", 'text/html');
+                });
+            
+            return response()->json([
+                    'status'=>true,
+                    'message'=>trans('app.activation_code'),
+                    'code'=>200],200);
+            } 
+            catch (Exception $e) {}
+            catch (JWTException $e) {}
+        }
+    }
 
     
 
