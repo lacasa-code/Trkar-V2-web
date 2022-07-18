@@ -275,7 +275,7 @@ class AuthController extends Controller
                 'message'=>trans('wrong email'),
                 'code'=>401],401);
         } 
-        }
+        
     }
 
     
