@@ -278,6 +278,8 @@ class AuthController extends Controller
     public function verifiy($code, $email)
     {
         $user = Vendor::where('email',$email)->first();
+        $user1 = User::where('email',$email)->first();
+
         if($user->email_verified_at != NULL)
         {
             return response()->json([
@@ -289,7 +291,11 @@ class AuthController extends Controller
             if( $code == $user->activation_code)
             {
                 $user->email_verified_at =Carbon::now();
+                $user1->email_verified_at =Carbon::now();
+
                 $user->save();
+                $user1->save();
+
                 return response()->json([
                     'status'=>true,
                     'message'=>trans('app.success_verifiy_email'),

@@ -14,7 +14,7 @@ class ForgetPasswordController extends Controller
     public function update_password(Request $request,$email )
     {
         $vendor_update = Vendor::where('email',$email)->first();
-        $user_update = Vendor::where('email',$email)->first();
+        $user_update = User::where('email',$email)->first();
 
         $user_update->update([
             'password'=>bcrypt($request->password)
