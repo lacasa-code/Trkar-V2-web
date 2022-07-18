@@ -19,7 +19,7 @@ class AuthController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth:api', ['except' => ['register','login','verify_otp']]);
+        $this->middleware('auth:api', ['except' => ['register','login','verify_otp','verifiy' , 'resend','forget_password']]);
     
     }
 
@@ -57,6 +57,14 @@ class AuthController extends Controller
                     'code'=>401],401);
 
             }
+            if ($user->email_verified_at == Null) {
+                auth()->logout();
+                return response()->json([
+                    'status'=>false,
+                    'message'=>trans('app.not_verified'),
+                    'code'=>401],401);
+
+            } 
         }
         if ($validator->fails()) 
         {
@@ -121,7 +129,7 @@ class AuthController extends Controller
         $vendor->phone = $request->phone;
         $vendor->password = bcrypt($request->password);
         $vendor->last_login=Carbon::now();
-        $vendor->approved=0;
+        $vendor->approved=1;
         $vendor->save();
 
 
