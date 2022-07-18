@@ -44,8 +44,10 @@ Route::middleware([ 'api','localization'])->group(function () {
 
 
 Route::get('/email/resend',[App\Http\Controllers\Api\VerificationController::class, 'resend'] )->name('verification.resend');
-
 Route::get('/email/verify/{id}/{hash}', [App\Http\Controllers\Api\VerificationController::class, 'verify'] )->name('verification.verify');
+Route::get('/email/send',[App\Http\Controllers\Api\MailController::class, 'send'] );
+
+
 //countries routes
 Route::middleware([ 'localization'])->group(function () {
 

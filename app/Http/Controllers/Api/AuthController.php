@@ -41,11 +41,11 @@ class AuthController extends Controller
 
             }
             if ($user->email_verified_at == Null) {
-                /*auth()->logout();
+                auth()->logout();
                 return response()->json([
                     'status'=>false,
                     'message'=>trans('app.verified'),
-                    'code'=>401],401);*/
+                    'code'=>401],401);
 
             }
         }
