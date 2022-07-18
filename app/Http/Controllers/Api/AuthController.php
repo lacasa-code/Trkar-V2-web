@@ -17,7 +17,7 @@ class AuthController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth:api', ['except' => ['login', 'register','verifiy']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register','verifiy' , 'resend']]);
     
     }
 
@@ -40,14 +40,14 @@ class AuthController extends Controller
                     'code'=>401],401);
 
             }
-            /*if ($user->email_verified_at == Null) {
+            if ($user->email_verified_at == Null) {
                 auth()->logout();
                 return response()->json([
                     'status'=>false,
                     'message'=>trans('app.not_verified'),
                     'code'=>401],401);
 
-            } */
+            } 
         }
         if ($validator->fails()) 
         {
@@ -208,6 +208,28 @@ class AuthController extends Controller
                     'message'=>trans('app.wrong_code'),
                     'code'=>401],401);
             }
+        }
+    }
+
+    public function resend($email)
+    {
+        $user=User::where('email',$email)->first();
+        try {     
+            $code = mt_rand(1000, 9999);
+            $myemail = $user->email ;
+            $user->activation_code = $code;
+            $user->save();
+
+            Mail::send([], [], function ($message) use ($myemail,$code) {
+                $message->to($myemail)
+                ->subject('Account activation code')
+                ->from('info@lacasacode.com')
+                ->setBody("<h1>The account activation code has been sent</h1><font color='red'> $code </font>", 'text/html');
+                });
+        } catch (Exception $e) {
+           
+        } catch (JWTException $e) {
+      
         }
     }
 

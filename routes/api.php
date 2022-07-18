@@ -16,6 +16,7 @@ Route::middleware([ 'api','localization'])->group(function () {
     Route::get('/isValidToken', [App\Http\Controllers\Api\AuthController::class, 'isValidToken']);
     Route::get('/userProfile', [App\Http\Controllers\Api\AuthController::class, 'userProfile']);
     Route::get('/verifiy/email/{code}/{email}', [App\Http\Controllers\Api\AuthController::class, 'verifiy']);
+    Route::post('/resend/email/{email}', [App\Http\Controllers\Api\AuthController::class, 'resend']);
 
 });
 Route::middleware([ 'api','localization'])->group(function () {
