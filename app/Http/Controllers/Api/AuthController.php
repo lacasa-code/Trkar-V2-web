@@ -193,7 +193,7 @@ class AuthController extends Controller
                 'code'=>401],401);
         }
         else{
-            if( $code == $user->activation_code)
+            if( $request->code == $user->activation_code)
             {
                 $user->email_verified_at =Carbon::now();
                 return response()->json([
