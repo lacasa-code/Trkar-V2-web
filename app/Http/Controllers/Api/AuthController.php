@@ -246,7 +246,7 @@ class AuthController extends Controller
             
             return response()->json([
                     'status'=>true,
-                    'message'=>trans('app.activation_code'),
+                    'message'=>trans('app.reset_code'),
                     'code'=>200],200);
             } 
             catch (Exception $e) {}

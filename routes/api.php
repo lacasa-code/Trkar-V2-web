@@ -41,7 +41,9 @@ Route::middleware([ 'api','localization'])->group(function () {
     Route::get('/vendor/userProfile', [App\Http\Controllers\Api\Vendor\AuthController::class, 'userProfile']);
     Route::post('/vendor/logout', [App\Http\Controllers\Api\Vendor\AuthController::class, 'logout']);
     Route::post('/vendor/refresh', [App\Http\Controllers\Api\Vendor\AuthController::class, 'refresh']);
-   
+    Route::get('/vendor/verifiy/email/{code}/{email}', [App\Http\Controllers\Api\Vendor\AuthController::class, 'verifiy']);
+    Route::post('/vendor/resend/email/{email}', [App\Http\Controllers\Api\Vendor\AuthController::class, 'resend']);
+  
 });
 
 

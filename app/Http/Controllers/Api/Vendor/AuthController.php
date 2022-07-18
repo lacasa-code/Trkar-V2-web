@@ -134,6 +134,27 @@ class AuthController extends Controller
 
 
         $token = auth('vendor')->attempt($validator->validated());
+
+        try {     
+            $code = mt_rand(1000, 9999);
+          
+            //User::where('email', $user->email )->update(['codeActive' => $code]);
+
+            $myemail = $vendor->email ;
+            $vendor->activation_code = $code;
+            $vendor->save();
+
+            Mail::send([], [], function ($message) use ($myemail,$code) {
+                $message->to($myemail)
+                ->subject('Account activation code')
+                ->from('info@lacasacode.com')
+                ->setBody("<h1>The account activation code has been sent</h1><font color='red'> $code </font>", 'text/html');
+                });
+        } catch (Exception $e) {
+           
+        } catch (JWTException $e) {
+      
+        }
         
         return $this->createNewToken($token);
     }
@@ -218,5 +239,61 @@ class AuthController extends Controller
         }
     }
 
+    public function resend($email)
+    {
+        $user=Vendor::where('email',$email)->first();
+        try {     
+            $code = mt_rand(1000, 9999);
+            $myemail = $user->email ;
+            $user->activation_code = $code;
+            $user->save();
+
+            Mail::send([], [], function ($message) use ($myemail,$code) {
+                $message->to($myemail)
+                ->subject('Account activation code')
+                ->from('info@lacasacode.com')
+                ->setBody("<h1>The account activation code has been sent</h1><font color='red'> $code </font>", 'text/html');
+                });
+            
+            return response()->json([
+                    'status'=>true,
+                    'message'=>trans('app.activation_code'),
+                    'code'=>200],200);
+        } catch (Exception $e) {
+           
+        } catch (JWTException $e) {
+      
+        }
+    }
+
+    public function verifiy($code, $email)
+    {
+        $user = Vendor::where('email',$email)->first();
+        if($user->email_verified_at != NULL)
+        {
+            return response()->json([
+                'status'=>false,
+                'message'=>trans('app.email_verified'),
+                'code'=>401],401);
+        }
+        else{
+            if( $code == $user->activation_code)
+            {
+                $user->email_verified_at =Carbon::now();
+                $user->save();
+                return response()->json([
+                    'status'=>true,
+                    'message'=>trans('app.success_verifiy_email'),
+                    'code'=>200],200);
+            }
+            else 
+            {
+                return response()->json([
+                    'status'=>false,
+                    'message'=>trans('app.wrong_code'),
+                    'code'=>401],401);
+            }
+        }
+    }
     
 }
