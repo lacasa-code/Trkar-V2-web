@@ -181,9 +181,8 @@ class AuthController extends Controller
 
     }
 
-    public function verifiy(Request $request, $email)
+    public function verifiy($code, $email)
     {
-        $code= $request->code;
         $user = User::where('email',$email)->first();
         if($user->email_verified_at != NULL)
         {
@@ -193,7 +192,7 @@ class AuthController extends Controller
                 'code'=>401],401);
         }
         else{
-            if( $request->code == $user->activation_code)
+            if( $code == $user->activation_code)
             {
                 $user->email_verified_at =Carbon::now();
                 return response()->json([
@@ -206,7 +205,6 @@ class AuthController extends Controller
                 return response()->json([
                     'status'=>false,
                     'message'=>trans('app.wrong_code'),
-                    'data'=>$code,
                     'code'=>401],401);
             }
         }
