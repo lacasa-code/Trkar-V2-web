@@ -15,7 +15,7 @@ Route::middleware([ 'api','localization'])->group(function () {
     Route::post('/refresh', [App\Http\Controllers\Api\AuthController::class, 'refresh']);
     Route::get('/isValidToken', [App\Http\Controllers\Api\AuthController::class, 'isValidToken']);
     Route::get('/userProfile', [App\Http\Controllers\Api\AuthController::class, 'userProfile']);
-    Route::get('/verifiy/email/{email}', [App\Http\Controllers\Api\AuthController::class, 'verifiy']);
+    Route::get('/verifiy/email/{code}/{email}', [App\Http\Controllers\Api\AuthController::class, 'verifiy']);
 
 });
 Route::middleware([ 'api','localization'])->group(function () {
