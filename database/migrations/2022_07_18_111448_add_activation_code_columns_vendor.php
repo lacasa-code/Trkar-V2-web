@@ -6,14 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 class AddActivationCodeColumnsVendor extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    
     public function up()
     {
-        //
+        Schema::table('vendors', function (Blueprint $table) {
+            $table->string('activation_code')->nullable();
+        });
     }
 
     /**
