@@ -228,6 +228,8 @@ class AuthController extends Controller
     
     public function forget_password(Request $request)
     {
+        $email = $request->email;
+
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:100',
         ]);
@@ -242,7 +244,6 @@ class AuthController extends Controller
 
         }
 
-        $email = $request->email;
 
         $user=User::where('email',$email)->first();
         if($user)
