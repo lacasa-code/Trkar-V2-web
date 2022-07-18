@@ -17,7 +17,7 @@ Route::middleware([ 'api','localization'])->group(function () {
     Route::get('/userProfile', [App\Http\Controllers\Api\AuthController::class, 'userProfile']);
     Route::get('/verifiy/email/{code}/{email}', [App\Http\Controllers\Api\AuthController::class, 'verifiy']);
     Route::post('/resend/email/{email}', [App\Http\Controllers\Api\AuthController::class, 'resend']);
-    Route::get('/forget/password', [App\Http\Controllers\Api\AuthController::class, 'forget_password']);
+    Route::get('/forget/password/{email}', [App\Http\Controllers\Api\AuthController::class, 'forget_password']);
 
 });
 Route::middleware([ 'api','localization'])->group(function () {

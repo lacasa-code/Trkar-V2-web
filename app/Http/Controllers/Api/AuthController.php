@@ -226,25 +226,8 @@ class AuthController extends Controller
     }
 
     
-    public function forget_password(Request $request)
+    public function forget_password($email)
     {
-        $email = $request->email;
-
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:100',
-        ]);
-
-
-        if($validator->fails()){
-            
-            return response()->json(
-                ['status'=>false,
-                'message'=>$validator->errors(),
-                'code'=>400],400);
-
-        }
-
-
         $user=User::where('email',$email)->first();
         if($user)
         {
