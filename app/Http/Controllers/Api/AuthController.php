@@ -242,9 +242,9 @@ class AuthController extends Controller
 
         }
 
-        //$email = $request->email;
+        $email = $request->email;
 
-        $user=User::where('email',$request->email)->first();
+        $user=User::where('email',$email)->first();
         if($user)
         {
             try {     
@@ -267,6 +267,14 @@ class AuthController extends Controller
             } 
             catch (Exception $e) {}
             catch (JWTException $e) {}
+        }
+        if(!$user)
+        {
+            return response()->json([
+                'status'=>false,
+                'message'=>trans('wrong email'),
+                'code'=>401],401);
+        } 
         }
     }
 
