@@ -57,6 +57,9 @@
         'not_verified'=>'please verify your email to login',
         'activation_code'=>'Activation code has been sent successfully',
         'reset_code'=>'Password reset code has been sent successfully',
+        'reset_code_expire'=>'Password reset code has been expired',
+        'success_reset'=>'Reset code is correct you can reset your password now',
+        'wrong_reset'=>'Password reset code is wrong',
 
 
     ];

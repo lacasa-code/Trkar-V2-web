@@ -18,8 +18,13 @@ Route::middleware([ 'api','localization'])->group(function () {
     Route::get('/verifiy/email/{code}/{email}', [App\Http\Controllers\Api\AuthController::class, 'verifiy']);
     Route::post('/resend/email/{email}', [App\Http\Controllers\Api\AuthController::class, 'resend']);
     Route::get('/forget/password/{email}', [App\Http\Controllers\Api\AuthController::class, 'forget_password']);
-
 });
+
+Route::middleware(['localization'])->group(function () {
+    Route::get('/verifiy/reset/code/{code}/{email}', [App\Http\Controllers\Api\ForgetPasswordController::class, 'verifiy']);
+    Route::post('/reset/password/{email}', [App\Http\Controllers\Api\ForgetPasswordController::class, 'update_password']);
+});
+
 Route::middleware([ 'api','localization'])->group(function () {
 
     Route::post('/admin/login', [App\Http\Controllers\Api\Admin\AuthController::class, 'Admin_login']);
