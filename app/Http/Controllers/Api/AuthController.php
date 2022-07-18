@@ -89,19 +89,6 @@ class AuthController extends Controller
         $user->username = $request->username;
         $user->email = $request->email;
 
-        /*
-        $uploadFolder = 'users';
-        $image = $request->file('image');
-        $image_uploaded_path = $image->store($uploadFolder, 'public');
-        $user->image=Storage::disk('public')->url($image_uploaded_path);
-
-        $user->country_id = $request->country_id;
-        $user->city_id = $request->city_id;
-        $user->area_id = $request->area_id;
-        $user->address = $request->address;
-        $user->longitude = $request->longitude;
-        $user->latitude = $request->latitude;
-        */
         $user->uuid = Helper::IDGenerator(new User(), 'uuid', 4, 'C');
         $user->password = bcrypt($request->password);
         $user->last_login=Carbon::now();
@@ -226,6 +213,11 @@ class AuthController extends Controller
                 ->from('info@lacasacode.com')
                 ->setBody("<h1>The account activation code has been sent</h1><font color='red'> $code </font>", 'text/html');
                 });
+            
+            return response()->json([
+                    'status'=>true,
+                    'message'=>trans('app.activation_code'),
+                    'code'=>200],200);
         } catch (Exception $e) {
            
         } catch (JWTException $e) {

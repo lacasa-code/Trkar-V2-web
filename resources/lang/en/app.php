@@ -54,6 +54,9 @@
         'productType'=>'product types have been shown successfully',
         'productimage'=>'Product image has been added successfully',
         'product'=>'product has been added successfully',
-        'not_verified'=>'please verify your email to login'
+        'not_verified'=>'please verify your email to login',
+        'activation_code'=>'Activation code has been sent successfully',
+
+
     ];
 ?>
