@@ -15,6 +15,7 @@ Route::middleware([ 'api','localization'])->group(function () {
     Route::post('/refresh', [App\Http\Controllers\Api\AuthController::class, 'refresh']);
     Route::get('/isValidToken', [App\Http\Controllers\Api\AuthController::class, 'isValidToken']);
     Route::get('/userProfile', [App\Http\Controllers\Api\AuthController::class, 'userProfile']);
+    Route::get('/verifiy/email/{email}', [App\Http\Controllers\Api\AuthController::class, 'verifiy']);
 
 });
 Route::middleware([ 'api','localization'])->group(function () {
@@ -40,12 +41,6 @@ Route::middleware([ 'api','localization'])->group(function () {
     Route::post('/vendor/refresh', [App\Http\Controllers\Api\Vendor\AuthController::class, 'refresh']);
    
 });
-
-
-
-Route::get('/email/resend',[App\Http\Controllers\Api\VerificationController::class, 'resend'] )->name('verification.resend');
-Route::get('/email/verify/{id}/{hash}', [App\Http\Controllers\Api\VerificationController::class, 'verify'] )->name('verification.verify');
-Route::get('/email/send',[App\Http\Controllers\Api\MailController::class, 'send'] );
 
 
 //countries routes
