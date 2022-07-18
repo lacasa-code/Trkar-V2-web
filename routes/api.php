@@ -50,6 +50,7 @@ Route::middleware([ 'api','localization'])->group(function () {
     Route::post('/vendor/resend/email/{email}', [App\Http\Controllers\Api\Vendor\AuthController::class, 'resend']);
   
 });
+Route::post('/vendor/reset/password/{email}', [App\Http\Controllers\Api\Vendor\ForgetPasswordController::class, 'update_password']);
 
 
 //countries routes

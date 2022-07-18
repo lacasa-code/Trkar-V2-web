@@ -253,5 +253,5 @@ class AuthController extends Controller
             } 
             catch (Exception $e) {}
             catch (JWTException $e) {}
-        }
+    }
 }
