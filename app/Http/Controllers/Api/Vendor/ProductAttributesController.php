@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductAttributesController extends Controller
 {
+    public function index($id)
+    {
+        $att = ProductAttribute::where('product_id',$id)->get();
+        return response()->json([
+            'status'=>true,
+            'message'=>'Attributes of product shown successfully',
+            'code'=>200,
+            'data'=>$att,
+        ],200);
+
+
+    }
+
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -37,6 +50,43 @@ class ProductAttributesController extends Controller
         return response()->json([
             'status'=>true,
             'message'=>trans('app.productAtt'),
+            'code'=>200,
+            'data'=>$att,
+        ],200);
+    }
+
+    
+    public function delete($id)
+    {
+        $att= ProductAttribute::where('id', $id)->firstorfail()->delete();
+        return response()->json([
+            'status'=>true,
+            'message'=>'Attribute deleted successfully',
+            'code'=>200,
+        ],200);
+    }
+
+    public function mass_delete($id)
+    {
+        $att= ProductAttribute::where('product_id', $id)->delete();
+        return response()->json([
+            'status'=>true,
+            'message'=>'Attributes of product deleted successfully',
+            'code'=>200,
+        ],200);
+    }
+
+    public function update(Request $request,$id)
+    {
+        $att= ProductAttribute::where('id',$id)->first();
+
+        $att->key=$request->input('key');
+        $att->value=$request->input('value');
+        $att->save();
+
+        return response()->json([
+            'status'=>true,
+            'message'=>'att updated successfully',
             'code'=>200,
             'data'=>$att,
         ],200);
