@@ -46,23 +46,11 @@
         'att'=>'Attributes tyre have been shown successfully',
         'store_create'=>'Store created Successfully Please wait until Admin approve',
         'verified'=>'Phone number is already verified',
-        'email_verified'=>'Email is already verified',
         'wrong_otp'=>'otp number is wrong',
-        'wrong_code'=>'Activation code is wrong',
         'success_verifiy'=>'Phone number has been verified successfully',
-        'success_verifiy_email'=>'Email has been verified successfully',
         'productType'=>'product types have been shown successfully',
         'productimage'=>'Product image has been added successfully',
         'product'=>'product has been added successfully',
-        'not_verified'=>'please verify your email to login',
-        'activation_code'=>'Activation code has been sent successfully',
-        'reset_code'=>'Password reset code has been sent successfully',
-        'reset_code_expire'=>'Password reset code has been expired',
-        'success_reset'=>'Reset code is correct you can reset your password now',
-        'wrong_reset'=>'Password reset code is wrong',
-        'email_not_found'=>'Email is wrong or not found ',
-
-
 
     ];
 ?>

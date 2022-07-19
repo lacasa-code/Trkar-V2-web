@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    public function create_product(Request $request)
+    public function create_tyre(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'product_type_id' => 'required|Integer',

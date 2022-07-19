@@ -9,17 +9,15 @@ use Tymon\JWTAuth\JWTAuth;
 use Tymon\JWTAuth\Contracts\Providers\Auth;
 use App\Http\Controllers\Controller;
 use App\Helpers\Helper;
-use App\Models\ResetPassword;
 use Carbon\Carbon;
-use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Storage;
-use Mail;
+
 class AuthController extends Controller
 {
     public function __construct()
     {
 
-        $this->middleware('auth:api', ['except' => ['login', 'register','verifiy' , 'resend','forget_password']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     
     }
 
@@ -43,13 +41,13 @@ class AuthController extends Controller
 
             }
             if ($user->email_verified_at == Null) {
-                auth()->logout();
+                /*auth()->logout();
                 return response()->json([
                     'status'=>false,
-                    'message'=>trans('app.not_verified'),
-                    'code'=>401],401);
+                    'message'=>trans('app.verified'),
+                    'code'=>401],401);*/
 
-            } 
+            }
         }
         if ($validator->fails()) 
         {
@@ -91,6 +89,19 @@ class AuthController extends Controller
         $user->username = $request->username;
         $user->email = $request->email;
 
+        /*
+        $uploadFolder = 'users';
+        $image = $request->file('image');
+        $image_uploaded_path = $image->store($uploadFolder, 'public');
+        $user->image=Storage::disk('public')->url($image_uploaded_path);
+
+        $user->country_id = $request->country_id;
+        $user->city_id = $request->city_id;
+        $user->area_id = $request->area_id;
+        $user->address = $request->address;
+        $user->longitude = $request->longitude;
+        $user->latitude = $request->latitude;
+        */
         $user->uuid = Helper::IDGenerator(new User(), 'uuid', 4, 'C');
         $user->password = bcrypt($request->password);
         $user->last_login=Carbon::now();
@@ -98,27 +109,6 @@ class AuthController extends Controller
         $user->save();
         $token = auth()->attempt($validator->validated());
         
-        
-        try {     
-            $code = mt_rand(1000, 9999);
-          
-            //User::where('email', $user->email )->update(['codeActive' => $code]);
-
-            $myemail = $user->email ;
-            $user->activation_code = $code;
-            $user->save();
-
-            Mail::send([], [], function ($message) use ($myemail,$code) {
-                $message->to($myemail)
-                ->subject('Account activation code')
-                ->from('info@lacasacode.com')
-                ->setBody("<h1>The account activation code has been sent</h1><font color='red'> $code </font>", 'text/html');
-                });
-        } catch (Exception $e) {
-           
-        } catch (JWTException $e) {
-      
-        }
         return $this->createNewToken($token);
     }
 
@@ -170,88 +160,8 @@ class AuthController extends Controller
 
     }
 
-    public function verifiy($code, $email)
-    {
-        $user = User::where('email',$email)->first();
-        if($user->email_verified_at != NULL)
-        {
-            return response()->json([
-                'status'=>false,
-                'message'=>trans('app.email_verified'),
-                'code'=>401],401);
-        }
-        else{
-            if( $code == $user->activation_code)
-            {
-                $user->email_verified_at =Carbon::now();
-                $user->save();
-                return response()->json([
-                    'status'=>true,
-                    'message'=>trans('app.success_verifiy_email'),
-                    'code'=>200],200);
-            }
-            else 
-            {
-                return response()->json([
-                    'status'=>false,
-                    'message'=>trans('app.wrong_code'),
-                    'code'=>401],401);
-            }
-        }
-    }
-
-    public function resend($email)
-    {
-        $user=User::where('email',$email)->first();
-        try {     
-            $code = mt_rand(1000, 9999);
-            $myemail = $user->email ;
-            $user->activation_code = $code;
-            $user->save();
-
-            Mail::send([], [], function ($message) use ($myemail,$code) {
-                $message->to($myemail)
-                ->subject('Account activation code')
-                ->from('info@lacasacode.com')
-                ->setBody("<h1>The account activation code has been sent</h1><font color='red'> $code </font>", 'text/html');
-                });
-            
-            return response()->json([
-                    'status'=>true,
-                    'message'=>trans('app.activation_code'),
-                    'code'=>200],200);
-        } catch (Exception $e) {
-           
-        } catch (JWTException $e) {
-      
-        }
-    }
+    
 
     
-    public function forget_password($email)
-    {
-        //$user=User::where('email',$email)->first();
-        ResetPassword::where('email',$email)->delete();
-        try {     
-            $code = mt_rand(1000, 9999);
-            $user = new ResetPassword();
-            $user->code = $code;
-            $user->email=$email;
-            $user->save();
 
-            Mail::send([], [], function ($message) use ($email,$code) {
-                $message->to($email)
-                ->subject('Account activation code')
-                ->from('info@lacasacode.com')
-                ->setBody("<h1>Password reset code has been sent</h1><font color='red'> $code </font>", 'text/html');
-                });
-            
-            return response()->json([
-                    'status'=>true,
-                    'message'=>trans('app.reset_code'),
-                    'code'=>200],200);
-            } 
-            catch (Exception $e) {}
-            catch (JWTException $e) {}
-    }
 }

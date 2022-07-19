@@ -12,14 +12,13 @@ use App\Helpers\Helper;
 use App\Models\Admin;
 use App\Models\Vendor;
 use Carbon\Carbon;
-use Mail;
 use Illuminate\Support\Facades\Storage;
 class AuthController extends Controller
 {
     public function __construct()
     {
 
-        $this->middleware('auth:api', ['except' => ['register','login','verify_otp','verifiy' , 'resend','forget_password']]);
+        $this->middleware('auth:api', ['except' => ['register','login','verify_otp']]);
     
     }
 
@@ -49,22 +48,14 @@ class AuthController extends Controller
                     'code'=>401],401);
 
             }
-            /*if ($user->phone_verified_at == Null) {
+            if ($user->phone_verified_at == Null) {
                 auth('vendor')->logout();
                 return response()->json([
                     'status'=>false,
                     'message'=>trans('Please verifiy your phone number'),
                     'code'=>401],401);
 
-            }*/
-            if ($user->email_verified_at == Null) {
-                auth()->logout();
-                return response()->json([
-                    'status'=>false,
-                    'message'=>trans('app.not_verified'),
-                    'code'=>401],401);
-
-            } 
+            }
         }
         if ($validator->fails()) 
         {
@@ -129,7 +120,7 @@ class AuthController extends Controller
         $vendor->phone = $request->phone;
         $vendor->password = bcrypt($request->password);
         $vendor->last_login=Carbon::now();
-        $vendor->approved=1;
+        $vendor->approved=0;
         $vendor->save();
 
 
@@ -143,27 +134,6 @@ class AuthController extends Controller
 
 
         $token = auth('vendor')->attempt($validator->validated());
-
-        try {     
-            $code = mt_rand(1000, 9999);
-          
-            //User::where('email', $user->email )->update(['codeActive' => $code]);
-
-            $myemail = $vendor->email ;
-            $vendor->activation_code = $code;
-            $vendor->save();
-
-            Mail::send([], [], function ($message) use ($myemail,$code) {
-                $message->to($myemail)
-                ->subject('Account activation code')
-                ->from('info@lacasacode.com')
-                ->setBody("<h1>The account activation code has been sent</h1><font color='red'> $code </font>", 'text/html');
-                });
-        } catch (Exception $e) {
-           
-        } catch (JWTException $e) {
-      
-        }
         
         return $this->createNewToken($token);
     }
@@ -248,69 +218,5 @@ class AuthController extends Controller
         }
     }
 
-    public function resend($email)
-    {
-        $user=Vendor::where('email',$email)->first();
-        try {     
-            $code = mt_rand(1000, 9999);
-            $myemail = $user->email ;
-            $user->activation_code = $code;
-            $user->save();
-
-            Mail::send([], [], function ($message) use ($myemail,$code) {
-                $message->to($myemail)
-                ->subject('Account activation code')
-                ->from('info@lacasacode.com')
-                ->setBody("<h1>The account activation code has been sent</h1><font color='red'> $code </font>", 'text/html');
-                });
-            
-            return response()->json([
-                    'status'=>true,
-                    'message'=>trans('app.activation_code'),
-                    'code'=>200],200);
-        } catch (Exception $e) {
-           
-        } catch (JWTException $e) {
-      
-        }
-    }
-
-    public function verifiy($code, $email)
-    {
-        $user = Vendor::where('email',$email)->first();
-        $user1 = User::where('email',$email)->first();
-
-        if($user->email_verified_at != NULL)
-        {
-            return response()->json([
-                'status'=>false,
-                'message'=>trans('app.email_verified'),
-                'code'=>401],401);
-        }
-        else{
-            if( $code == $user->activation_code)
-            {
-                $user->email_verified_at =Carbon::now();
-                $user1->email_verified_at =Carbon::now();
-
-                $user->save();
-                $user1->save();
-
-                return response()->json([
-                    'status'=>true,
-                    'message'=>trans('app.success_verifiy_email'),
-                    'code'=>200],200);
-            }
-            else 
-            {
-                return response()->json([
-                    'status'=>false,
-                    'message'=>trans('app.wrong_code'),
-                    'code'=>401],401);
-            }
-        }
-
-        
-    }
     
 }
