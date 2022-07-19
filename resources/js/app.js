@@ -19,13 +19,7 @@ window.Vue = require('vue').default;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('nav-bar-header', require('./components/Header/NavBar.vue').default);
-Vue.component('footer-container', require('./components/Footer/Footer.vue').default);
-Vue.component('left-side-menu', require('./components/Header/LeftSideMenu.vue').default);
-Vue.component('content-page', require('./components/Home/Content.vue').default);
-// Vue.component('head-page', require('./components/Header/Head.vue').default);
-Vue.component('layout-component', require('./components/layout/Layout.vue').default);
+Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -33,8 +27,6 @@ Vue.component('layout-component', require('./components/layout/Layout.vue').defa
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const wrapper = new Vue({
-    el: '#wrapper',
+const app = new Vue({
+    el: '#app',
 });
-
-
