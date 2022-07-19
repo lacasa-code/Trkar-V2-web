@@ -32,26 +32,6 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
         
         ]);
-        if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
-            $user = auth()->user();
-            if ($user->in_block != Null) {
-                auth()->logout();
-                return response()->json([
-                    'status'=>false,
-                    'message'=>trans('app.blocked'),
-                    'code'=>401],401);
-
-            }
-            if ($user->email_verified_at == Null) {
-                auth()->logout();
-                return response()->json([
-                    'status'=>false,
-                    'message'=>trans('app.not_verified'),
-                    'data'=>auth()->user(),
-                    'code'=>402],402);
-
-            } 
-        }
         if ($validator->fails()) 
         {
             return response()->json(['status'=>false,'message'=>$validator->errors(),'code'=>400],400);
@@ -63,6 +43,27 @@ class AuthController extends Controller
                 'message'=>trans('app.log_in_error'),
                 'code'=>401],401);
         }
+        if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = auth()->user();
+            if ($user->in_block != Null) {
+                auth()->logout();
+                return response()->json([
+                    'status'=>false,
+                    'message'=>trans('app.blocked'),
+                    'code'=>401],401);
+
+            }
+            if ($user->email_verified_at == Null) {
+                //auth()->logout();
+                return response()->json([
+                    'status'=>false,
+                    'message'=>trans('app.not_verified'),
+                    'data'=>[auth()->user(),$token],
+                    'code'=>402],402);
+
+            } 
+        }
+        
         
         $user = auth()->user();
         $user->last_login=Carbon::now();

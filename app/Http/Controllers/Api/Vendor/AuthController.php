@@ -31,6 +31,17 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
         
         ]);
+        if ($validator->fails()) 
+        {
+            return response()->json(['status'=>false,'message'=>$validator->errors(),'code'=>400],400);
+        }
+        if (! $token = auth()->guard('vendor')->attempt($validator->validated()))
+        {
+            return response()->json(
+                ['status'=>false,
+                'message'=>trans('app.log_in_error'),
+                'code'=>401],401);
+        }
         if (auth()->guard('vendor')->attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = auth('vendor')->user();
             if ($user->approved != 1) {
@@ -62,22 +73,12 @@ class AuthController extends Controller
                 return response()->json([
                     'status'=>false,
                     'message'=>trans('app.not_verified'),
-                    'data'=>auth('vendor')->user(),
+                    'data'=>[auth('vendor')->user(),$token],
                     'code'=>402],402);
 
             } 
         }
-        if ($validator->fails()) 
-        {
-            return response()->json(['status'=>false,'message'=>$validator->errors(),'code'=>400],400);
-        }
-        if (! $token = auth()->guard('vendor')->attempt($validator->validated()))
-        {
-            return response()->json(
-                ['status'=>false,
-                'message'=>trans('app.log_in_error'),
-                'code'=>401],401);
-        }
+        
         
         $user = auth('vendor')->user();
         $user->last_login=Carbon::now();
