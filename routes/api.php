@@ -241,18 +241,22 @@ Route::middleware([ 'localization'])->group(function () {
     Route::post('/create/product', [App\Http\Controllers\Api\Vendor\ProductController::class, 'create_product']);
     Route::get('/product/types', [App\Http\Controllers\Api\ProductTypesController::class, 'index']);
     Route::post('/product/image', [App\Http\Controllers\Api\Vendor\ProductImageController::class, 'create']);
-    Route::post('/product/tag', [App\Http\Controllers\Api\Vendor\ProductTagsController::class, 'create']);
-    Route::post('/product/attribute', [App\Http\Controllers\Api\Vendor\ProductAttributesController::class, 'create']);
 
 });
 
 Route::middleware([ 'localization'])->group(function () {
 
     Route::get('/product/tag/{id}', [App\Http\Controllers\Api\Vendor\ProductTagsController::class, 'index']);
-
     Route::post('/create/product/tag', [App\Http\Controllers\Api\Vendor\ProductTagsController::class, 'create']);
     Route::post('/delete/product/tag/{id}', [App\Http\Controllers\Api\Vendor\ProductTagsController::class, 'delete']);
     Route::post('/mass/delete/product/tag/{id}', [App\Http\Controllers\Api\Vendor\ProductTagsController::class, 'mass_delete']);
     Route::post('/update/product/tag/{id}', [App\Http\Controllers\Api\Vendor\ProductTagsController::class, 'update']);
+
+
+    Route::get('/product/att/{id}', [App\Http\Controllers\Api\Vendor\ProductAttributesController::class, 'index']);
+    Route::post('/create/product/att', [App\Http\Controllers\Api\Vendor\ProductAttributesController::class, 'create']);
+    Route::post('/delete/product/att/{id}', [App\Http\Controllers\Api\Vendor\ProductAttributesController::class, 'delete']);
+    Route::post('/mass/delete/product/att/{id}', [App\Http\Controllers\Api\Vendor\ProductAttributesController::class, 'mass_delete']);
+    Route::post('/update/product/att/{id}', [App\Http\Controllers\Api\Vendor\ProductAttributesController::class, 'update']);
 
 });
