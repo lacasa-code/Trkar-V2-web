@@ -91,10 +91,15 @@ class ProductImageController extends Controller
 
    public function update(Request $request,$id)
    {
-       $img= ProductImage::where('id',$id)->first();
+        $img= ProductImage::where('id',$id)->first();
+        $uploadFolder = 'productImages';
 
-       $img->image=$request->input('image');
-       $img->save();
+        if($image = $request->file('image'))
+        {
+            $image_uploaded_path = $image->store($uploadFolder, 'public');
+            $img->image =Storage::disk('public')->url($image_uploaded_path);
+        }       
+        $img->save();
 
        return response()->json([
            'status'=>true,
