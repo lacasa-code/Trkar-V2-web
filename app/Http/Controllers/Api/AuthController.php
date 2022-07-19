@@ -56,10 +56,13 @@ class AuthController extends Controller
             if ($user->email_verified_at == Null) {
                 //auth()->logout();
                 return response()->json([
-                    'status'=>false,
-                    'message'=>trans('app.not_verified'),
-                    'data'=>[auth()->user(),$token],
-                    'code'=>402],402);
+                        'status'=>false,
+                        'message'=>trans('app.not_verified'),
+                        'code'=>402,
+                        'access_token' => $token,
+                        'token_type' => 'bearer',
+                        'data' => auth()->user(),
+                    ],402);
 
             } 
         }
