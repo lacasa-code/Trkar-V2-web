@@ -13,15 +13,9 @@
                                     <form class="form-inline">
                                         <div class="form-group">
                                             <div class="input-group input-group-sm">
-                                                <input type="hidden" class="form-control border flatpickr-input"
-                                                    id="dash-daterange" value="2022-07-18"><input
-                                                    class="form-control border form-control input" placeholder=""
-                                                    tabindex="0" type="text" readonly="readonly">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text bg-blue border-blue text-white">
-                                                        <i class="mdi mdi-calendar-range"></i>
-                                                    </span>
-                                                </div>
+            <div id="app">
+  <input type="date" v-model="date">
+</div>
                                             </div>
                                         </div>
                                         <a href="javascript: void(0);" class="btn btn-blue btn-sm ml-2">
@@ -588,3 +582,12 @@
 
         </div>
 </template>
+<script>
+new Vue({
+  el: "#app",
+  data: {
+    date: new Date().toISOString().substr(0, 10) // 05/09/2019
+  }
+})
+      
+</script>
