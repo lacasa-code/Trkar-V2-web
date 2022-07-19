@@ -52,16 +52,16 @@ class ProductImageController extends Controller
                $image=Storage::disk('public')->url($image_uploaded_path);
                $product_id = $request->product_id;
 
-               $image = new ProductImage();
-               $image->image = $image;
-               $image->product_id = $product_id;
-               $image->save();
+               $image1 = new ProductImage();
+               $image1->image = $image;
+               $image1->product_id = $product_id;
+               $image1->save();
        }
        return response()->json([
            'status'=>true,
            'message'=>trans('Image stored successfully'),
            'code'=>200,
-           'data'=>$image,
+           'data'=>$image1,
        ],200); 
        
     }
