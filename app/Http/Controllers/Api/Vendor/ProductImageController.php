@@ -91,17 +91,16 @@ class ProductImageController extends Controller
 
    public function update(Request $request,$id)
    {
-       $att= ProductImage::where('id',$id)->first();
+       $img= ProductImage::where('id',$id)->first();
 
-       $att->key=$request->input('key');
-       $att->value=$request->input('value');
-       $att->save();
+       $img->image=$request->input('image');
+       $img->save();
 
        return response()->json([
            'status'=>true,
-           'message'=>'att updated successfully',
+           'message'=>'img updated successfully',
            'code'=>200,
-           'data'=>$att,
+           'data'=>$img,
        ],200);
    }
 }
