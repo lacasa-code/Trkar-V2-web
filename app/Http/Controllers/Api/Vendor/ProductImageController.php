@@ -25,7 +25,7 @@ class ProductImageController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'image' => 'required|image',
+            'image' => 'required',
             'product_id' => 'required|Integer',
        ]);
 
