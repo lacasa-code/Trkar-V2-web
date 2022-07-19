@@ -47,6 +47,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status'=>false,
                     'message'=>trans('app.not_verified'),
+                    'data'=>auth()->user(),
                     'code'=>402],402);
 
             } 
