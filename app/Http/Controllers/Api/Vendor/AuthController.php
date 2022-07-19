@@ -49,14 +49,14 @@ class AuthController extends Controller
                     'code'=>401],401);
 
             }
-            if ($user->phone_verified_at == Null) {
+            /*if ($user->phone_verified_at == Null) {
                 auth('vendor')->logout();
                 return response()->json([
                     'status'=>false,
                     'message'=>trans('Please verifiy your phone number'),
                     'code'=>401],401);
 
-            }
+            }*/
             if ($user->email_verified_at == Null) {
                 auth()->logout();
                 return response()->json([
