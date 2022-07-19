@@ -245,3 +245,14 @@ Route::middleware([ 'localization'])->group(function () {
     Route::post('/product/attribute', [App\Http\Controllers\Api\Vendor\ProductAttributesController::class, 'create']);
 
 });
+
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::get('/product/tag/{id}', [App\Http\Controllers\Api\Vendor\ProductTagsController::class, 'index']);
+
+    Route::post('/create/product/tag', [App\Http\Controllers\Api\Vendor\ProductTagsController::class, 'create']);
+    Route::post('/delete/product/tag/{id}', [App\Http\Controllers\Api\Vendor\ProductTagsController::class, 'delete']);
+    Route::post('/mass/delete/product/tag/{id}', [App\Http\Controllers\Api\Vendor\ProductTagsController::class, 'mass_delete']);
+    Route::post('/update/product/tag/{id}', [App\Http\Controllers\Api\Vendor\ProductTagsController::class, 'update']);
+
+});
