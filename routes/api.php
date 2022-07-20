@@ -272,4 +272,11 @@ Route::middleware([ 'localization'])->group(function () {
     Route::post('/mass/delete/product/comp/{id}', [App\Http\Controllers\Api\Vendor\CompatibleController::class, 'mass_delete']);
     Route::post('/update/product/comp/{id}', [App\Http\Controllers\Api\Vendor\CompatibleController::class, 'update']);
 
+        
+    Route::get('/product/qt/{id}', [App\Http\Controllers\Api\Vendor\ProductQuantityController::class, 'index']);
+    Route::post('/create/product/qt', [App\Http\Controllers\Api\Vendor\ProductQuantityController::class, 'create']);
+    Route::post('/delete/product/qt/{id}', [App\Http\Controllers\Api\Vendor\ProductQuantityController::class, 'delete']);
+    Route::post('/mass/delete/product/qt/{id}', [App\Http\Controllers\Api\Vendor\ProductQuantityController::class, 'mass_delete']);
+    Route::post('/update/product/qt/{id}', [App\Http\Controllers\Api\Vendor\ProductQuantityController::class, 'update']);
+
 });
