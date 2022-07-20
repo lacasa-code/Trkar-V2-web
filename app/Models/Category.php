@@ -25,4 +25,8 @@ class Category extends Model
     {
         return $this->hasMany(SubCategory::class);
     }
+
+    public function parent(){
+        return $this->belongsTo(Category::class,'parent_id');
+    }
 }

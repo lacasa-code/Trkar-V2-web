@@ -23,6 +23,21 @@ class Helper
         }
         return $prefix.$zeros.$last_number;
     }
-
+    public static function categoriesForSelect()
+    {
+        $data = \App\Models\Category::get(['id', 'name_' . \App::getLocale() . ' as name']);
+    
+        $returnData = [
+            '' => __('Select Category')
+        ];
+        foreach ($data as $key => $value) {
+            $returnData[$value->id] = $value->name;
+        }
+        return $returnData;
+    }
+    public static function tablePagination()
+    {
+        return new \App\Libs\TablePagination();
+    }
 }
 ?>

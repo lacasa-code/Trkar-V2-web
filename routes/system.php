@@ -12,8 +12,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['prefix'     => 'system',], function () {
+    Route::get('/', function () {
+        return view('home');
+    });
+    Route::resource('category', App\Http\Controllers\System\CategoryController::class,['as'=>'system']);
+    // Route::get('/category/create', [App\Http\Controllers\System\CategoryController::class]);
 
-// Route::get('/', function () {
-//     return view('home');
-// });
-// Route::resource('/category', [App\Http\Controllers\System\CategoryController::class, 'system']);
+});
+

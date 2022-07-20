@@ -18,6 +18,7 @@ class Authenticate extends Middleware
 
     public function handle($request, Closure $next, $guard = null)
     {
+       
        if (auth()->guard('vendor')->check() ) {
             return $next($request);
        
