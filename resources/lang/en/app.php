@@ -61,8 +61,10 @@
         'success_reset'=>'Reset code is correct you can reset your password now',
         'wrong_reset'=>'Password reset code is wrong',
         'email_not_found'=>'Email is wrong or not found ',
-        'productDetails'=>'Product Details have been shown successfully ',
-
+        'productDetails'=>'Product Details have been shown successfully',
+        'wishlist'=>'Product has been addedd to wishlist successfully',
+        'wishlistDelete'=>'Product has been removed from wishlist successfully',
+        'wishlistView'=>'user wishlist has been shown successfully',
 
 
 

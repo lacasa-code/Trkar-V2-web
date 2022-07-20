@@ -281,3 +281,12 @@ Route::middleware([ 'localization'])->group(function () {
     Route::post('/update/product/qt/{id}', [App\Http\Controllers\Api\Vendor\ProductQuantityController::class, 'update']);
 
 });
+
+// wishlist
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::post('/Add/wishlist/{id}', [App\Http\Controllers\Api\WishlistController::class, 'add_to_wishlist']);
+    Route::post('/remove/wishlist/{id}', [App\Http\Controllers\Api\WishlistController::class, 'delete']);
+    Route::get('/wishlist', [App\Http\Controllers\Api\WishlistController::class, 'index']);
+
+});
