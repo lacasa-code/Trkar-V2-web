@@ -22,12 +22,15 @@ class ProductController extends Controller
             'name_ar' => 'required|string|between:2,100',
             'details_en' => 'required|string',
             'details_en' => 'required|string',
-            'price' => 'required',
             'actual_price' => 'required',
-            'discount' => 'required',
+            'discount' => 'nullable',
             'image' => 'required|image',
             'category_id' => 'required|Integer',
-            'car_made_id' => 'required|Integer',
+            'subcategory_id' => 'required|Integer',
+            'car_made_id' => 'nullable|Integer',
+            'car_model_id' => 'nullable|Integer',
+            'car_engine_id' => 'nullable|Integer',
+
             'year_id' => 'required|Integer',
             'manufacturer_id' => 'required|Integer',
             'original_country_id' => 'required|Integer',
@@ -50,7 +53,7 @@ class ProductController extends Controller
         $product->slug=Str::slug($request->get('name_en'));
         $product->details_ar=$request->details_ar;
         $product->details_en=$request->details_en;
-        $product->price=$request->price;
+        $product->price=$request->actual_price + $request->actual_price * ($request->discount / 100);
         $product->actual_price=$request->actual_price;
         $product->discount=$request->discount;
         $product->serial_number=$request->serial_number;
@@ -76,7 +79,11 @@ class ProductController extends Controller
         $product->image=Storage::disk('public')->url($image_uploaded_path);
         
         $product->category_id=$request->category_id;
+        $product->subcategory_id=$request->subcategory_id;
         $product->car_made_id=$request->car_made_id;
+        $product->car_model_id=$request->car_model_id;
+        $product->car_engine_id=$request->car_engine_id;
+
         $product->year_id=$request->year_id;
         $product->manufacturer_id=$request->manufacturer_id;
         $product->original_country_id=$request->original_country_id;
@@ -103,7 +110,7 @@ class ProductController extends Controller
             $wholesale = new ProductWholesale();
             $wholesale->product_id=$product->id;
             $wholesale->minimum_quntity = $request->minimum_quntity;
-            $wholesale->price = $request->price_w;
+            $wholesale->price = $request->price;
             $wholesale->save();
 
 

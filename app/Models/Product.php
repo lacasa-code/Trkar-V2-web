@@ -14,6 +14,10 @@ class Product extends Model
     protected $fillable = [
         'uuid',
         'slug',
+        'car_model_id',
+        'car_engine_id',
+        'subcategory_id',
+        'status',
         'product_type_id',
         'serial_number',
         'name_en',
