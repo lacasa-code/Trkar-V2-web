@@ -15,6 +15,7 @@ use App\Models\ProductAttribute;
 use App\Models\ProductWholesale;
 use App\Http\Controllers\Controller;
 use App\Models\ProductView;
+use App\Models\Store;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,7 +25,7 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'product_type_id' => 'required|Integer',
-            'serial_number' => 'required|Integer',
+            'serial_number' => 'required|Integer|unique',
             'name_en' => 'required|string|between:2,100',
             'name_ar' => 'required|string|between:2,100',
             'details_en' => 'required|string',
@@ -166,5 +167,17 @@ class ProductController extends Controller
 
             
 
+    }
+
+    public function vendor_products()
+    {
+        $store = Store::where('vendor_id',auth('vendor')->user()->id)->first();
+        $product=Product::where('store_id',$store->id)->get();
+        return response()->json([
+            'status'=>true,
+            'message'=>trans('app.wishlistView'),
+            'code'=>200,
+            'data'=>$product,
+        ],200);
     }
 }
