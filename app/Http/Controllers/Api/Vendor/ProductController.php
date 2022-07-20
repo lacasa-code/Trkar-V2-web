@@ -3,11 +3,18 @@
 namespace App\Http\Controllers\Api\Vendor;
 
 use App\Models\Product;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Models\Comptabile;
 use App\Models\ProductTag;
+use Illuminate\Support\Str;
+use App\Models\ProductImage;
+use Illuminate\Http\Request;
+use App\Models\ProductReview;
+use App\Models\ProductQuantity;
+use App\Models\ProductQuestion;
+use App\Models\ProductAttribute;
 use App\Models\ProductWholesale;
+use App\Http\Controllers\Controller;
+use App\Models\ProductView;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -122,5 +129,32 @@ class ProductController extends Controller
             'code'=>200,
             'data'=>$product,
         ],200);
+    }
+
+    public function index($id)
+    {
+        $product=Product::where('id',$id)->get();
+        $att = ProductAttribute::where('product_id',$id)->get();
+        $img = ProductImage::where('product_id',$id)->get();
+        $tag = ProductTag::where('product_id',$id)->get();
+        $wholesale= ProductWholesale::where('product_id',$id)->get(); 
+        $comp = Comptabile::where('product_id',$id)
+                ->join('car_models','car_models.id' ,'comptabiles.car_model_id') 
+                ->get();
+        $qt = ProductQuantity::where('product_id',$id)->get();
+        $review=ProductReview::where('product_id',$id)->get();
+        $productQuestion = ProductQuestion::where('product_id',$id)->get();
+        $views=ProductView::where('product_id',$id)->get();
+        return response()->json([
+            'status'=>true,
+            'message'=>'Comptabile  products shown successfully',
+            'code'=>200,
+            'data'=>[$product, $att,$img,$tag,$wholesale,$comp, $qt,$review,$productQuestion,$views],
+        ],200);
+        
+
+
+            
+
     }
 }

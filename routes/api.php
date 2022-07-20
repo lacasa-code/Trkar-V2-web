@@ -239,8 +239,9 @@ Route::get('/generate/url/{name}', [App\Http\Controllers\Api\Vendor\StoreControl
 Route::middleware([ 'localization'])->group(function () {
 
     Route::post('/create/product', [App\Http\Controllers\Api\Vendor\ProductController::class, 'create_product']);
+    Route::get('/product/details/{id}', [App\Http\Controllers\Api\Vendor\ProductController::class, 'index']);
+
     Route::get('/product/types', [App\Http\Controllers\Api\ProductTypesController::class, 'index']);
-    Route::post('/product/image', [App\Http\Controllers\Api\Vendor\ProductImageController::class, 'create']);
 
 });
 
