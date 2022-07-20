@@ -265,4 +265,11 @@ Route::middleware([ 'localization'])->group(function () {
     Route::post('/mass/delete/product/img/{id}', [App\Http\Controllers\Api\Vendor\ProductImageController::class, 'mass_delete']);
     Route::post('/update/product/img/{id}', [App\Http\Controllers\Api\Vendor\ProductImageController::class, 'update']);
 
+    
+    Route::get('/product/comp/{id}', [App\Http\Controllers\Api\Vendor\CompatibleController::class, 'index']);
+    Route::post('/create/product/comp', [App\Http\Controllers\Api\Vendor\CompatibleController::class, 'create']);
+    Route::post('/delete/product/comp/{id}', [App\Http\Controllers\Api\Vendor\CompatibleController::class, 'delete']);
+    Route::post('/mass/delete/product/comp/{id}', [App\Http\Controllers\Api\Vendor\CompatibleController::class, 'mass_delete']);
+    Route::post('/update/product/comp/{id}', [App\Http\Controllers\Api\Vendor\CompatibleController::class, 'update']);
+
 });
