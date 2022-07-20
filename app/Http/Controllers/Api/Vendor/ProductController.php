@@ -26,8 +26,8 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
             'product_type_id' => 'required|Integer',
             'serial_number' => 'required|Integer|unique:products',
-            'name_en' => 'required|string|between:2,100',
-            'name_ar' => 'required|string|between:2,100',
+            'name_en' => 'required|string|between:2,100|unique:products',
+            'name_ar' => 'required|string|between:2,100|unique:products',
             'details_en' => 'required|string',
             'details_en' => 'required|string',
             'actual_price' => 'required',
@@ -175,7 +175,7 @@ class ProductController extends Controller
         $product=Product::where('store_id',$store->id)->get();
         return response()->json([
             'status'=>true,
-            'message'=>trans('app.wishlistView'),
+            'message'=>trans('products have been shown successfully'),
             'code'=>200,
             'data'=>$product,
         ],200);
