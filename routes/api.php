@@ -217,6 +217,9 @@ Route::middleware([ 'localization'])->group(function () {
     Route::post('/create/store', [App\Http\Controllers\Api\Vendor\StoreController::class, 'create']);
     Route::post('/create/branch', [App\Http\Controllers\Api\Vendor\StoreController::class, 'create_branch']);
 
+    Route::get('/vendor/store', [App\Http\Controllers\Api\Vendor\StoreController::class, 'get_vendor_store']);
+    Route::get('/store/branchs/{id}', [App\Http\Controllers\Api\Vendor\StoreBranchController::class, 'index']);
+
 });
 
 //attachments

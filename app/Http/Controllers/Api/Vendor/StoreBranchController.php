@@ -10,5 +10,14 @@ use Illuminate\Support\Facades\Validator;
 
 class StoreBranchController extends Controller
 {
-    
+    public function index($id)
+    {
+        $branch =StoreBranch::where('store_id',$id)->get();
+        return response()->json([
+            'status'=>true,
+            'message'=>trans('Store branchs have been shown successfully'),
+            'code'=>200,
+            'data'=>$branch,
+        ],200);
+    }
 }

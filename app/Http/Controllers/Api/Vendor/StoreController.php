@@ -152,4 +152,16 @@ class StoreController extends Controller
         ],200);
 
     }
+
+    public function get_vendor_store()
+    {
+        $store = Store::where('vendor_id',auth('vendor')->user()->id)->first();
+        return response()->json([
+            'status'=>true,
+            'message'=>trans('products have been shown successfully'),
+            'code'=>200,
+            'data'=>$store,
+        ],200);
+        
+    }
 }
