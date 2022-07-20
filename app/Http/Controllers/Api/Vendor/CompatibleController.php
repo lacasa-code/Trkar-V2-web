@@ -13,7 +13,7 @@ class CompatibleController extends Controller
     public function index($id)
     {
         $comp = Comptabile::where('product_id',$id)
-            ->join('car_models','car_models.id' ,'comptabiles.id') 
+            ->join('car_models','car_models.id' ,'comptabiles.car_model_id') 
             ->get();
         return response()->json([
             'status'=>true,
