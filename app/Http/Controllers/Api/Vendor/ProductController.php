@@ -147,9 +147,19 @@ class ProductController extends Controller
         $views=ProductView::where('product_id',$id)->get();
         return response()->json([
             'status'=>true,
-            'message'=>'Comptabile  products shown successfully',
+            'message'=>trans('app.productDetails'),
             'code'=>200,
-            'data'=>[$product, $att,$img,$tag,$wholesale,$comp, $qt,$review,$productQuestion,$views],
+            'data'=>['product'=>$product,
+                    'product attributes'=>$att,
+                    'product images'=>$img,
+                    'product tags'=>$tag,
+                    'product wholesale'=>$wholesale,
+                    'product comptailble models'=>$comp,
+                    'product quantity'=> $qt,
+                    'product reviews'=>$review,
+                    'product question'=>$productQuestion,
+                    'product views'=>$views
+                ],
         ],200);
         
 
