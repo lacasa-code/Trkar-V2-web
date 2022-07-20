@@ -243,6 +243,7 @@ Route::middleware([ 'localization'])->group(function () {
 
     Route::get('/product/types', [App\Http\Controllers\Api\ProductTypesController::class, 'index']);
     Route::get('/vendor/product', [App\Http\Controllers\Api\Vendor\ProductController::class, 'vendor_products']);
+    Route::get('/subcategory/product/{id}', [App\Http\Controllers\Api\Vendor\ProductController::class, 'category_products']);
 
 });
 

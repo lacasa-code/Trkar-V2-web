@@ -180,4 +180,15 @@ class ProductController extends Controller
             'data'=>$product,
         ],200);
     }
+
+    public function category_products($id)
+    {
+        $product=Product::where('subcategory_id',$id)->get();
+        return response()->json([
+            'status'=>true,
+            'message'=>trans('products have been shown successfully'),
+            'code'=>200,
+            'data'=>$product,
+        ],200);
+    }
 }
