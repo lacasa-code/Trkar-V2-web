@@ -65,7 +65,10 @@
         'wishlist'=>'Product has been addedd to wishlist successfully',
         'wishlistDelete'=>'Product has been removed from wishlist successfully',
         'wishlistView'=>'user wishlist has been shown successfully',
+        'cart'=>'user cart has been shown successfully',
 
+        'AddToCart'=>'Product has been added to cart successfully',
+        'removeCart'=>'Product has been removed from cart successfully',
 
 
     ];

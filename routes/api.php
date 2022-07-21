@@ -295,3 +295,12 @@ Route::middleware([ 'localization'])->group(function () {
     Route::get('/wishlist', [App\Http\Controllers\Api\WishlistController::class, 'index']);
 
 });
+
+//cart
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::post('/Add/cart/{id}', [App\Http\Controllers\Api\CartController::class, 'Add_to_cart']);
+    Route::post('/remove/cart/{id}', [App\Http\Controllers\Api\CartController::class, 'remove_from_cart']);
+    Route::get('/cart', [App\Http\Controllers\Api\CartController::class, 'index']);
+
+});

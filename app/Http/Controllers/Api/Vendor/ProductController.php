@@ -61,7 +61,7 @@ class ProductController extends Controller
         $product->slug=Str::slug($request->get('name_en'));
         $product->details_ar=$request->details_ar;
         $product->details_en=$request->details_en;
-        $product->price=$request->actual_price + $request->actual_price * ($request->discount / 100);
+        $product->price=$request->actual_price - $request->actual_price * ($request->discount / 100);
         $product->actual_price=$request->actual_price;
         $product->discount=$request->discount;
         $product->serial_number=$request->serial_number;

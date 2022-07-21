@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductSettingsTable extends Migration
+class ChangeProductsettingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,6 +13,9 @@ class CreateProductSettingsTable extends Migration
      */
     public function up()
     {
+        Schema::table('product_settings', function (Blueprint $table) {
+            Schema::dropIfExists('product_settings');
+        });
         Schema::create('product_settings', function (Blueprint $table) {
             $table->id();
             $table->string('key');
@@ -29,6 +32,6 @@ class CreateProductSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_settings');
+        //
     }
 }
