@@ -97,6 +97,7 @@ Route::middleware([ 'localization'])->group(function () {
     Route::post('/create/category', [App\Http\Controllers\Api\CategoryController::class, 'create']);
     Route::post('/update/category/{id}', [App\Http\Controllers\Api\CategoryController::class, 'update']);
     Route::post('/delete/category/{id}', [App\Http\Controllers\Api\CategoryController::class, 'delete']);
+    Route::get('/search/categories', [App\Http\Controllers\Api\CategoryController::class, 'search']);
 
 });
 
@@ -108,6 +109,7 @@ Route::middleware([ 'localization'])->group(function () {
     Route::post('/create/car/mades', [App\Http\Controllers\Api\CarMadesController::class, 'create']);
     Route::post('/update/car/mades/{id}', [App\Http\Controllers\Api\CarMadesController::class, 'update']);
     Route::post('/delete/car/mades/{id}', [App\Http\Controllers\Api\CarMadesController::class, 'delete']);
+    Route::get('/search/car/mades', [App\Http\Controllers\Api\CarMadesController::class, 'search']);
 
 });
 
@@ -143,10 +145,11 @@ Route::middleware([ 'localization'])->group(function () {
     Route::post('/create/car/model', [App\Http\Controllers\Api\CarModelsController::class, 'create']);
     Route::post('/update/car/model/{id}', [App\Http\Controllers\Api\CarModelsController::class, 'update']);
     Route::post('/delete/car/model/{id}', [App\Http\Controllers\Api\CarModelsController::class, 'delete']);
+    Route::get('/search/car/model', [App\Http\Controllers\Api\CarModelsController::class, 'search']);
 
 });
 
-//car models routes
+//car engines routes
 Route::middleware([ 'localization'])->group(function () {
 
     Route::get('/car/engine', [App\Http\Controllers\Api\CarEngineController::class, 'all']);
