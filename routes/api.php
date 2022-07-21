@@ -157,6 +157,7 @@ Route::middleware([ 'localization'])->group(function () {
     Route::get('/model/car/engines/{id}', [App\Http\Controllers\Api\CarEngineController::class, 'engines_of_model']);
     Route::post('/update/car/engine/{id}', [App\Http\Controllers\Api\CarEngineController::class, 'update']);
     Route::post('/delete/car/engine/{id}', [App\Http\Controllers\Api\CarEngineController::class, 'delete']);
+    Route::get('/search/car/engine', [App\Http\Controllers\Api\CarEngineController::class, 'search']);
 
 });
 

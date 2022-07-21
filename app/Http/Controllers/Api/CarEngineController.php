@@ -98,4 +98,21 @@ class CarEngineController extends Controller
             'code'=>200,
         ],200);
     }
+
+    
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $car=CarEngine::where(function ($query) use($keyword) {
+            $query->where('name_en', 'like', '%' . $keyword . '%')
+               ->orWhere('name_ar', 'like', '%' . $keyword . '%');
+            })->get();
+           
+        return response()->json([
+                'status'=>true,
+                'message'=>'search result',
+                'code'=>200,
+                'data'=>$car,
+            ],200);
+    }
 }
