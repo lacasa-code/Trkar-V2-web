@@ -19,5 +19,7 @@ Route::group(['prefix'     => 'system',], function () {
     Route::resource('category', App\Http\Controllers\System\CategoryController::class,['as'=>'system']);
     // Route::get('/category/create', [App\Http\Controllers\System\CategoryController::class]);
 
+    Route::get('getCategories/search', ['as' => 'system.getCategories', 'uses' => ' App\Http\Controllers\System\CategoryController@getCategories']);
+
 });
 

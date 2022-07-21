@@ -24,8 +24,24 @@ class CategoryController extends SystemController
                 'slug',
                 'status',
                 'created_at'
-            ]);
-     
+            ])->where('id','>',20);
+            if($request->created_at1 && $request->created_at2){
+                $eloquentData->whereBetween('created_at',[
+                    $request->created_at1.' 00:00:00',
+                    $request->created_at2.' 23:59:59'
+                ]);
+            }
+
+            if($request->id){
+                $eloquentData->where('id',$request->id);
+            }
+            if($request->name){
+                $eloquentData->where(function($query) use ($request) {
+                   $query->where('name_ar','LIKE','%'.$request->name.'%')
+                       ->orWhere('name_en','LIKE','%'.$request->name.'%');
+                });
+            }
+            
             return App\Helpers\Helper::tablePagination()
                 ->eloquent($eloquentData)
                 ->setHeadColumns([
@@ -40,20 +56,31 @@ class CategoryController extends SystemController
                 ->addColumn('id')
                 ->addColumn('name')
                 ->addColumn('parent_id')
+                ->addColumn('parent_id', function ($data) {
+                    $dataList=[];
+                    if($data->parent_id != null){
+                        // foreach ($data->managedIDs() as $categoryID){
+                        //     if($data->parent_id != $categoryID){
+                        //         $array = [];
+                        //         $array[] = $categoryID;
+                        //             $dataList[] = $array;
+                        //     }
+                           
+                        // }
+                        // return json_encode($dataList);
+                        return json_encode($data->managedIDs());
+                    }
+                })
                 ->addColumn('slug')
                 ->addColumn('created_at')
 
 
                 ->addColumn('action',function($data){
 
-                    return '<div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="mdi mdi-settings"></i>
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="'.route('system.category.edit',$data->id).'">'.__('Edit').'</a>
-                      </div>
-                    </div>';
+                    return '
+                     <a href="'.route('system.category.edit',$data->id).'" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                     <a href="javascript:void(0);" onclick="deleteRecord(\'' . route('system.category.destroy', $data->id) . '\');" data-token="'. csrf_token() .'" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                            ';
                 })
                 ->render($request->items_per_page);
         }else{
@@ -90,6 +117,7 @@ public function create(){
             $requestData['image'] = $request->file('image')->store('categories/' . date('Y/m/d'));
         }
         $requestData['status'] = 1;
+        $requestData['slug'] = Str::slug($request->get('name_en'));
         
         $insertData = Category::create($requestData);
 
@@ -99,7 +127,7 @@ public function create(){
                 200,
                 __('Data has been added successfully'),
                 [
-                    'url' => route('system.category.index')
+                    'url' => route('system.category.create')
                 ]
             );
         } else {
@@ -133,6 +161,9 @@ public function create(){
     public function update(CategoryFormRequest $request, Category $category)
     {
         $requestData = $request->all();
+        if ($request->file('image')) {
+            $requestData['image'] = $request->file('image')->store('categories/' . date('Y/m/d'));
+        }
         $updateData = $category->update($requestData);
         if ($updateData) {
             return $this->response(
@@ -152,13 +183,16 @@ public function create(){
         }
     }
 
-    public function delete($id)
+    public function destroy(Category $category)
     {
-        $cat= Category::where('id', $id)->firstorfail()->delete();
-        return response()->json([
-            'status'=>true,
-            'message'=>trans('app.cat_delete'),
-            'code'=>200,
-        ],200);
+        // $category->delete();
+        return $this->response(
+            true,
+            200,
+            __('Data has been deleted successfully'),
+             [
+                    'url' => route('system.category.index')
+             ]
+        );
     }
 }

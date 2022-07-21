@@ -33,10 +33,9 @@ class CategoryFormRequest extends FormRequest
             case 'POST': {
 
                     $validation = [
-                        'parent_id' => 'nullable|int|exists:categories,id',
+                        'parent_id' => 'required|int|exists:categories,id',
                         'name_ar' => 'required|string',
                         'name_en' => 'required|string',
-                        'slug' => 'required|string',
                         'image' => 'required|file|mimes:jpeg,jpg,png',
 
                     ];
@@ -46,10 +45,9 @@ class CategoryFormRequest extends FormRequest
             case 'PUT':
             case 'PATCH': {
                     $validation = [
-                        'parent_id' => 'nullable|int|exists:categories,id',
+                        'parent_id' => 'required|int|exists:categories,id',
                         'name_ar' => 'required|string',
                         'name_en' => 'required|string',
-                        'slug' => 'required|string',
                         'image' => 'required|file|mimes:jpeg,jpg,png',
 
                     ];

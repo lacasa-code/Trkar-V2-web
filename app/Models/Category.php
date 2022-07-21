@@ -26,7 +26,32 @@ class Category extends Model
         return $this->hasMany(SubCategory::class);
     }
 
-    public function parent(){
-        return $this->belongsTo(Category::class,'parent_id');
+    public function managed_category(){
+        return $this->hasMany('App\Models\Category','parent_id');
+    }
+    public function managedIDs(){
+        static $parent = [];
+        if(!isset($parent[$this->id])){
+            $parent[$this->id] = $this->managedIDsTree($this->id);
+        }
+        return $parent[$this->id];
+    }
+    private function managedIDsTree($categoryID){
+        static $parent = [];
+
+        if(empty($parent[$this->id])){
+            $parent[$this->id][] = $categoryID;
+        }
+
+        $getParents = self::where('parent_id',$categoryID)->get(['id','name_en']);
+
+        if($getParents->isNotEmpty()){
+            foreach ($getParents as $value){
+                $parent[$this->id][] = $value->name_en;
+                $this->managedIDsTree($value->id);
+            }
+        }
+
+        return $parent[$this->id];
     }
 }

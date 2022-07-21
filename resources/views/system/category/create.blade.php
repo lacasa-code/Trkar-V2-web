@@ -28,7 +28,7 @@
         ]) !!}
         <div id="form-alert-message"></div>
         <div class="row">
-            
+
 
             {{-- <div class="row"> --}}
             <div class="col-lg-6">
@@ -56,24 +56,36 @@
                         ]) !!}
                         <div class="invalid-feedback" id="name_en-form-error"></div>
                     </div>
-
                     <div class="form-group mb-3">
-                        <label>{{ __('Slug') }}</label>
-                        {!! Form::text('slug', isset($result) ? $result->slug : null, [
+                        <label>{{ __('Order') }}</label>
+                        {!! Form::number('order', isset($result) ? $result->order : null, [
                             'class' => 'form-control',
-                            'id' => 'slug-form-input',
+                            'id' => 'order-form-input',
                             'autocomplete' => 'off',
                         ]) !!}
-                        <div class="invalid-feedback" id="slug-form-error"></div>
+                        <div class="invalid-feedback" id="order-form-error"></div>
                     </div>
+                    @if (isset($result))
+                        <div class="form-group mb-3">
+                            <label>{{ __('Slug') }}</label>
+                            {!! Form::text('slug', isset($result) ? $result->slug : null, [
+                                'class' => 'form-control',
+                                'id' => 'slug-form-input',
+                                'autocomplete' => 'off',
+                                'disabled' => 'disabled'
+                            ]) !!}
+                            <div class="invalid-feedback" id="slug-form-error"></div>
+                        </div>
+                    @endif
                     <div class="form-group mb-3">
                         <label>{{ __('Parent Id') }}</label>
                         {!! Form::select(
                             'parent_id',
                             App\Helpers\Helper::categoriesForSelect(),
                             isset($result) ? $result->parent_id : null,
-                            ['class' => 'form-control', 'id' => 'parent_id-form-input', 'autocomplete' => 'off'],
+                            ['class' => 'select2 form-control ajax-categories', 'id' => 'parent_id-form-input', 'autocomplete' => 'off'],
                         ) !!}
+                        
                         <div class="invalid-feedback" id="parent_id-form-error"></div>
                     </div>
                     <div class="form-group mb-3">
@@ -94,13 +106,13 @@
                     <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">{{ __('Category Images') }}</h5>
 
                     <div class="form-group mb-3">
-                        <input  type="file" name="image" placeholder="Choose image" id="image">
+                        <input type="file" name="image" placeholder="Choose image" id="image">
                         <div class="invalid-feedback" id="image-form-error"></div>
 
                     </div>
                     <div class="form-group mb-3">
                         <img id="preview-image" class="img-fluid"
-                            src="{{ isset($result) ? asset('storage/' . $result->image) : null }}" alt="preview image">
+                            src="{{ isset($result) ? asset('storage/' . $result->image) : asset('assets/images/avatar.jpg') }}" alt="preview image">
                     </div>
                     {{-- <div class="d-none" id="uploadPreviewTemplate">
                         <div class="card mt-1 mb-0 shadow-none border">
@@ -172,14 +184,15 @@
             reader.readAsDataURL(this.files[0]);
 
         });
-   
+
         function submitMainForm() {
+
             formSubmit(
                 '{{ isset($result) ? route('system.category.update', $result->id) : route('system.category.store') }}',
                 new FormData($('#main-form')[0]),
                 function($data) {
                     if ($data.status) {
-                        if (isset($data.data.url)) {
+                        if (typeof $data.data.url !== 'undefined') {
                             window.location = $data.data.url;
                         } else {
                             $('#main-form')[0].reset();
@@ -203,9 +216,5 @@
                 }
             );
         }
-
-        
-
-  
     </script>
 @endsection

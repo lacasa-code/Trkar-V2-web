@@ -60,14 +60,14 @@
                             </li>
                         @endif
                         {{-- Pagination Elements --}}
-                        {{-- @foreach ($data->elements() as $element) --}}
+                        @foreach ($data->links()->elements as $element)
                             {{-- "Three Dots" Separator --}}
-                            {{-- @if (is_string($element))
+                            @if (is_string($element))
                                 <li class="page-item disabled" aria-disabled="true"><span class="page-link">{{ $element }}</span></li>
-                            @endif --}}
+                            @endif
 
                             {{-- Array Of Links --}}
-                            {{-- @if (is_array($element))
+                            @if (is_array($element))
                                 @foreach ($element as $page => $url)
                                     @if ($page == $data->currentPage())
                                         <li class="page-item active" aria-current="page"><span class="page-link">{{ $page }}</span></li>
@@ -76,7 +76,7 @@
                                     @endif
                                 @endforeach
                             @endif
-                        @endforeach --}}
+                        @endforeach
 
                         {{-- Next Page Link --}}
                         @if ($data->hasMorePages())
@@ -95,7 +95,7 @@
     </div>
     <script type="text/javascript">
         function tablePaginationLoadPage($page){
-            addLoading();
+            // addLoading();
             $parameters = {};
             @foreach(request()->query->all() as $key => $value)
                 $parameters.{{$key}} = '{{str_replace('\\','\\\\',$value)}}';
@@ -103,7 +103,7 @@
             $parameters.page = $page;
 
             $.get('{{request()->url()}}',$parameters,function ($response) {
-                removeLoading();
+                // removeLoading();
                 $('#table-pagination-main-div').html($response);
                 feather.replace();
             });

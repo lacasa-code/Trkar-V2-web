@@ -47,7 +47,10 @@ function formSubmit($url, $data, $success, $error) {
             success: function($response) {
                  
                 if ($success) {
+                    $('#success-alert-modal').modal('show');
+                    document.querySelector("#succ-btn").addEventListener('click', function(e) {
                     $success($response);
+                });
                 }
             },
             error: function($response) {
@@ -144,23 +147,23 @@ function isObject(A) {
     return false;
 }
 
-function addLoading() {
-    $.blockUI({
-        css: {
-            border: 'none',
-            padding: '15px',
-            backgroundColor: '#000',
-            '-webkit-border-radius': '10px',
-            '-moz-border-radius': '10px',
-            opacity: .5,
-            color: '#fff'
-        }
-    });
-}
+// function addLoading() {
+//     $.blockUI({
+//         css: {
+//             border: 'none',
+//             padding: '15px',
+//             backgroundColor: '#000',
+//             '-webkit-border-radius': '10px',
+//             '-moz-border-radius': '10px',
+//             opacity: .5,
+//             color: '#fff'
+//         }
+//     });
+// }
 
-function removeLoading() {
-    $.unblockUI();
-}
+// function removeLoading() {
+//     $.unblockUI();
+// }
 
 function tablePagination($url,$onDone){
     $.get($url,{'isTablePagination':true},function($html){
@@ -173,3 +176,35 @@ function tablePagination($url,$onDone){
     });
 }
 
+$('.ajax-categories').select2({
+    placeholder: "Choose Category",
+    minimumInputLength: 1,
+    // multiple: true,
+    ajax: {
+        url: "{{url('/system/getCategories/search')}}",
+        dataType: 'json',
+    }
+});
+
+function tablePaginationFilter($form) {
+    $url = window.location.href;
+    // $('#filter-collapse').collapse('hide');
+    if ($url.indexOf('?') != -1) {
+        tablePagination($url + '&' + $form.serialize());
+    } else {
+        tablePagination($url + '?' + $form.serialize());
+    }
+}
+function isJSON(m) {
+    if (typeof m == 'object') {
+        try { m = JSON.stringify(m); } catch (err) { return false; }
+    }
+
+    if (typeof m == 'string') {
+        try { m = JSON.parse(m); } catch (err) { return false; }
+    }
+
+    if (typeof m != 'object') { return false; }
+    return true;
+
+};

@@ -24,29 +24,26 @@
                             <div class="card-body">
                                 <h6 class="card-title">{{ __('Filter') }}</h6>
                                 <div id="form-alert-message"></div>
-                                <div class="form-group mb1">
-                                    <label>{{ __('Created At') }}</label>
-                                    <div class="input-daterange input-group" id="k_datepicker_5">
-                                        {!! Form::text('created_at1', null, [
-                                            'class' => 'form-control',
-                                            'autocomplete' => 'off',
-                                            'id' => 'created_at1-form-input',
-                                        ]) !!}
-                                        <div class="invalid-feedback" id="created_at1-form-error"></div>
 
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><i
-                                                    class="mdi mdi-format-horizontal-align-center"></i></span>
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <label>{{ __('Created At') }}</label>
+                                        <div class=" input-group">
+                                            <input class="form-control" autocomplete="off" id="created_at1-form-input"
+                                                name="created_at1" type="date">
+
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i
+                                                        class="mdi mdi-format-horizontal-align-center"></i></span>
+                                            </div>
+                                            <input class="form-control" autocomplete="off" id="created_at2-form-input"
+                                                name="created_at2" type="date">
+                                            <div class="invalid-feedback" id="created_at1-form-error"></div>
+                                            <div class="invalid-feedback" id="created_at2-form-error"></div>
+
                                         </div>
-                                        {!! Form::text('created_at2', null, [
-                                            'class' => 'form-control',
-                                            'autocomplete' => 'off',
-                                            'id' => 'created_at2-form-input',
-                                        ]) !!}
-                                        <div class="invalid-feedback" id="created_at2-form-error"></div>
                                     </div>
                                 </div>
-
 
                                 <div class="form-group row">
                                     <div class="col-sm-6 convert-text">
@@ -78,25 +75,24 @@
             <div class="card">
 
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6 convert-text">
-                            <h6 class="card-title">{{ $pageTitle }}</h6>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <a href="{{ route('system.category.create') }}" class="btn btn-danger mb-2"><i
+                                    class="mdi mdi-plus-circle mr-2"></i> {{ __('Add Category') }}</a>
                         </div>
-                        <!-- Filter -->
-                        <div class="col-sm-6 button-class">
-                            <button type="button" class="btn btn-primary btn-icon-text" data-toggle="collapse"
-                                href="#filter-collapse" role="button" aria-expanded="false"
-                                aria-controls="collapseExample">
-                                <i class="btn-icon-prepend" data-feather="search"></i>
-                                {{ __('Filter') }}
-                            </button>
-                            <a class="btn btn-primary btn-icon-text" href="{{ route('system.category.create') }}">
-                                <i class="mdi mdi-plus-circle-outline"></i>
-                                {{ __('Create') }}
-                            </a>
-                        </div>
-                        <!-- Filter -->
+                        <div class="col-sm-8">
+                            <div class="text-sm-right">
+                                <button type="button" class="btn btn-light mb-2" data-toggle="collapse"
+                                    href="#filter-collapse" role="button" aria-expanded="false"
+                                    aria-controls="collapseExample"> <i class="btn-icon-prepend"
+                                        data-feather="search"></i>{{ __('Filter') }}</button>
+
+                            </div>
+                        </div><!-- end col-->
                     </div>
+
+
                     <div class="table-responsive" id="table-pagination-div">
                         <table id="table-pagination" style="text-align: center;margin-top: 25px;margin-bottom: 25px;"
                             class="table table-striped table-bordered">
@@ -111,6 +107,7 @@
             </div>
         </div>
     </div>
+ 
 @endsection
 
 @section('script')
@@ -137,7 +134,42 @@
                 if ($onDone !== undefined) {
                     $onDone();
                 }
-                removeLoading();
+
+            });
+        }
+
+        function deleteRecord($routeName, $reload) {
+        
+            $('#top-modal').modal('show');
+
+            document.querySelector("#delete").addEventListener('click', function(e) {
+
+                if ($reload == undefined) {
+                    $reload = 3000;
+                }
+                $.post(
+                    $routeName, {
+                        '_method': 'DELETE',
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    function(response) {
+
+                        if (isJSON(response)) {
+                            $data = response;
+                            if ($data.status == true) {
+                                $('#top-modal').modal('hide');
+                                $('#danger-alert-modal').modal('show');
+                                document.querySelector("#cont-btn").addEventListener('click', function(e) {
+                                    e.preventDefault();
+                                    location.reload();
+                                });
+                            } else {
+                                alert('data not deleted')
+                            }
+                        }
+                    }
+
+                )
             });
         }
     </script>

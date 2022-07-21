@@ -19,25 +19,25 @@ class Authenticate extends Middleware
     public function handle($request, Closure $next, $guard = null)
     {
        
-       if (auth()->guard('vendor')->check() ) {
-            return $next($request);
+    //    if (auth()->guard('vendor')->check() ) {
+    //         return $next($request);
        
-        }
+    //     }
 
-        if (auth()->guard('admin')->check() ) 
-        {
-            return $next($request);
+    //     if (auth()->guard('admin')->check() ) 
+    //     {
+    //         return $next($request);
 
-        }
+    //     }
 
         if (auth()->guard('api')->check() ) 
         {
             return $next($request);
 
         }
-        return response()->json(['status'=>false,
-        'message'=>trans('app.validation_error'),
-        'code'=>401],
-        401);
+        // return response()->json(['status'=>false,
+        // 'message'=>trans('app.validation_error'),
+        // 'code'=>401],
+        // 401);
     }
 }
