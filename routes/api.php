@@ -168,6 +168,7 @@ Route::middleware([ 'localization'])->group(function () {
     Route::post('/create/car/year', [App\Http\Controllers\Api\YearsController::class, 'create']);
     Route::post('/update/car/year/{id}', [App\Http\Controllers\Api\YearsController::class, 'update']);
     Route::post('/delete/car/year/{id}', [App\Http\Controllers\Api\YearsController::class, 'delete']);
+    Route::get('/search/car/years', [App\Http\Controllers\Api\YearsController::class, 'search']);
 
 });
 
