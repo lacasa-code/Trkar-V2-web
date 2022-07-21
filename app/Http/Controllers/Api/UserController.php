@@ -42,6 +42,12 @@ class UserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255','unique:users,email,'.$user_update->id],
             'phone' => ['required', 'string',  'max:9','min:9','unique:users,phone,'.$user_update->id],
             'username' => ['required', 'string','between:2,100','unique:users,username,'.$user_update->id],
+            'address' => 'required|string',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'country_id' => 'required|integer',
+            'city_id' => 'required|integer',
+            'area_id' => 'required|integer',
 
         ]);
 
