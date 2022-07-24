@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\Vendor;
 
+use App\Models\Store;
 use App\Models\Product;
 use App\Models\Comptabile;
 use App\Models\ProductTag;
+use App\Models\ProductView;
 use Illuminate\Support\Str;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
@@ -13,9 +15,8 @@ use App\Models\ProductQuantity;
 use App\Models\ProductQuestion;
 use App\Models\ProductAttribute;
 use App\Models\ProductWholesale;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\ProductView;
-use App\Models\Store;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -291,7 +292,7 @@ class ProductController extends Controller
             'details_en' => 'required|string',
             'actual_price' => 'required',
             'discount' => 'nullable',
-            'image' => 'required|image',
+            'image' => 'image',
             'category_id' => 'required|Integer',
             'subcategory_id' => 'required|Integer',
             'car_made_id' => 'nullable|Integer',
@@ -358,6 +359,42 @@ class ProductController extends Controller
             'code'=>200,
             'data'=>$product,
         ],200);
+
+    }
+
+    public function search(Request $request)
+    {
+        $output = '';
+        $query = $request->get('query');
+        if($query != '')
+        {
+         $data = DB::table('products')
+           ->where('name_en', 'like', '%'.$query.'%')
+           ->orWhere('name_ar', 'like', '%'.$query.'%')
+           ->orWhere('serial_number', 'like', '%'.$query.'%')
+           ->orWhere('details_en', 'like', '%'.$query.'%')
+           ->orWhere('details_ar', 'like', '%'.$query.'%')
+           ->orderBy('id', 'desc')
+           ->get();
+           return response()->json([
+            'status'=>true,
+            'message'=>trans('app.productShow'),
+            'code'=>200,
+            'data'=>$data,
+            ],200);
+           
+        }
+        else
+        {
+            $data = DB::table('products')->orderBy('id', 'desc')->get();
+            return response()->json([
+                'status'=>true,
+                'message'=>trans('app.productShow'),
+                'code'=>200,
+                'data'=>$data,
+                ],200);
+        }
+  
 
     }
 }

@@ -71,6 +71,7 @@
         'removeCart'=>'Product has been removed from cart successfully',
         'productDelete'=>'Product has been deleted successfully',
         'productUpdate'=>'Product has been Updated successfully',
+        'productShow'=>'Product has been Showed successfully',
 
     ];
 ?>
