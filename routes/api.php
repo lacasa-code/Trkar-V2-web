@@ -254,6 +254,7 @@ Route::middleware([ 'localization'])->group(function () {
     Route::get('/vendor/product', [App\Http\Controllers\Api\Vendor\ProductController::class, 'vendor_products']);
     Route::get('/subcategory/product/{id}', [App\Http\Controllers\Api\Vendor\ProductController::class, 'category_products']);
     Route::post('/delete/product/{id}', [App\Http\Controllers\Api\Vendor\ProductController::class, 'delete']);
+    Route::post('/update/product/{id}', [App\Http\Controllers\Api\Vendor\ProductController::class, 'update']);
 
 });
 

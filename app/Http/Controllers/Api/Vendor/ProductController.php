@@ -75,9 +75,6 @@ class ProductController extends Controller
         {
             $product->uuid = 'VW'.'_'.auth('vendor')->user()->id.'_'.$request->serial_number;
 
-           
-
-
         }
                
         
@@ -271,5 +268,96 @@ class ProductController extends Controller
             ],200);
 
         }
+    }
+
+    public function update(Request $request,$id)
+    {
+        $product = Product::where('id',$id)->first();
+        if(!$product)
+        {
+            return response()->json([
+                'status'=>true,
+                'message'=>trans('No product found'),
+                'code'=>200,
+            ],200);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'serial_number' => ['required', 'Integer', 'unique:products,serial_number,'.$product->id],
+            'name_en' => ['required', 'string', 'unique:products,name_en,'.$product->id],
+            'name_ar' => ['required', 'string', 'unique:products,name_ar,'.$product->id],
+
+            'details_en' => 'required|string',
+            'details_en' => 'required|string',
+            'actual_price' => 'required',
+            'discount' => 'nullable',
+            'image' => 'required|image',
+            'category_id' => 'required|Integer',
+            'subcategory_id' => 'required|Integer',
+            'car_made_id' => 'nullable|Integer',
+            'car_model_id' => 'nullable|Integer',
+            'car_engine_id' => 'nullable|Integer',
+
+            'year_id' => 'required|Integer',
+            'manufacturer_id' => 'required|Integer',
+            'original_country_id' => 'required|Integer',
+            'store_id' => 'required|Integer',
+            'slug' => 'unique:products',
+
+        ]);
+
+        if ($validator->fails()) 
+        {
+            return response()->json(['status'=>false,
+                                    'message'=>$validator->errors(),
+                                    'code'=>400],400);
+        }
+        $product->name_en=$request->input('name_en');
+        $product->slug=Str::slug($request->input('name_en'));
+        $product->name_ar=$request->input('name_ar');
+        $product->details_ar=$request->input('details_ar');
+        $product->details_en=$request->input('details_en');
+        $product->actual_price=$request->input('actual_price');
+        $product->discount=$request->input('discount');
+        $product->serial_number=$request->input('serial_number');
+        $product->price=$request->actual_price - $request->actual_price * ($request->discount / 100);
+        if($product->product_type_id == 1)
+        {
+            $product->uuid = 'VR'.'_'.auth('vendor')->user()->id.'_'.$request->serial_number;
+
+        }
+        if($product->product_type_id == 2)
+        {
+            $product->uuid = 'VW'.'_'.auth('vendor')->user()->id.'_'.$request->serial_number;
+
+        }
+        $uploadFolder = 'product';
+
+        if($image = $request->file('image'))
+        {
+            $image_uploaded_path = $image->store($uploadFolder, 'public');
+            $product->image =Storage::disk('public')->url($image_uploaded_path);
+        }       
+
+        
+        $product->category_id=$request->input('category_id');
+        $product->subcategory_id=$request->input('subcategory_id');
+        $product->car_made_id=$request->input('car_made_id');
+        $product->car_model_id=$request->input('car_model_id');
+        $product->car_engine_id=$request->input('car_engine_id');
+        $product->year_id=$request->input('year_id');
+        $product->manufacturer_id=$request->input('manufacturer_id');
+        $product->original_country_id=$request->input('original_country_id');
+        $product->store_id=$request->input('store_id');
+        
+        $product->save();
+        
+        return response()->json([
+            'status'=>true,
+            'message'=>trans('app.productUpdate'),
+            'code'=>200,
+            'data'=>$product,
+        ],200);
+
     }
 }
