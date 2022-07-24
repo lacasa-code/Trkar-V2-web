@@ -69,7 +69,7 @@
 
         'AddToCart'=>'Product has been added to cart successfully',
         'removeCart'=>'Product has been removed from cart successfully',
-
+        'productDelete'=>'Product has been deleted successfully'
 
     ];
 ?>
