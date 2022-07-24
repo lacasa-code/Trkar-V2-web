@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Vendor;
 use App\Models\ProductTag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\ProductAttribute;
 use Illuminate\Support\Facades\Validator;
 
@@ -90,5 +91,17 @@ class ProductAttributesController extends Controller
             'code'=>200,
             'data'=>$att,
         ],200);
+    }
+
+    public function search_filter(Request $request)
+    {
+        $product = Product::get();
+        $product = $product->newQuery();
+        if ($request->has('width')) {
+            $product->whereHas('product_attributes', function ($query) use ($request) {
+                $query->whereIn('product_attributes.key', $request->input('key'));
+            });
+        }
+
     }
 }
