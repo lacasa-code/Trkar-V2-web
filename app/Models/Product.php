@@ -38,4 +38,9 @@ class Product extends Model
         'approved',
     ];
 
+    public function setDiscountAttribute($value)
+{
+    $this->attributes['discount'] = $value ?? '0';
+}
+
 }
