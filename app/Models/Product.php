@@ -39,8 +39,12 @@ class Product extends Model
     ];
 
     public function setDiscountAttribute($value)
-{
-    $this->attributes['discount'] = $value ?? '0';
-}
+    {
+         $this->attributes['discount'] = $value ?? '0';
+    }
+
+    protected $casts = [
+        'years_id' => 'array',
+    ];
 
 }

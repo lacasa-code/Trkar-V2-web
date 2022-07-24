@@ -191,4 +191,85 @@ class ProductController extends Controller
             'data'=>$product,
         ],200);
     }
+
+    public function delete($id)
+    {
+        $product =Product::where('id',$id)->first();
+        if($product == null)
+        {
+            return response()->json([
+                'status'=>true,
+                'message'=>trans('No product found'),
+                'code'=>200,
+            ],200);
+        }
+        else
+        {
+            $product =Product::where('id',$id)->delete();
+            $att = ProductAttribute::where('product_id',$id)->get();
+            if($att)
+            {
+                $att = ProductAttribute::where('product_id',$id)->delete();
+            }
+            
+            $img = ProductImage::where('product_id',$id)->get();
+            if($img)
+            {
+                $img = ProductImage::where('product_id',$id)->delete();
+            }
+
+            $tag = ProductTag::where('product_id',$id)->get();
+            if($tag)
+            {
+                $tag = ProductTag::where('product_id',$id)->delete();
+            }
+
+            $wholesale= ProductWholesale::where('product_id',$id)->get(); 
+            if($wholesale)
+            {
+                $wholesale= ProductWholesale::where('product_id',$id)->delete(); 
+            }
+
+            $comp = Comptabile::where('product_id',$id)
+                ->join('car_models','car_models.id' ,'comptabiles.car_model_id') 
+                ->get();
+            if($comp)
+            {
+                $comp = Comptabile::where('product_id',$id)
+                ->join('car_models','car_models.id' ,'comptabiles.car_model_id') 
+                ->delete();            
+            }
+
+            $qt = ProductQuantity::where('product_id',$id)->get();
+            if($qt)
+            {
+                $qt = ProductQuantity::where('product_id',$id)->delete();
+            }
+
+            $review=ProductReview::where('product_id',$id)->get();
+            if($review)
+            {
+                $review=ProductReview::where('product_id',$id)->delete();
+            }
+
+            $productQuestion = ProductQuestion::where('product_id',$id)->get();
+            if($productQuestion)
+            {
+                $productQuestion = ProductQuestion::where('product_id',$id)->delete();
+            }
+
+            $views=ProductView::where('product_id',$id)->get();
+            if($views)
+            {
+                $views=ProductView::where('product_id',$id)->delete();
+            }
+
+            return response()->json([
+                'status'=>true,
+                'message'=>trans('app.productDelete'),
+                'code'=>200,
+            ],200);
+
+        }
+    }
 }
