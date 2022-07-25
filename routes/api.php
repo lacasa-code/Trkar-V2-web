@@ -313,3 +313,15 @@ Route::middleware([ 'localization'])->group(function () {
     Route::get('/cart', [App\Http\Controllers\Api\CartController::class, 'index']);
 
 });
+
+
+//user vehicle
+Route::middleware([ 'localization'])->group(function () {
+
+    Route::post('/add/user/vehicle', [App\Http\Controllers\Api\UserVehicleController::class, 'create']);
+    Route::post('/delete/user/vehicle/{id}', [App\Http\Controllers\Api\UserVehicleController::class, 'delete']);
+    Route::get('/all/user/vehicle', [App\Http\Controllers\Api\UserVehicleController::class, 'index']);
+    Route::get('/user/vehicle/{id}', [App\Http\Controllers\Api\UserVehicleController::class, 'car']);
+    Route::post('/update/user/vehicle/{id}', [App\Http\Controllers\Api\UserVehicleController::class, 'edit']);
+
+});

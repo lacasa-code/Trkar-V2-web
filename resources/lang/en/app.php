@@ -72,6 +72,10 @@
         'productDelete'=>'Product has been deleted successfully',
         'productUpdate'=>'Product has been Updated successfully',
         'productShow'=>'Product has been Showed successfully',
+        'vehicle'=>'User Vehicle has been added successfully',
+        'vehicleDelete'=>'User Vehicle has been deleted successfully',
+        'vehicleAll'=>'User Vehicles have been showen successfully',
+        'vehicleUpdate'=>'User Vehicle has been updated successfully',
 
     ];
 ?>

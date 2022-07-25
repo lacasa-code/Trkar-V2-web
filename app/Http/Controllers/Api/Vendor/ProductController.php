@@ -400,25 +400,14 @@ class ProductController extends Controller
                 ->get();
 
            
-        return response()->json([
+            return response()->json([
                     'status'=>true,
                     'message'=>trans('search result'),
                     'code'=>200,
                     'data'=>$product,
                 ],200);
-        /* ->where(function ($query) use($keyword) {
-            $query->where('Invoice_Number', 'like', '%' . $keyword . '%')
-               ->orWhere('chassis_no', 'like', '%' . $keyword . '%')
-               ->orWhere('created_at', 'like', '%' . $keyword . '%')
-               ->orWhere('total_amount', 'like', '%' . $keyword . '%')
-               ->orWhere('paid_amount', 'like', '%' . $keyword . '%')
-               ->orWhere('reg_chars', 'like', '%' . $keyword . '%')
-               ->orWhere('registeration', 'like', '%' . $keyword . '%')
-               ->orWhere(DB::raw('CONCAT_WS(" ",registeration,reg_chars)'), 'like', '%' . $keyword . '%')
-               ->orWhere('Status', 'like', '%' . $keyword . '%')
-               ->orWhere('Customer', 'like', '%' . $keyword . '%');
         
-          })->paginate($page_size);*/
+        
   
 
     }
