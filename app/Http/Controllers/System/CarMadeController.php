@@ -3,30 +3,30 @@
 namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\CarMade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\Null_;
 use App;
-use App\Http\Requests\CategoryFormRequest;
+use App\Http\Requests\CarMadeFormRequest;
 use App\Support\Collection;
 use Illuminate\Validation\Rule;
 
-class CategoryController extends SystemController
+class CarMadeController extends SystemController
 {
-    public function index(categoryFormRequest $request)
+    public function index(CarMadeFormRequest $request)
     {
         if ($request->isTablePagination) {
-            $eloquentData =  Category::select([
+            $eloquentData =  CarMade::select([
                 'id',
                 'parent_id',
                 'name_' . App::getLocale() . ' as name',
                 'slug',
                 'status',
                 'created_at'
-            ])->with('parent');
+            ]);
             if ($request->created_at1 && $request->created_at2) {
                 $eloquentData->whereBetween('created_at', [
                     $request->created_at1 . ' 00:00:00',
@@ -49,7 +49,6 @@ class CategoryController extends SystemController
                 ->setHeadColumns([
                     __('ID'),
                     __('Name'),
-                    __('Parent'),
                     __('Slug'),
                     __('Created By'),
                     __('Action')
@@ -57,13 +56,7 @@ class CategoryController extends SystemController
                 ])
                 ->addColumn('id')
                 ->addColumn('name')
-                ->addColumn('parent_id', function ($data) {
-                    if ($data->parent_id != 0) {
-                        return $data->parent->name_en;
-                    } else {
-                        return 'Head of Parent';
-                    }
-                })
+             
                 ->addColumn('slug')
                 ->addColumn('created_at')
 
@@ -71,19 +64,19 @@ class CategoryController extends SystemController
                 ->addColumn('action', function ($data) {
 
                     return '
-                     <a href="' . route('admin.category.edit', $data->id) . '" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                     <a href="' . route('admin.category.show', $data->id) . '" class="action-icon"> <i class="mdi mdi-file-tree"></i></a>
-                     <a href="javascript:void(0);" onclick="deleteRecord(\'' . route('admin.category.destroy', $data->id) . '\');" data-token="' . csrf_token() . '" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                     <a href="' . route('system.category.edit', $data->id) . '" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                     <a href="' . route('system.category.show', $data->id) . '" class="action-icon"> <i class="mdi mdi-file-tree"></i></a>
+                     <a href="javascript:void(0);" onclick="deleteRecord(\'' . route('system.category.destroy', $data->id) . '\');" data-token="' . csrf_token() . '" class="action-icon"> <i class="mdi mdi-delete"></i></a>
                                             ';
                 })
                 ->render($request->items_per_page);
         } else {
             // View Data
             $this->viewData['breadcrumb'][] = [
-                'text' => __(' categorys')
+                'text' => __(' CarMades')
             ];
 
-            $this->viewData['pageTitle'] = __('categorys');
+            $this->viewData['pageTitle'] = __('CarMades');
 
             return $this->view('category.index', $this->viewData);
         }
@@ -95,25 +88,25 @@ class CategoryController extends SystemController
         // dd(App\Helpers\Helper::createMenuTree($data));
         // Main View Vars
         $this->viewData['breadcrumb'][] = [
-            'text' => __('Category'),
-            'url' => route('admin.category.index')
+            'text' => __('CarMade'),
+            'url' => route('system.CarMade.index')
         ];
 
         $this->viewData['breadcrumb'][] = [
-            'text' => __('Create Category'),
+            'text' => __('Create CarMade'),
         ];
 
-        $this->viewData['pageTitle'] = __('Create Category');
+        $this->viewData['pageTitle'] = __('Create CarMade');
 
         return $this->view('category.create', $this->viewData);
     }
 
-    public function store(CategoryFormRequest $request)
+    public function store(CarMadeFormRequest $request)
     {
-        $nameCheckAr = Category::where('name_ar', 'LIKE', '%' . $request->name_ar . '%')
+        $nameCheckAr = CarMade::where('name_ar', 'LIKE', '%' . $request->name_ar . '%')
             ->where('parent_id', $request->parent_id)->first();
-        $nameCheckEn = Category::where('name_en', 'LIKE', '%' . $request->name_en . '%')
-            ->where('parent_id', $request->parent_id)->first();
+        $nameCheckEn = CarMade::where('name_en', 'LIKE', '%' . $request->name_en . '%')
+        ->where('parent_id', $request->parent_id)->first();
         if ($nameCheckAr || $nameCheckEn) {
             return $this->response(
                 false,
@@ -128,7 +121,7 @@ class CategoryController extends SystemController
         $requestData['status'] = 1;
         $requestData['slug'] = Str::slug($request->get('name_en'));
 
-        $insertData = Category::create($requestData);
+        $insertData = CarMade::create($requestData);
 
         if ($insertData) {
             return $this->response(
@@ -136,7 +129,7 @@ class CategoryController extends SystemController
                 200,
                 __('Data has been added successfully'),
                 [
-                    'url' => route('admin.category.create')
+                    'url' => route('system.category.create')
                 ]
             );
         } else {
@@ -147,43 +140,43 @@ class CategoryController extends SystemController
             );
         }
     }
-    public function edit(Category $category)
+    public function edit(CarMade $carMade)
     {
 
         // Main View Vars
         $this->viewData['breadcrumb'][] = [
             'text' => __('Category'),
-            'url' => route('admin.category.index')
+            'url' => route('system.category.index')
         ];
 
         $this->viewData['breadcrumb'][] = [
-            'text' => __('Edit (:name)', ['name' => $category->{'name_' . App::getLocale()}]),
+            'text' => __('Edit (:name)', ['name' => $carMade->{'name_' . App::getLocale()}]),
         ];
 
-        $this->viewData['pageTitle'] = __('Edit Category');
-        $this->viewData['result'] = $category;
+        $this->viewData['pageTitle'] = __('Edit Car Made');
+        $this->viewData['result'] = $carMade;
 
         return $this->view('category.create', $this->viewData);
     }
 
 
-    public function update(CategoryFormRequest $request, Category $category)
+    public function update(CarMadeFormRequest $request, CarMade $carMade)
     {
-
+        
         $requestData = $request->all();
         if ($request->file('image')) {
             $requestData['image'] =  Storage::disk('public')->put("categories/' . date('Y/m/d')",  $request->file('image'));
 
             // $requestData['image'] = Storage::disk('local')->put('categories', file_get_contents($request->file('image')));;
         }
-        $updateData = $category->update($requestData);
+        $updateData = $carMade->update($requestData);
         if ($updateData) {
             return $this->response(
                 true,
                 200,
                 __('Data has been modified successfully'),
                 [
-                    'url' => route('admin.category.index')
+                    'url' => route('system.category.index')
                 ]
             );
         } else {
@@ -200,7 +193,7 @@ class CategoryController extends SystemController
         // Main View Vars
         $this->viewData['breadcrumb'][] = [
             'text' => __('Category'),
-            'url' => route('admin.category.index')
+            'url' => route('system.category.index')
         ];
 
         $this->viewData['breadcrumb'][] = [
@@ -220,7 +213,7 @@ class CategoryController extends SystemController
             200,
             __('Data has been deleted successfully'),
             [
-                'url' => route('admin.category.index')
+                'url' => route('system.category.index')
             ]
         );
     }
