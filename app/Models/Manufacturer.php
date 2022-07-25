@@ -20,4 +20,10 @@ class Manufacturer extends Model
         'address',
         'website',
     ];
+
+    
+    public function product()
+    {
+        return $this->hasMany(Product::class,'manufacturer_id');
+    }
 }
