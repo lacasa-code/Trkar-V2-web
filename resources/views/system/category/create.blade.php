@@ -19,7 +19,7 @@
 
 
         {!! Form::open([
-            'route' => isset($result) ? ['system.category.update', $result->id] : 'system.category.store',
+            'route' => isset($result) ? ['admin.category.update', $result->id] : 'admin.category.store',
             'files' => true,
             'method' => isset($result) ? 'PATCH' : 'POST',
             'class' => 'forms-sample',
@@ -188,7 +188,7 @@
         function submitMainForm() {
 
             formSubmit(
-                '{{ isset($result) ? route('system.category.update', $result->id) : route('system.category.store') }}',
+                '{{ isset($result) ? route('admin.category.update', $result->id) : route('admin.category.store') }}',
                 new FormData($('#main-form')[0]),
                 function($data) {
                     if ($data.status) {

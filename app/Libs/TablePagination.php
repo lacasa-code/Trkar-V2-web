@@ -57,7 +57,7 @@ class TablePagination{
             throw new \Exception('Unable to get columns');
         }
 
-        if(!$items) $items = 20;
+        if(!$items) $items = 10;
 
         $data = $this->model->paginate($items);
         // dd($data->links()->elements);

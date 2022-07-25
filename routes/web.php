@@ -17,3 +17,14 @@ use Illuminate\Support\Facades\Route;
 //     return view('home');
 // });
 // Route::resource('/category', [App\Http\Controllers\System\CategoryController::class, 'system']);
+Route::group(['prefix'     => 'admin',], function () {
+    Route::get('/', function () {
+        return view('home');
+    });
+    Route::resource('category', App\Http\Controllers\System\CategoryController::class,['as'=>'admin']);
+    // Route::get('/category/create', [App\Http\Controllers\System\CategoryController::class]);
+
+    Route::get('getCategories/search', ['as' => 'admin.getCategories', 'uses' => ' App\Http\Controllers\System\CategoryController@getCategories']);
+    Route::post('getChilds/{id}', ['as' => 'admin.getChilds', 'uses' => 'App\Http\Controllers\System\CategoryController@getChilds']);
+
+});

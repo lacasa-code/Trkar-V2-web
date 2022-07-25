@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name_en',
@@ -18,7 +18,7 @@ class Category extends Model
         'parent_id',
         'status',
         'subcategories'
-    
+
     ];
 
     public function suncategory()
@@ -26,32 +26,56 @@ class Category extends Model
         return $this->hasMany(SubCategory::class);
     }
 
-    public function managed_category(){
-        return $this->hasMany('App\Models\Category','parent_id');
+    public function managed_category()
+    {
+        return $this->hasMany('App\Models\Category', 'parent_id');
     }
-    public function managedIDs(){
-        static $parent = [];
-        if(!isset($parent[$this->id])){
-            $parent[$this->id] = $this->managedIDsTree($this->id);
-        }
-        return $parent[$this->id];
+    public function managedIDs()
+    {
+        $this->managedIDsTree($this->id);
+        return 'Note : you can show Tree';
     }
-    private function managedIDsTree($categoryID){
-        static $parent = [];
-
-        if(empty($parent[$this->id])){
-            $parent[$this->id][] = $categoryID;
-        }
-
-        $getParents = self::where('parent_id',$categoryID)->get(['id','name_en']);
-
-        if($getParents->isNotEmpty()){
-            foreach ($getParents as $value){
-                $parent[$this->id][] = $value->name_en;
-                $this->managedIDsTree($value->id);
-            }
+    private function managedIDsTree($categoryID)
+    {
+        $arrays =[];
+        $getName = self::where('id', $categoryID)->first(['name_en']);
+        $getParents = self::where('parent_id', $categoryID)->get(['id', 'name_en']);
+        if (count($getParents)) {
+            $arrays[$categoryID] = $getName->name_en;
+        } else {
+            $arrays[$categoryID] = $getName->name_en;
         }
 
-        return $parent[$this->id];
+
+
+        foreach ($getParents as $category) {
+            $this->managedIDsTree($category->id);
+        }
+        return '';
     }
+    // private function managedIDsTree($categoryID)
+    // {
+    //     $getName = self::where('id', $categoryID)->first(['name_en']);
+    //     $getParents = self::where('parent_id', $categoryID)->get(['id', 'name_en']);
+    //     echo '<ul >';
+    //     if (count($getParents)) {
+    //         echo "<li><span class='caret'>";
+    //     } else {
+    //         echo "<li><span>";
+    //     }
+    //     echo $getName->name_en;
+    //     echo "</span>";
+    //     echo "<ul class='nested'>";
+
+    //     foreach ($getParents as $category) {
+    //         $this->managedIDsTree($category->id);
+    //     }
+    //     echo '</ul>';
+    //     echo '</ul>
+
+    //     ';
+    //     // dd($parent[$this->id]);
+    //     return '';
+    // }
+
 }

@@ -58,7 +58,7 @@
                     <div class="collapse" id="sidebarProductManagement">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="#">test</a>
+                                <a href="{{ route('admin.category.index') }}">Category</a>
                             </li>
                         
                         </ul>

@@ -20,6 +20,7 @@ Route::group(['prefix'     => 'system',], function () {
     // Route::get('/category/create', [App\Http\Controllers\System\CategoryController::class]);
 
     Route::get('getCategories/search', ['as' => 'system.getCategories', 'uses' => ' App\Http\Controllers\System\CategoryController@getCategories']);
+    Route::post('getChilds/{id}', ['as' => 'system.getChilds', 'uses' => 'App\Http\Controllers\System\CategoryController@getChilds']);
 
 });
 

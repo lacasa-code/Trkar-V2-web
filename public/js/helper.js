@@ -1,3 +1,4 @@
+baseUrl = 'http://127.0.0.1:8000/system';
 function pageAlert($selector, $type, $message) {
 
     if ($type == 'hide') {

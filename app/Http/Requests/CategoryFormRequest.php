@@ -37,7 +37,7 @@ class CategoryFormRequest extends FormRequest
                         'name_ar' => 'required|string',
                         'name_en' => 'required|string',
                         'image' => 'required|file|mimes:jpeg,jpg,png',
-
+                      
                     ];
 
                     return $validation;

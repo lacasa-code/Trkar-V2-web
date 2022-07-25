@@ -1,4 +1,4 @@
-@extends('layouts.vertical', ['title' => 'Edit Products'])
+@extends('layouts.vertical', ['title' => 'Categories'])
 
 @section('css')
     <!-- Plugins css -->
@@ -6,6 +6,8 @@
     <link href="{{ asset('assets/libs/summernote/summernote.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
+
+
 
 @section('content')
     <div class="row">
@@ -47,8 +49,8 @@
 
                                 <div class="form-group row">
                                     <div class="col-sm-6 convert-text">
-                                        <label>{{ __('ID') }}</label>
-                                        {!! Form::number('id', null, ['class' => 'form-control', 'id' => 'id-form-input']) !!}
+                                        <label>{{ __('Slug') }}</label>
+                                        {!! Form::number('slug', null, ['class' => 'form-control', 'id' => 'id-form-input']) !!}
                                         <div class="invalid-feedback" id="id-form-error"></div>
                                     </div>
                                     <div class="col-sm-6 convert-text">
@@ -78,7 +80,7 @@
 
                     <div class="row mb-2">
                         <div class="col-sm-4">
-                            <a href="{{ route('system.category.create') }}" class="btn btn-danger mb-2"><i
+                            <a href="{{ route('admin.category.create') }}" class="btn btn-danger mb-2"><i
                                     class="mdi mdi-plus-circle mr-2"></i> {{ __('Add Category') }}</a>
                         </div>
                         <div class="col-sm-8">
@@ -101,6 +103,7 @@
                                     <td id="table-pagination-td-empty">{{ __('Loading...') }}</td>
                                 </tr>
                             </tbody>
+                            
                         </table>
                     </div>
                 </div>
@@ -172,5 +175,6 @@
                 )
             });
         }
+
     </script>
 @endsection

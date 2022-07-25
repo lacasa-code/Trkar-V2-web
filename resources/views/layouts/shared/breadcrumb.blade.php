@@ -3,7 +3,7 @@
         <div class="page-title-box">
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="{{ url('system') }}">{{ __('Home') }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url('admin') }}">{{ __('Home') }}</a></li>
                     @foreach ($breadcrumb as $key => $value)
                         @if (isset($value['url']))
                             <li class="breadcrumb-item"><a href="{{ $value['url'] }}">{{ $value['text'] }}</a></li>
