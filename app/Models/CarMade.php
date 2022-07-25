@@ -19,4 +19,9 @@ class CarMade extends Model
         'image',
     
     ];
+
+    public function product()
+    {
+        return $this->hasMany(Product::class,'car_made_id');
+    }
 }

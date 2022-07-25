@@ -364,36 +364,61 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
-        $output = '';
-        $query = $request->get('query');
-        if($query != '')
-        {
-         $data = DB::table('products')
-           ->where('name_en', 'like', '%'.$query.'%')
-           ->orWhere('name_ar', 'like', '%'.$query.'%')
-           ->orWhere('serial_number', 'like', '%'.$query.'%')
-           ->orWhere('details_en', 'like', '%'.$query.'%')
-           ->orWhere('details_ar', 'like', '%'.$query.'%')
-           ->orderBy('id', 'desc')
-           ->get();
-           return response()->json([
-            'status'=>true,
-            'message'=>trans('app.productShow'),
-            'code'=>200,
-            'data'=>$data,
-            ],200);
+        $keyword = $request->input('keyword');
+        
+        $product=Product::select('products.*','categories.name_en as category_name_en','categories.name_ar as category_name_ar','categories.slug as category_slug',
+                                'manufacturers.name_en as manufacturer_name_en','manufacturers.name_ar as manufacturer_name_ar',
+                                'car_mades.name_en as  car_mades_name_en','car_mades.name_ar as  car_mades_name_ar','car_mades.slug as  car_mades_slug')
+                ->join('categories','categories.id','products.category_id')
+                ->join('manufacturers','manufacturers.id','products.manufacturer_id')
+                ->join('car_mades','car_mades.id','products.car_made_id')
+
+                ->whereHas('category', function($query) use($keyword) {
+                    $query->where('categories.name_en', 'like', '%'.$keyword.'%')
+                    ->orwhere('categories.name_ar', 'like', '%'.$keyword.'%')
+                    ->orwhere('categories.slug', 'like', '%'.$keyword.'%');
+                })
+                ->orwhereHas('manufacturer', function($query) use($keyword) {
+                    $query->where('manufacturers.name_en', 'like', '%'.$keyword.'%')
+                    ->orwhere('manufacturers.name_ar', 'like', '%'.$keyword.'%');
+                })
+                ->orwhereHas('car_made', function($query) use($keyword) {
+                    $query->where('car_mades.name_en', 'like', '%'.$keyword.'%')
+                    ->orwhere('car_mades.name_ar', 'like', '%'.$keyword.'%')
+                    ->orwhere('car_mades.slug', 'like', '%'.$keyword.'%');
+
+                })
+                
+                
+                
+                ->orWhere('products.name_en','LIKE','%'.$keyword.'%')
+                ->orWhere(DB::raw('CONCAT_WS(" ",categories.name_en,manufacturers.name_en)'), 'like', '%' . $keyword . '%')
+                ->orWhere(DB::raw('CONCAT_WS(" ",categories.name_en,car_mades.name_en)'), 'like', '%' . $keyword . '%')
+                ->orWhere(DB::raw('CONCAT_WS(" ",categories.name_en,products.serial_number)'), 'like', '%' . $keyword . '%')
+                ->orWhere(DB::raw('CONCAT_WS(" ",products.serial_number,manufacturers.name_en)'), 'like', '%' . $keyword . '%')
+
+                ->get();
+
            
-        }
-        else
-        {
-            $data = DB::table('products')->orderBy('id', 'desc')->get();
-            return response()->json([
-                'status'=>true,
-                'message'=>trans('app.productShow'),
-                'code'=>200,
-                'data'=>$data,
+        return response()->json([
+                    'status'=>true,
+                    'message'=>trans('search result'),
+                    'code'=>200,
+                    'data'=>$product,
                 ],200);
-        }
+        /* ->where(function ($query) use($keyword) {
+            $query->where('Invoice_Number', 'like', '%' . $keyword . '%')
+               ->orWhere('chassis_no', 'like', '%' . $keyword . '%')
+               ->orWhere('created_at', 'like', '%' . $keyword . '%')
+               ->orWhere('total_amount', 'like', '%' . $keyword . '%')
+               ->orWhere('paid_amount', 'like', '%' . $keyword . '%')
+               ->orWhere('reg_chars', 'like', '%' . $keyword . '%')
+               ->orWhere('registeration', 'like', '%' . $keyword . '%')
+               ->orWhere(DB::raw('CONCAT_WS(" ",registeration,reg_chars)'), 'like', '%' . $keyword . '%')
+               ->orWhere('Status', 'like', '%' . $keyword . '%')
+               ->orWhere('Customer', 'like', '%' . $keyword . '%');
+        
+          })->paginate($page_size);*/
   
 
     }

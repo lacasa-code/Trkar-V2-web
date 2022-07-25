@@ -47,4 +47,20 @@ class Product extends Model
         'years_id' => 'array',
     ];
 
+    
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function manufacturer()
+    {
+        return $this->belongsTo(Manufacturer::class);
+    }
+
+    public function car_made()
+    {
+        return $this->belongsTo(CarMade::class);
+    }
+
 }
