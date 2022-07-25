@@ -369,7 +369,7 @@ class ProductController extends Controller
         $product=Product::select('products.*','categories.name_en as category_name_en','categories.name_ar as category_name_ar','categories.slug as category_slug',
                                 'manufacturers.name_en as manufacturer_name_en','manufacturers.name_ar as manufacturer_name_ar',
                                 'car_mades.name_en as  car_mades_name_en','car_mades.name_ar as  car_mades_name_ar','car_mades.slug as  car_mades_slug')
-                ->join('categories','categories.id','products.category_id')
+                ->join('categories','categories.id','products.subcategory_id')
                 ->join('manufacturers','manufacturers.id','products.manufacturer_id')
                 ->join('car_mades','car_mades.id','products.car_made_id')
 
